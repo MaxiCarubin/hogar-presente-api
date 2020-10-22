@@ -7,10 +7,16 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @CrossOrigin(origins = {"http://localhost:8080"})
 @RestController
@@ -105,7 +111,6 @@ public class AlumnoRestController {
     }
 
     @DeleteMapping("/alumnos/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<?> delente(@PathVariable Long id){
 
         Map<String, Object> response = new HashMap<>();
@@ -122,6 +127,42 @@ public class AlumnoRestController {
         response.put("mensaje", "El cliente ha sido eliminado con exito! ");
 
         return new ResponseEntity<Map<String,Object>>(response, HttpStatus.OK);
+    }
+
+    @PostMapping("/alumnos/upload")
+    public ResponseEntity<?> upload(@RequestParam("archivo")MultipartFile archivo, @RequestParam("id") Long id){
+        Map<String, Object> response = new HashMap<>();
+
+        AlumnoEntity alumnoEntity = alumnoService.findById(id);
+
+        if (!archivo.isEmpty()){
+            String nombreArchivo = UUID.randomUUID().toString() + "_" + archivo.getOriginalFilename().replace(" ","");
+            Path rutaArchivo = Paths.get("uploads").resolve(nombreArchivo).toAbsolutePath();
+
+            try{
+                Files.copy(archivo.getInputStream(), rutaArchivo);
+            }catch (IOException e){
+                response.put("mensaje", "Error al subir la imagen del alumno. " + nombreArchivo);
+                response.put("error", e.getMessage().concat(": ").concat(e.getCause().getMessage()));
+                return  new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+
+            String nombreFotoAnterior = alumnoEntity.getFoto();
+
+            if (nombreFotoAnterior != null && nombreFotoAnterior.length() >0){
+                Path
+            }
+
+            alumnoEntity.setFoto(nombreArchivo);
+
+            alumnoService.save(alumnoEntity);
+
+            response.put("alumno", alumnoEntity);
+            response.put("mensaje", "Has subido correctamente la imagen: " + nombreArchivo);
+
+        }
+
+        return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
     }
 
 }

@@ -25,4 +25,6 @@ public class AlumnoEntity {
     @Column(nullable = false)
     private String clave;
 
+    private String foto;
+
 }

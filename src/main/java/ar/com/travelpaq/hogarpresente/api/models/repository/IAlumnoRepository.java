@@ -1,7 +1,7 @@
 package ar.com.travelpaq.hogarpresente.api.models.repository;
 
 import ar.com.travelpaq.hogarpresente.api.models.entity.AlumnoEntity;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface IAlumnoRepository extends CrudRepository<AlumnoEntity, Long> {
+public interface IAlumnoRepository extends JpaRepository<AlumnoEntity, Long> {
 }
