@@ -17,4 +17,5 @@ public interface IAlumnoService {
     public Alumno update(Alumno alumno, long id);
 
     public void delete(long id);
+
 }

@@ -1,5 +1,7 @@
 package ar.com.travelpaq.hogarpresente.api.models.services;
 
+import ar.com.travelpaq.hogarpresente.api.models.domain.Alumno;
+import ar.com.travelpaq.hogarpresente.api.models.domain.Curso;
 import ar.com.travelpaq.hogarpresente.api.models.entity.AlumnoEntity;
 import ar.com.travelpaq.hogarpresente.api.models.entity.CursoEntity;
 
@@ -7,11 +9,13 @@ import java.util.List;
 
 public interface ICursoService {
 
-    public List<CursoEntity> findAll();
+    public List<Curso> findAll();
 
-    public CursoEntity findById(long id);
+    public Curso findById(long id);
 
-    public CursoEntity save(CursoEntity cursoEntity);
+    public Curso create(Curso curso);
+
+    public Curso update(Curso curso, long id);
 
     public void delete(long id);
 }

@@ -1,5 +1,6 @@
 package ar.com.travelpaq.hogarpresente.api.models.services.impl;
 
+import ar.com.travelpaq.hogarpresente.api.models.domain.Curso;
 import ar.com.travelpaq.hogarpresente.api.models.entity.CursoEntity;
 import ar.com.travelpaq.hogarpresente.api.models.repository.ICursoRepository;
 import ar.com.travelpaq.hogarpresente.api.models.services.ICursoService;
@@ -15,22 +16,27 @@ public class CursoServiceImpl implements ICursoService {
     ICursoRepository cursoRepository;
 
     @Override
-    public List<CursoEntity> findAll() {
-        return (List<CursoEntity>) cursoRepository.findAll();
+    public List<Curso> findAll() {
+        return null;
     }
 
     @Override
-    public CursoEntity findById(long id) {
-        return cursoRepository.findById(id).orElse(null);
+    public Curso findById(long id) {
+        return null;
     }
 
     @Override
-    public CursoEntity save(CursoEntity cursoEntity) {
-        return cursoRepository.save(cursoEntity);
+    public Curso create(Curso curso) {
+        return null;
+    }
+
+    @Override
+    public Curso update(Curso curso, long id) {
+        return null;
     }
 
     @Override
     public void delete(long id) {
-        cursoRepository.deleteById(id);
+
     }
 }
