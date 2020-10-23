@@ -16,15 +16,15 @@ public class AlumnoEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @Column(nullable = false)
+    @Column(name = "nombre",nullable = false)
     private String nombre;
-    @Column(nullable = false)
+    @Column(name = "apellido",nullable = false)
     private String apellido;
-    @Column(nullable = false, unique = true)
+    @Column(name = "correo",nullable = false, unique = true)
     private String correo;
-    @Column(nullable = false)
+    @Column(name = "clave",nullable = false)
     private String clave;
-
+    @Column(name = "foto")
     private String foto;
 
 }
