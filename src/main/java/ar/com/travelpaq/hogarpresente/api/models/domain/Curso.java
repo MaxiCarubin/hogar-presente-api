@@ -18,8 +18,6 @@ public class Curso {
 
     private String capacitador;
 
-    private int cantidad_unidades;
-
     private double precio;
 
     private float horas;
@@ -34,7 +32,6 @@ public class Curso {
         cursoEntity.setNombre(nombre);
         cursoEntity.setDescripcion(descripcion);
         cursoEntity.setPrecio(precio);
-        cursoEntity.setCantidad_unidades(cantidad_unidades);
         cursoEntity.setCapacitador(capacitador);
         cursoEntity.setHoras(horas);
         cursoEntity.setInscripciones(inscripciones);

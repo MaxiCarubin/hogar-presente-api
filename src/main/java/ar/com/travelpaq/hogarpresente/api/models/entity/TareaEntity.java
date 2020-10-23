@@ -6,19 +6,16 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "unidades")
-public class UnidadEntity {
+@Table(name = "tareas")
+public class TareaEntity {
     @Id
     private String nombre;
     private String descripcion;
-    @OneToMany(targetEntity = TareaEntity.class)
-    private List tareas;
+    private String documento;
 }

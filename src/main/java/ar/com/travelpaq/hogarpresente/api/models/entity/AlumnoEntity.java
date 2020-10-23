@@ -14,7 +14,6 @@ import java.util.List;
 @Entity
 @Table(name = "alumnos")
 public class AlumnoEntity {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;

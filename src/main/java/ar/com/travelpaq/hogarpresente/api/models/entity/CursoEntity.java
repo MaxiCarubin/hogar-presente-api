@@ -19,17 +19,10 @@ public class CursoEntity {
     private long id;
     @Column(nullable = false)
     private String nombre;
-
     private String descripcion;
-
     private String capacitador;
-
-    private int cantidad_unidades;
-
     private double precio;
-
     private float horas;
-
     @OneToMany(targetEntity = InscripcionEntity.class)
     private List inscripciones;
     @OneToMany(targetEntity = UnidadEntity.class)
@@ -44,7 +37,6 @@ public class CursoEntity {
         curso.setPrecio(precio);
         curso.setHoras(horas);
         curso.setUnidades(unidades);
-        curso.setCantidad_unidades(cantidad_unidades);
         curso.setInscripciones(inscripciones);
 
         return curso;
