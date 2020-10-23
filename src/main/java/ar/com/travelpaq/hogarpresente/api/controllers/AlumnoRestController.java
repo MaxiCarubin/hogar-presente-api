@@ -88,9 +88,7 @@ public class AlumnoRestController {
 
             response.put("alumno", alumno);
             response.put("mensaje", "Has subido correctamente la imagen: " + nombreArchivo);
-
         }
-
         return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
     }
 
