@@ -1,5 +1,6 @@
 package ar.com.travelpaq.hogarpresente.api.models.entity;
 
+import ar.com.travelpaq.hogarpresente.api.models.domain.Alumno;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -29,4 +30,16 @@ public class AlumnoEntity {
     private String foto;
     @OneToMany(targetEntity = InscripcionEntity.class)
     private List inscripciones;
+
+    public Alumno convertToAlumno(){
+        Alumno alumno = new Alumno();
+        alumno.setNombre(nombre);
+        alumno.setApellido(apellido);
+        alumno.setCorreo(correo);
+        alumno.setClave(clave);
+        alumno.setFoto(foto);
+        alumno.setInscripciones(inscripciones);
+
+        return alumno;
+    }
 }

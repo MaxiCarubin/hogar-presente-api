@@ -14,6 +14,7 @@ public class AlumnoMapper {
         alumno.setCorreo(alumnoEntity.getCorreo());
         alumno.setClave(alumnoEntity.getClave());
         alumno.setFoto(alumnoEntity.getFoto());
+        alumno.setInscripciones(alumnoEntity.getInscripciones());
         return alumno;
     }
     public AlumnoEntity mapAlumnoToAlumnoEntity(Alumno alumno){
@@ -24,6 +25,7 @@ public class AlumnoMapper {
         alumnoEntity.setCorreo(alumno.getCorreo());
         alumnoEntity.setClave(alumno.getClave());
         alumnoEntity.setFoto(alumno.getFoto());
+        alumnoEntity.setInscripciones(alumno.getInscripciones());
         return alumnoEntity;
     }
 }

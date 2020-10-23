@@ -1,5 +1,6 @@
 package ar.com.travelpaq.hogarpresente.api.models.entity;
 
+import ar.com.travelpaq.hogarpresente.api.models.domain.Curso;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -33,5 +34,20 @@ public class CursoEntity {
     private List inscripciones;
     @OneToMany(targetEntity = UnidadEntity.class)
     private List unidades;
+
+    public Curso convertToCurso(){
+        Curso curso = new Curso();
+        curso.setId(id);
+        curso.setNombre(nombre);
+        curso.setDescripcion(descripcion);
+        curso.setCapacitador(capacitador);
+        curso.setPrecio(precio);
+        curso.setHoras(horas);
+        curso.setUnidades(unidades);
+        curso.setCantidad_unidades(cantidad_unidades);
+        curso.setInscripciones(inscripciones);
+
+        return curso;
+    }
 
 }
