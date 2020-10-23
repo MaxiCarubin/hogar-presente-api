@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -27,5 +28,10 @@ public class CursoEntity {
     private double precio;
 
     private float horas;
+
+    @OneToMany(targetEntity = InscripcionEntity.class)
+    private List inscripciones;
+    @OneToMany(targetEntity = UnidadEntity.class)
+    private List unidades;
 
 }

@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -26,5 +27,6 @@ public class AlumnoEntity {
     private String clave;
     @Column(name = "foto")
     private String foto;
-
+    @OneToMany(targetEntity = InscripcionEntity.class)
+    private List inscripciones;
 }
