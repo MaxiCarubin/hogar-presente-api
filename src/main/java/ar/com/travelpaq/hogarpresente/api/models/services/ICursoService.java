@@ -1,17 +1,12 @@
 package ar.com.travelpaq.hogarpresente.api.models.services;
-
-import ar.com.travelpaq.hogarpresente.api.models.domain.Alumno;
 import ar.com.travelpaq.hogarpresente.api.models.domain.Curso;
-import ar.com.travelpaq.hogarpresente.api.models.entity.AlumnoEntity;
-import ar.com.travelpaq.hogarpresente.api.models.entity.CursoEntity;
-
 import java.util.List;
 
 public interface ICursoService {
 
     public List<Curso> findAll();
 
-    public Curso findById(long id);
+    public Curso findByNombre(String nombre);
 
     public Curso create(Curso curso);
 

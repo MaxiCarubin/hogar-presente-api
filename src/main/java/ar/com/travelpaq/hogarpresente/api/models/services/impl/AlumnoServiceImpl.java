@@ -8,7 +8,6 @@ import ar.com.travelpaq.hogarpresente.api.models.services.IAlumnoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -58,6 +57,7 @@ public class AlumnoServiceImpl implements IAlumnoService {
     }
 
     @Override
+    @Transactional
     public Alumno update(Alumno alumno, long id) {
 
         AlumnoEntity alumnoActual = alumnoRepository.findById(id).orElse(null);
