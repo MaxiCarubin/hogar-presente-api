@@ -1,11 +1,14 @@
 package ar.com.travelpaq.hogarpresente.api.models.entity;
 
 import ar.com.travelpaq.hogarpresente.api.models.domain.Curso;
+import ar.com.travelpaq.hogarpresente.api.models.domain.Inscripcion;
+import ar.com.travelpaq.hogarpresente.api.models.domain.Unidad;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -24,9 +27,9 @@ public class CursoEntity {
     private double precio;
     private float horas;
     @OneToMany(targetEntity = InscripcionEntity.class)
-    private List inscripciones;
+    private List<InscripcionEntity> inscripciones;
     @OneToMany(targetEntity = UnidadEntity.class)
-    private List unidades;
+    private List<UnidadEntity> unidades;
 
     public Curso convertToCurso(){
         Curso curso = new Curso();
@@ -36,8 +39,26 @@ public class CursoEntity {
         curso.setCapacitador(capacitador);
         curso.setPrecio(precio);
         curso.setHoras(horas);
-        curso.setUnidades(unidades);
-        curso.setInscripciones(inscripciones);
+
+        List<Unidad> unidaddesDominio = new ArrayList<>();
+
+        List<UnidadEntity> unidadesEntity = new ArrayList<>();
+
+        unidades.forEach(unidadEntity -> unidadesEntity.add(unidadEntity));
+
+        unidadesEntity.forEach(unidadEntity -> unidaddesDominio.add(unidadEntity.convertToUnidad()));
+
+        curso.setUnidades(unidaddesDominio);
+
+        List<Inscripcion> inscripcioesDominio = new ArrayList<>();
+
+        List<InscripcionEntity> inscripcionesEntity = new ArrayList<>();
+
+        inscripciones.forEach(inscripcionEntity -> inscripcionesEntity.add(inscripcionEntity));
+
+        inscripcionesEntity.forEach(inscripcionEntity -> inscripcioesDominio.add(inscripcionEntity.convertToInscripcion()));
+
+        curso.setInscripciones(inscripcioesDominio);
 
         return curso;
     }

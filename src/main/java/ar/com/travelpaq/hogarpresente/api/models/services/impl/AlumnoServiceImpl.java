@@ -1,8 +1,10 @@
 package ar.com.travelpaq.hogarpresente.api.models.services.impl;
 
 import ar.com.travelpaq.hogarpresente.api.models.domain.Alumno;
+import ar.com.travelpaq.hogarpresente.api.models.domain.Inscripcion;
 import ar.com.travelpaq.hogarpresente.api.models.entity.AlumnoEntity;
 import ar.com.travelpaq.hogarpresente.api.models.mapper.AlumnoMapper;
+import ar.com.travelpaq.hogarpresente.api.models.mapper.InscripcionMapper;
 import ar.com.travelpaq.hogarpresente.api.models.repository.IAlumnoRepository;
 import ar.com.travelpaq.hogarpresente.api.models.services.IAlumnoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,9 @@ public class AlumnoServiceImpl implements IAlumnoService {
 
     @Autowired
     private AlumnoMapper alumnoMapper;
+
+    @Autowired
+    private InscripcionMapper inscripcionMapper;
 
     @Override
     @Transactional(readOnly = true)
@@ -61,21 +66,15 @@ public class AlumnoServiceImpl implements IAlumnoService {
     public Alumno update(Alumno alumno, long id) {
 
         AlumnoEntity alumnoActual = alumnoRepository.findById(id).orElse(null);
-        AlumnoEntity alumnoUpdate = null;
+        Alumno alumnoUpdate = null;
 
         if (alumnoActual==null){
             return null;
         }
         else{
-            alumnoActual.setApellido(alumno.getApellido());
-            alumnoActual.setClave(alumno.getClave());
-            alumnoActual.setCorreo(alumno.getCorreo());
-            alumnoActual.setNombre(alumno.getNombre());
-            alumnoActual.setFoto(alumno.getFoto());
-
-            alumnoUpdate = alumnoRepository.save(alumnoActual);
-
-            return alumnoMapper.mapAlumnoEntityToAlumno(alumnoUpdate);
+            alumnoActual = alumnoMapper.mapAlumnoToAlumnoEntity(alumno);
+            alumnoUpdate = alumnoMapper.mapAlumnoEntityToAlumno(alumnoActual);
+            return alumnoUpdate;
         }
     }
 

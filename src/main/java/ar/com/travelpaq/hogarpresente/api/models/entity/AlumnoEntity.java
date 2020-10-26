@@ -1,11 +1,12 @@
 package ar.com.travelpaq.hogarpresente.api.models.entity;
-
 import ar.com.travelpaq.hogarpresente.api.models.domain.Alumno;
+import ar.com.travelpaq.hogarpresente.api.models.domain.Inscripcion;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -28,16 +29,26 @@ public class AlumnoEntity {
     @Column(name = "foto")
     private String foto;
     @OneToMany(targetEntity = InscripcionEntity.class)
-    private List inscripciones;
+    private List<InscripcionEntity> inscripciones;
 
     public Alumno convertToAlumno(){
+
         Alumno alumno = new Alumno();
         alumno.setNombre(nombre);
         alumno.setApellido(apellido);
         alumno.setCorreo(correo);
         alumno.setClave(clave);
         alumno.setFoto(foto);
-        alumno.setInscripciones(inscripciones);
+
+        List<Inscripcion> inscripcioesDominio = new ArrayList<>();
+
+        List<InscripcionEntity> inscripcionesEntity = new ArrayList<>();
+
+        inscripciones.forEach(inscripcionEntity -> inscripcionesEntity.add(inscripcionEntity));
+
+        inscripcionesEntity.forEach(inscripcionEntity -> inscripcioesDominio.add(inscripcionEntity.convertToInscripcion()));
+
+        alumno.setInscripciones(inscripcioesDominio);
 
         return alumno;
     }

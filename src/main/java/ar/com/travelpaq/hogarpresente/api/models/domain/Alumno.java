@@ -1,9 +1,12 @@
 package ar.com.travelpaq.hogarpresente.api.models.domain;
 
 import ar.com.travelpaq.hogarpresente.api.models.entity.AlumnoEntity;
+import ar.com.travelpaq.hogarpresente.api.models.entity.InscripcionEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -33,7 +36,16 @@ public class Alumno {
         alumnoEntity.setCorreo(correo);
         alumnoEntity.setClave(clave);
         alumnoEntity.setFoto(foto);
-        alumnoEntity.setInscripciones(inscripciones);
+
+        List<Inscripcion> inscripcioesDominio = new ArrayList<>();
+
+        List<InscripcionEntity> inscripcionesEntity = new ArrayList<>();
+
+        inscripciones.forEach(inscripcion -> inscripcioesDominio.add(inscripcion));
+
+        inscripcioesDominio.forEach(inscripcion -> inscripcionesEntity.add(inscripcion.convertToInscripcionEntity()));
+
+        alumnoEntity.setInscripciones(inscripcionesEntity);
 
         return alumnoEntity;
     }

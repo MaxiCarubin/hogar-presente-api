@@ -7,7 +7,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -31,4 +33,11 @@ public class InscripcionEntity {
         inscripcionAt = new Date();
     }
 
+    public Inscripcion convertToInscripcion() {
+        Inscripcion inscripcion = new Inscripcion();
+        inscripcion.setInscripcionAt(inscripcionAt);
+        inscripcion.setAlumno(alumnoEntity.convertToAlumno());
+        inscripcion.setCurso(cursoEntity.convertToCurso());
+        return inscripcion;
+    }
 }

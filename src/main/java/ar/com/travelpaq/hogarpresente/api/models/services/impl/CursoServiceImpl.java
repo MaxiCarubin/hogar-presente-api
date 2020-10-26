@@ -33,6 +33,7 @@ public class CursoServiceImpl implements ICursoService {
     @Override
     @Transactional(readOnly = true)
     public Curso findByNombre(String nombre) {
+        /*
         CursoEntity cursoEntity = cursoRepository.findByNombre(nombre);
 
         Curso curso = new Curso();
@@ -40,6 +41,9 @@ public class CursoServiceImpl implements ICursoService {
         curso = cursoMapper.mapCursoEntityToCurso(cursoEntity);
 
         return curso;
+
+         */
+        return null;
     }
 
     @Override
@@ -56,23 +60,15 @@ public class CursoServiceImpl implements ICursoService {
     @Transactional
     public Curso update(Curso curso, long id) {
         CursoEntity cursoActual = cursoRepository.findById(id).orElse(null);
-        CursoEntity cursoUpdate = null;
+        Curso cursoUpdate = null;
 
         if (cursoActual==null){
             return null;
         }
         else{
-            cursoActual.setNombre(curso.getNombre());
-            cursoActual.setDescripcion(curso.getDescripcion());
-            cursoActual.setCapacitador(curso.getCapacitador());
-            cursoActual.setHoras(curso.getHoras());
-            cursoActual.setPrecio(curso.getPrecio());
-            cursoActual.setInscripciones(curso.getInscripciones());
-            cursoActual.setUnidades(curso.getUnidades());
-
-            cursoUpdate = cursoRepository.save(cursoActual);
-
-            return cursoMapper.mapCursoEntityToCurso(cursoUpdate);
+            cursoActual = cursoMapper.mapCursoToCursoEntity(curso);
+            cursoUpdate = cursoMapper.mapCursoEntityToCurso(cursoActual);
+            return cursoUpdate;
         }
     }
 

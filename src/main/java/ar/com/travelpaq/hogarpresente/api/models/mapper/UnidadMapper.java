@@ -1,8 +1,15 @@
 package ar.com.travelpaq.hogarpresente.api.models.mapper;
 
+import ar.com.travelpaq.hogarpresente.api.models.domain.Inscripcion;
+import ar.com.travelpaq.hogarpresente.api.models.domain.Tarea;
 import ar.com.travelpaq.hogarpresente.api.models.domain.Unidad;
+import ar.com.travelpaq.hogarpresente.api.models.entity.InscripcionEntity;
+import ar.com.travelpaq.hogarpresente.api.models.entity.TareaEntity;
 import ar.com.travelpaq.hogarpresente.api.models.entity.UnidadEntity;
 import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class UnidadMapper {
@@ -10,7 +17,16 @@ public class UnidadMapper {
         Unidad unidad = new Unidad();
         unidad.setNombre(unidadEntity.getNombre());
         unidad.setDescripcion(unidadEntity.getDescripcion());
-        unidad.setTareas(unidadEntity.getTareas());
+
+        List<Tarea> tareas = new ArrayList<>();
+
+        List<TareaEntity> tareaEntities = new ArrayList<>();
+
+        unidadEntity.getTareas().forEach(tareaEntity -> tareaEntities.add(tareaEntity));
+
+        tareaEntities.forEach(tareaEntity -> tareas.add(tareaEntity.convertToTarea()));
+
+        unidad.setTareas(tareas);
 
         return unidad;
     }
@@ -18,7 +34,16 @@ public class UnidadMapper {
         UnidadEntity unidadEntity = new UnidadEntity();
         unidadEntity.setNombre(unidad.getNombre());
         unidadEntity.setDescripcion(unidad.getDescripcion());
-        unidadEntity.setTareas(unidad.getTareas());
+
+        List<Tarea> tareas = new ArrayList<>();
+
+        List<TareaEntity> tareaEntities = new ArrayList<>();
+
+        unidad.getTareas().forEach(tarea -> tareas.add(tarea));
+
+        tareas.forEach(tarea -> tareaEntities.add(tarea.convertToTareaEntity()));
+
+        unidadEntity.setTareas(tareaEntities);
 
         return unidadEntity;
     }
