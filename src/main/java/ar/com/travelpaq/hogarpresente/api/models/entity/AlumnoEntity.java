@@ -28,7 +28,7 @@ public class AlumnoEntity {
     private String clave;
     @Column(name = "foto")
     private String foto;
-    @OneToMany(targetEntity = InscripcionEntity.class)
+    @OneToMany(fetch = FetchType.LAZY,targetEntity = InscripcionEntity.class, cascade = CascadeType.ALL)
     private List<InscripcionEntity> inscripciones;
 
     public Alumno convertToAlumno(){

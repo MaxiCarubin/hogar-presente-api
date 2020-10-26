@@ -26,9 +26,9 @@ public class CursoEntity {
     private String capacitador;
     private double precio;
     private float horas;
-    @OneToMany(targetEntity = InscripcionEntity.class)
+    @OneToMany(fetch = FetchType.LAZY,targetEntity = InscripcionEntity.class, cascade = CascadeType.ALL)
     private List<InscripcionEntity> inscripciones;
-    @OneToMany(targetEntity = UnidadEntity.class)
+    @OneToMany(fetch = FetchType.LAZY,targetEntity = UnidadEntity.class, cascade = CascadeType.ALL)
     private List<UnidadEntity> unidades;
 
     public Curso convertToCurso(){
