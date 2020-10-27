@@ -33,7 +33,7 @@ public class CursoServiceImpl implements ICursoService {
     @Override
     @Transactional(readOnly = true)
     public Curso findByNombre(String nombre) {
-        /*
+
         CursoEntity cursoEntity = cursoRepository.findByNombre(nombre);
 
         Curso curso = new Curso();
@@ -42,8 +42,6 @@ public class CursoServiceImpl implements ICursoService {
 
         return curso;
 
-         */
-        return null;
     }
 
     @Override

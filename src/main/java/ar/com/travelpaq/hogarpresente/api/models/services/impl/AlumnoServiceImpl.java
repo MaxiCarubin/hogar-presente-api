@@ -1,7 +1,6 @@
 package ar.com.travelpaq.hogarpresente.api.models.services.impl;
 
 import ar.com.travelpaq.hogarpresente.api.models.domain.Alumno;
-import ar.com.travelpaq.hogarpresente.api.models.domain.Inscripcion;
 import ar.com.travelpaq.hogarpresente.api.models.entity.AlumnoEntity;
 import ar.com.travelpaq.hogarpresente.api.models.mapper.AlumnoMapper;
 import ar.com.travelpaq.hogarpresente.api.models.mapper.InscripcionMapper;
