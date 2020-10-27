@@ -1,6 +1,5 @@
 package ar.com.travelpaq.hogarpresente.api.models.services;
 
-import ar.com.travelpaq.hogarpresente.api.models.domain.Curso;
 import ar.com.travelpaq.hogarpresente.api.models.domain.Inscripcion;
 
 import java.util.Date;
