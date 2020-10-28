@@ -23,24 +23,14 @@ public class CursoMapper {
         curso.setPrecio(cursoEntity.getPrecio());
 
         List<Inscripcion> inscripcioesDominio = new ArrayList<>();
-
-        List<InscripcionEntity> inscripcionesEntity = new ArrayList<>();
-
-        cursoEntity.getInscripciones().forEach(inscripcionEntity -> inscripcionesEntity.add(inscripcionEntity));
-
-        inscripcionesEntity.forEach(inscripcionEntity -> inscripcioesDominio.add(inscripcionEntity.convertToInscripcion()));
-
+        List<InscripcionEntity> inscripcionesEntity = cursoEntity.getInscripciones();
+        inscripcionesEntity.forEach(inscripcionEntity -> inscripcioesDominio.add(inscripcionEntity.convertToInscripcion(inscripcionEntity)));
         curso.setInscripciones(inscripcioesDominio);
 
-        List<Unidad> unidaddesDominio = new ArrayList<>();
-
-        List<UnidadEntity> unidadesEntity = new ArrayList<>();
-
-        cursoEntity.getUnidades().forEach(unidadEntity -> unidadesEntity.add(unidadEntity));
-
-        unidadesEntity.forEach(unidadEntity -> unidaddesDominio.add(unidadEntity.convertToUnidad()));
-
-        curso.setUnidades(unidaddesDominio);
+        List<Unidad> unidadesDominio = new ArrayList<>();
+        List<UnidadEntity> undadesEntity = cursoEntity.getUnidades();
+        undadesEntity.forEach(unidadEntity -> unidadesDominio.add(unidadEntity.convertToUnidad(unidadEntity)));
+        curso.setUnidades(unidadesDominio);
 
         return curso;
     }
@@ -53,25 +43,15 @@ public class CursoMapper {
         cursoEntity.setHoras(curso.getHoras());
         cursoEntity.setPrecio(curso.getPrecio());
 
-        List<Inscripcion> inscripcioesDominio = new ArrayList<>();
-
         List<InscripcionEntity> inscripcionesEntity = new ArrayList<>();
-
-        curso.getInscripciones().forEach(inscripcion -> inscripcioesDominio.add(inscripcion));
-
-        inscripcioesDominio.forEach(inscripcion -> inscripcionesEntity.add(inscripcion.convertToInscripcionEntity()));
-
+        List<Inscripcion> inscripcionesDominio = curso.getInscripciones();
+        inscripcionesDominio.forEach(inscripcion -> inscripcionesEntity.add(inscripcion.convertToInscripcionEntity(inscripcion)));
         cursoEntity.setInscripciones(inscripcionesEntity);
 
-        List<Unidad> unidaddesDominio = new ArrayList<>();
-
         List<UnidadEntity> unidadesEntity = new ArrayList<>();
-
-        curso.getUnidades().forEach(unidadEntity -> unidaddesDominio.add(unidadEntity));
-
-        unidaddesDominio.forEach(unidades -> unidadesEntity.add(unidades.convertToUnidadEntity()));
-
-        curso.setUnidades(unidaddesDominio);
+        List<Unidad> unidadesDominio = curso.getUnidades();
+        unidadesDominio.forEach(unidad -> unidadesEntity.add(unidad.convertToUnidadEntity(unidad)));
+        cursoEntity.setUnidades(unidadesEntity);
 
         return cursoEntity;
     }

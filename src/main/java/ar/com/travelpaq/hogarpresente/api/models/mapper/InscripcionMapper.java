@@ -10,8 +10,8 @@ public class InscripcionMapper {
     {
         Inscripcion inscripcion = new Inscripcion();
         inscripcion.setInscripcionAt(inscripcionEntity.getInscripcionAt());
-        inscripcion.setAlumno(inscripcionEntity.getAlumnoEntity().convertToAlumno());
-        inscripcion.setCurso(inscripcionEntity.getCursoEntity().convertToCurso());
+        inscripcion.setAlumno(inscripcionEntity.getAlumnoEntity().convertToAlumno(inscripcionEntity.getAlumnoEntity()));
+        inscripcion.setCurso(inscripcionEntity.getCursoEntity().convertToCurso(inscripcionEntity.getCursoEntity()));
 
         return inscripcion;
     }
@@ -19,8 +19,8 @@ public class InscripcionMapper {
     {
         InscripcionEntity inscripcionEntity = new InscripcionEntity();
         inscripcionEntity.setInscripcionAt(inscripcionEntity.getInscripcionAt());
-        inscripcionEntity.setAlumnoEntity(inscripcion.getAlumno().convertToAlumnoEntity());
-        inscripcionEntity.setCursoEntity(inscripcion.getCurso().convertToCursoEntity());
+        inscripcionEntity.setAlumnoEntity(inscripcion.getAlumno().convertToAlumnoEntity(inscripcion.getAlumno()));
+        inscripcionEntity.setCursoEntity(inscripcion.getCurso().convertToCursoEntity(inscripcion.getCurso()));
 
         return inscripcionEntity;
     }

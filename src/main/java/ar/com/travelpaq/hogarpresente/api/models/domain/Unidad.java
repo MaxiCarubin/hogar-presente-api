@@ -19,18 +19,16 @@ public class Unidad {
 
     private List<Tarea> tareas;
 
-    public UnidadEntity convertToUnidadEntity() {
+    public UnidadEntity convertToUnidadEntity(Unidad unidad) {
         UnidadEntity unidadEntity = new UnidadEntity();
-        unidadEntity.setNombre(nombre);
-        unidadEntity.setDescripcion(descripcion);
-
-        List<Tarea> tareasDominio = new ArrayList<>();
+        unidadEntity.setNombre(unidad.getNombre());
+        unidadEntity.setDescripcion(unidad.getDescripcion());
 
         List<TareaEntity> tareasEntity = new ArrayList<>();
 
-        tareas.forEach(tarea -> tareasDominio.add(tarea));
+        List<Tarea> tareasDominio = tareas;
 
-        tareasDominio.forEach(tarea -> tareasEntity.add(tarea.convertToTareaEntity()));
+        tareasDominio.forEach(tarea -> tareasEntity.add(tarea.convertToTareaEntity(tarea)));
 
         unidadEntity.setTareas(tareasEntity);
 

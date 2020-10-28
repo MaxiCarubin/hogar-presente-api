@@ -33,11 +33,11 @@ public class InscripcionEntity {
         inscripcionAt = new Date();
     }
 
-    public Inscripcion convertToInscripcion() {
+    public Inscripcion convertToInscripcion(InscripcionEntity inscripcionEntity) {
         Inscripcion inscripcion = new Inscripcion();
-        inscripcion.setInscripcionAt(inscripcionAt);
-        inscripcion.setAlumno(alumnoEntity.convertToAlumno());
-        inscripcion.setCurso(cursoEntity.convertToCurso());
+        inscripcion.setInscripcionAt(inscripcionEntity.getInscripcionAt());
+        inscripcion.setAlumno(inscripcionEntity.getAlumnoEntity().convertToAlumno(inscripcionEntity.getAlumnoEntity()));
+        inscripcion.setCurso(inscripcionEntity.getCursoEntity().convertToCurso(inscripcionEntity.getCursoEntity()));
         return inscripcion;
     }
 }

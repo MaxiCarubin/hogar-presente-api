@@ -19,21 +19,19 @@ public class UnidadEntity {
     @Id
     private String nombre;
     private String descripcion;
-    @OneToMany(fetch = FetchType.LAZY, targetEntity = TareaEntity.class, cascade = CascadeType.ALL)
+    @OneToMany(targetEntity = TareaEntity.class)
     private List<TareaEntity> tareas;
 
-    public Unidad convertToUnidad() {
+    public Unidad convertToUnidad(UnidadEntity unidadEntity) {
         Unidad unidad = new Unidad();
-        unidad.setNombre(nombre);
-        unidad.setDescripcion(descripcion);
+        unidad.setNombre(unidadEntity.getNombre());
+        unidad.setDescripcion(unidadEntity.getDescripcion());
 
         List<Tarea> tareasDominio = new ArrayList<>();
 
-        List<TareaEntity> tareasEntity = new ArrayList<>();
+        List<TareaEntity> tareasEntity = tareas;
 
-        tareas.forEach(tareaEntity -> tareasEntity.add(tareaEntity));
-
-        tareasEntity.forEach(tareaEntity -> tareasDominio.add(tareaEntity.convertToTarea()));
+        tareasEntity.forEach(tareaEntity -> tareasDominio.add(tareaEntity.convertToTarea(tareaEntity)));
 
         unidad.setTareas(tareasDominio);
 

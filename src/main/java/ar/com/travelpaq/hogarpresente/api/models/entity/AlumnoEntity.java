@@ -28,25 +28,23 @@ public class AlumnoEntity {
     private String clave;
     @Column(name = "foto")
     private String foto;
-    @OneToMany(fetch = FetchType.LAZY,targetEntity = InscripcionEntity.class, cascade = CascadeType.ALL)
+    @OneToMany(targetEntity = InscripcionEntity.class)
     private List<InscripcionEntity> inscripciones;
 
-    public Alumno convertToAlumno(){
+    public Alumno convertToAlumno(AlumnoEntity alumnoEntity ){
 
         Alumno alumno = new Alumno();
-        alumno.setNombre(nombre);
-        alumno.setApellido(apellido);
-        alumno.setCorreo(correo);
-        alumno.setClave(clave);
-        alumno.setFoto(foto);
+        alumno.setNombre(alumnoEntity.getNombre());
+        alumno.setApellido(alumnoEntity.getApellido());
+        alumno.setCorreo(alumnoEntity.getCorreo());
+        alumno.setClave(alumnoEntity.getClave());
+        alumno.setFoto(alumnoEntity.getFoto());
 
         List<Inscripcion> inscripcioesDominio = new ArrayList<>();
 
-        List<InscripcionEntity> inscripcionesEntity = new ArrayList<>();
+        List<InscripcionEntity> inscripcionesEntity = inscripciones;
 
-        inscripciones.forEach(inscripcionEntity -> inscripcionesEntity.add(inscripcionEntity));
-
-        inscripcionesEntity.forEach(inscripcionEntity -> inscripcioesDominio.add(inscripcionEntity.convertToInscripcion()));
+        inscripcionesEntity.forEach(inscripcionEntity -> inscripcioesDominio.add(inscripcionEntity.convertToInscripcion(inscripcionEntity)));
 
         alumno.setInscripciones(inscripcioesDominio);
 

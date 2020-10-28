@@ -21,11 +21,11 @@ public class TareaEntity {
     private String descripcion;
     private String documento;
 
-    public Tarea convertToTarea() {
+    public Tarea convertToTarea(TareaEntity tareaEntity) {
         Tarea tarea = new Tarea();
-        tarea.setNombre(nombre);
-        tarea.setDocumento(documento);
-        tarea.setDescripcion(descripcion);
+        tarea.setNombre(tareaEntity.getNombre());
+        tarea.setDocumento(tareaEntity.getDocumento());
+        tarea.setDescripcion(tareaEntity.getDescripcion());
         return tarea;
     }
 }

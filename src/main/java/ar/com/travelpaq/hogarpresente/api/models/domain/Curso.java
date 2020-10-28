@@ -30,32 +30,28 @@ public class Curso {
 
     private List<Unidad> unidades;
 
-    public CursoEntity convertToCursoEntity(){
+    public CursoEntity convertToCursoEntity(Curso curso){
         CursoEntity cursoEntity = new CursoEntity();
-        cursoEntity.setId(id);
-        cursoEntity.setNombre(nombre);
-        cursoEntity.setDescripcion(descripcion);
-        cursoEntity.setPrecio(precio);
-        cursoEntity.setCapacitador(capacitador);
-        cursoEntity.setHoras(horas);
-
-        List<Inscripcion> inscripcioesDominio = new ArrayList<>();
+        cursoEntity.setId(curso.getId());
+        cursoEntity.setNombre(curso.getNombre());
+        cursoEntity.setDescripcion(curso.getDescripcion());
+        cursoEntity.setPrecio(curso.getPrecio());
+        cursoEntity.setCapacitador(curso.getCapacitador());
+        cursoEntity.setHoras(curso.getHoras());
 
         List<InscripcionEntity> inscripcionesEntity = new ArrayList<>();
 
-        inscripciones.forEach(inscripcion -> inscripcioesDominio.add(inscripcion));
+        List<Inscripcion> inscripcioesDominio = inscripciones;
 
-        inscripcioesDominio.forEach(inscripcion -> inscripcionesEntity.add(inscripcion.convertToInscripcionEntity()));
+        inscripcioesDominio.forEach(inscripcion -> inscripcionesEntity.add(inscripcion.convertToInscripcionEntity(inscripcion)));
 
         cursoEntity.setInscripciones(inscripcionesEntity);
 
-        List<Unidad> unidadesDominio = new ArrayList<>();
-
         List<UnidadEntity> unidadesEntity = new ArrayList<>();
 
-        unidades.forEach(unidad -> unidadesDominio.add(unidad));
+        List<Unidad> unidadesDominio = unidades;
 
-        unidadesDominio.forEach(unidad -> unidadesEntity.add(unidad.convertToUnidadEntity()));
+        unidadesDominio.forEach(unidad -> unidadesEntity.add(unidad.convertToUnidadEntity(unidad)));
 
         cursoEntity.setUnidades(unidadesEntity);
 

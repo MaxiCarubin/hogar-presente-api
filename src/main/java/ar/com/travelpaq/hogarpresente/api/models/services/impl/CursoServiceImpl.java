@@ -56,7 +56,7 @@ public class CursoServiceImpl implements ICursoService {
 
     @Override
     @Transactional
-    public Curso update(Curso curso, long id) {
+    public Curso update(Curso curso, Long id) {
         CursoEntity cursoActual = cursoRepository.findById(id).orElse(null);
         Curso cursoUpdate = null;
 
@@ -72,7 +72,7 @@ public class CursoServiceImpl implements ICursoService {
 
     @Override
     @Transactional
-    public void delete(long id) {
+    public void delete(Long id) {
         CursoEntity cursoEntity = cursoRepository.findById(id).orElse(null);
         if (cursoEntity == null){
             return;

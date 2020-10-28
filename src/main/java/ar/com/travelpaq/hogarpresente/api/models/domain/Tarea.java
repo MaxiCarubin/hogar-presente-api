@@ -13,11 +13,11 @@ public class Tarea {
     private String descripcion;
     private String documento;
 
-    public TareaEntity convertToTareaEntity() {
+    public TareaEntity convertToTareaEntity(Tarea tarea) {
         TareaEntity tareaEntity = new TareaEntity();
-        tareaEntity.setNombre(nombre);
-        tareaEntity.setDocumento(documento);
-        tareaEntity.setDescripcion(descripcion);
+        tareaEntity.setNombre(tarea.getNombre());
+        tareaEntity.setDocumento(tarea.getDocumento());
+        tareaEntity.setDescripcion(tarea.getDescripcion());
         return tareaEntity;
     }
 }

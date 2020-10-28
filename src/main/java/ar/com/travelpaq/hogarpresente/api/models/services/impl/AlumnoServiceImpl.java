@@ -40,7 +40,7 @@ public class AlumnoServiceImpl implements IAlumnoService {
 
     @Override
     @Transactional(readOnly = true)
-    public Alumno findById(long id) {
+    public Alumno findById(Long id) {
         AlumnoEntity alumnoEntity = alumnoRepository.findById(id).orElse(null);
 
         Alumno alumno = new Alumno();
@@ -53,18 +53,21 @@ public class AlumnoServiceImpl implements IAlumnoService {
     @Override
     @Transactional
     public Alumno create(Alumno alumno) {
-        AlumnoEntity alumnoEntity = alumnoMapper.mapAlumnoToAlumnoEntity(alumno);
+        AlumnoEntity alumnoEntity = new AlumnoEntity();
 
-        alumnoEntity =alumnoRepository.save(alumnoEntity);
+        alumnoEntity = alumnoMapper.mapAlumnoToAlumnoEntity(alumno);
+
+        alumnoRepository.save(alumnoEntity);
 
         return alumno;
     }
 
     @Override
     @Transactional
-    public Alumno update(Alumno alumno, long id) {
+    public Alumno update(Alumno alumno, Long id) {
 
-        AlumnoEntity alumnoActual = alumnoRepository.findById(id).orElse(null);
+        AlumnoEntity alumnoActual = new AlumnoEntity();
+        alumnoActual = alumnoRepository.findById(id).orElse(null);
         Alumno alumnoUpdate = null;
 
         if (alumnoActual==null){
@@ -79,8 +82,9 @@ public class AlumnoServiceImpl implements IAlumnoService {
 
     @Override
     @Transactional
-    public void delete(long id) {
-        AlumnoEntity alumnoEntity = alumnoRepository.findById(id).orElse(null);
+    public void delete(Long id) {
+        AlumnoEntity alumnoEntity = new AlumnoEntity();
+        alumnoEntity = alumnoRepository.findById(id).orElse(null);
         if (alumnoEntity == null){
             return;
         }

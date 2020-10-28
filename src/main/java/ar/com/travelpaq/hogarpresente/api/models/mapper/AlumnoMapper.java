@@ -13,7 +13,6 @@ import java.util.List;
 public class AlumnoMapper {
     public Alumno mapAlumnoEntityToAlumno(AlumnoEntity alumnoEntity) {
         Alumno alumno = new Alumno();
-        List<InscripcionEntity> inscripcionEntities = new ArrayList<>();
         alumno.setId(alumnoEntity.getId());
         alumno.setNombre(alumnoEntity.getNombre());
         alumno.setApellido(alumnoEntity.getApellido());
@@ -23,11 +22,9 @@ public class AlumnoMapper {
 
         List<Inscripcion> inscripcioesDominio = new ArrayList<>();
 
-        List<InscripcionEntity> inscripcionesEntity = new ArrayList<>();
+        List<InscripcionEntity> inscripcionEntities = alumnoEntity.getInscripciones();
 
-        alumnoEntity.getInscripciones().forEach(inscripcionEntity -> inscripcionesEntity.add(inscripcionEntity));
-
-        inscripcionesEntity.forEach(inscripcionEntity -> inscripcioesDominio.add(inscripcionEntity.convertToInscripcion()));
+        inscripcionEntities.forEach(inscripcionEntity -> inscripcioesDominio.add(inscripcionEntity.convertToInscripcion(inscripcionEntity)));
 
         alumno.setInscripciones(inscripcioesDominio);
 
@@ -42,16 +39,17 @@ public class AlumnoMapper {
         alumnoEntity.setClave(alumno.getClave());
         alumnoEntity.setFoto(alumno.getFoto());
 
-        List<Inscripcion> inscripcioesDominio = new ArrayList<>();
-
+        /*
         List<InscripcionEntity> inscripcionesEntity = new ArrayList<>();
 
-        alumno.getInscripciones().forEach(inscripcion -> inscripcioesDominio.add(inscripcion));
+        List<Inscripcion> inscripciones = alumno.getInscripciones();
 
-        inscripcioesDominio.forEach(inscripcion -> inscripcionesEntity.add(inscripcion.convertToInscripcionEntity()));
+        inscripciones.forEach(inscripcion -> inscripcionesEntity.add(inscripcion.convertToInscripcionEntity(inscripcion)));
 
         alumnoEntity.setInscripciones(inscripcionesEntity);
 
+
+         */
         return alumnoEntity;
     }
 }

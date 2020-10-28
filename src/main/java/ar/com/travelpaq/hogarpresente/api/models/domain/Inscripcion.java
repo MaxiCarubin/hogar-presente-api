@@ -16,11 +16,11 @@ public class Inscripcion {
 
     private Curso curso;
 
-    public InscripcionEntity convertToInscripcionEntity() {
+    public InscripcionEntity convertToInscripcionEntity(Inscripcion inscripcion) {
         InscripcionEntity inscripcionEntity = new InscripcionEntity();
-        inscripcionEntity.setInscripcionAt(inscripcionAt);
-        inscripcionEntity.setAlumnoEntity(alumno.convertToAlumnoEntity());
-        inscripcionEntity.setCursoEntity(curso.convertToCursoEntity());
+        inscripcionEntity.setInscripcionAt(inscripcion.getInscripcionAt());
+        inscripcionEntity.setAlumnoEntity(inscripcion.getAlumno().convertToAlumnoEntity(inscripcion.getAlumno()));
+        inscripcionEntity.setCursoEntity(inscripcion.getCurso().convertToCursoEntity(inscripcion.getCurso()));
         return inscripcionEntity;
     }
 }

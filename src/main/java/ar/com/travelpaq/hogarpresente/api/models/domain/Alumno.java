@@ -28,22 +28,20 @@ public class Alumno {
 
     private List<Inscripcion> inscripciones;
 
-    public AlumnoEntity convertToAlumnoEntity(){
+    public AlumnoEntity convertToAlumnoEntity(Alumno alumno){
         AlumnoEntity alumnoEntity = new AlumnoEntity();
-        alumnoEntity.setId(id);
-        alumnoEntity.setNombre(nombre);
-        alumnoEntity.setApellido(apellido);
-        alumnoEntity.setCorreo(correo);
-        alumnoEntity.setClave(clave);
-        alumnoEntity.setFoto(foto);
-
-        List<Inscripcion> inscripcioesDominio = new ArrayList<>();
+        alumnoEntity.setId(alumno.getId());
+        alumnoEntity.setNombre(alumno.getNombre());
+        alumnoEntity.setApellido(alumno.getApellido());
+        alumnoEntity.setCorreo(alumno.getCorreo());
+        alumnoEntity.setClave(alumno.getClave());
+        alumnoEntity.setFoto(alumno.getFoto());
 
         List<InscripcionEntity> inscripcionesEntity = new ArrayList<>();
 
-        inscripciones.forEach(inscripcion -> inscripcioesDominio.add(inscripcion));
+        List<Inscripcion> inscripcioesDominio = inscripciones;
 
-        inscripcioesDominio.forEach(inscripcion -> inscripcionesEntity.add(inscripcion.convertToInscripcionEntity()));
+        inscripcioesDominio.forEach(inscripcion -> inscripcionesEntity.add(inscripcion.convertToInscripcionEntity(inscripcion)));
 
         alumnoEntity.setInscripciones(inscripcionesEntity);
 

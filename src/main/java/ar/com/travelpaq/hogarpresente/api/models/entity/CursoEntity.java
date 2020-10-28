@@ -26,37 +26,29 @@ public class CursoEntity {
     private String capacitador;
     private double precio;
     private float horas;
-    @OneToMany(fetch = FetchType.LAZY,targetEntity = InscripcionEntity.class, cascade = CascadeType.ALL)
+    @OneToMany( targetEntity = InscripcionEntity.class)
     private List<InscripcionEntity> inscripciones;
-    @OneToMany(fetch = FetchType.LAZY,targetEntity = UnidadEntity.class, cascade = CascadeType.ALL)
+    @OneToMany( targetEntity = UnidadEntity.class)
     private List<UnidadEntity> unidades;
 
-    public Curso convertToCurso(){
+    public Curso convertToCurso(CursoEntity cursoEntity){
         Curso curso = new Curso();
-        curso.setId(id);
-        curso.setNombre(nombre);
-        curso.setDescripcion(descripcion);
-        curso.setCapacitador(capacitador);
-        curso.setPrecio(precio);
-        curso.setHoras(horas);
+        curso.setId(cursoEntity.getId());
+        curso.setNombre(cursoEntity.getNombre());
+        curso.setDescripcion(cursoEntity.getDescripcion());
+        curso.setCapacitador(cursoEntity.getCapacitador());
+        curso.setPrecio(cursoEntity.getPrecio());
+        curso.setHoras(cursoEntity.getHoras());
 
         List<Unidad> unidaddesDominio = new ArrayList<>();
-
-        List<UnidadEntity> unidadesEntity = new ArrayList<>();
-
-        unidades.forEach(unidadEntity -> unidadesEntity.add(unidadEntity));
-
-        unidadesEntity.forEach(unidadEntity -> unidaddesDominio.add(unidadEntity.convertToUnidad()));
+        List<UnidadEntity> unidadesEntity = unidades;
+        unidadesEntity.forEach(unidadEntity -> unidaddesDominio.add(unidadEntity.convertToUnidad(unidadEntity)));
 
         curso.setUnidades(unidaddesDominio);
 
         List<Inscripcion> inscripcioesDominio = new ArrayList<>();
-
-        List<InscripcionEntity> inscripcionesEntity = new ArrayList<>();
-
-        inscripciones.forEach(inscripcionEntity -> inscripcionesEntity.add(inscripcionEntity));
-
-        inscripcionesEntity.forEach(inscripcionEntity -> inscripcioesDominio.add(inscripcionEntity.convertToInscripcion()));
+        List<InscripcionEntity> inscripcionesEntity = inscripciones;
+        inscripcionesEntity.forEach(inscripcionEntity -> inscripcioesDominio.add(inscripcionEntity.convertToInscripcion(inscripcionEntity)));
 
         curso.setInscripciones(inscripcioesDominio);
 

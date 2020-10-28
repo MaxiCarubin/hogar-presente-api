@@ -10,7 +10,7 @@ public interface ICursoService {
 
     public Curso create(Curso curso);
 
-    public Curso update(Curso curso, long id);
+    public Curso update(Curso curso, Long id);
 
-    public void delete(long id);
+    public void delete(Long id);
 }
