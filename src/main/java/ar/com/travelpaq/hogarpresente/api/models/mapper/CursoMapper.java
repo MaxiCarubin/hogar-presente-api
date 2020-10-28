@@ -9,7 +9,9 @@ import ar.com.travelpaq.hogarpresente.api.models.entity.UnidadEntity;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Component
 public class CursoMapper {
@@ -22,8 +24,8 @@ public class CursoMapper {
         curso.setHoras(cursoEntity.getHoras());
         curso.setPrecio(cursoEntity.getPrecio());
 
-        List<Inscripcion> inscripcioesDominio = new ArrayList<>();
-        List<InscripcionEntity> inscripcionesEntity = cursoEntity.getInscripciones();
+        Set<Inscripcion> inscripcioesDominio = new HashSet<>();
+        Set<InscripcionEntity> inscripcionesEntity = cursoEntity.getInscripciones();
         inscripcionesEntity.forEach(inscripcionEntity -> inscripcioesDominio.add(inscripcionEntity.convertToInscripcion(inscripcionEntity)));
         curso.setInscripciones(inscripcioesDominio);
 
@@ -43,8 +45,8 @@ public class CursoMapper {
         cursoEntity.setHoras(curso.getHoras());
         cursoEntity.setPrecio(curso.getPrecio());
 
-        List<InscripcionEntity> inscripcionesEntity = new ArrayList<>();
-        List<Inscripcion> inscripcionesDominio = curso.getInscripciones();
+        Set<InscripcionEntity> inscripcionesEntity = new HashSet<>();
+        Set<Inscripcion> inscripcionesDominio = curso.getInscripciones();
         inscripcionesDominio.forEach(inscripcion -> inscripcionesEntity.add(inscripcion.convertToInscripcionEntity(inscripcion)));
         cursoEntity.setInscripciones(inscripcionesEntity);
 

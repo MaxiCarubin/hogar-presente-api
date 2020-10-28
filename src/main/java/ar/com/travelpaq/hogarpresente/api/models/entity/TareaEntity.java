@@ -1,6 +1,5 @@
 package ar.com.travelpaq.hogarpresente.api.models.entity;
 
-import ar.com.travelpaq.hogarpresente.api.models.domain.Inscripcion;
 import ar.com.travelpaq.hogarpresente.api.models.domain.Tarea;
 import lombok.AllArgsConstructor;
 import lombok.Data;

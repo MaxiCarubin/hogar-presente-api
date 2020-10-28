@@ -9,13 +9,15 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "Cursos")
+@Table(name = "cursos")
 public class CursoEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,9 +28,9 @@ public class CursoEntity {
     private String capacitador;
     private double precio;
     private float horas;
-    @OneToMany( targetEntity = InscripcionEntity.class)
-    private List<InscripcionEntity> inscripciones;
-    @OneToMany( targetEntity = UnidadEntity.class)
+    @OneToMany(fetch = FetchType.LAZY, targetEntity = InscripcionEntity.class)
+    private Set<InscripcionEntity> inscripciones;
+    @OneToMany(fetch = FetchType.LAZY, targetEntity = UnidadEntity.class, cascade = CascadeType.ALL)
     private List<UnidadEntity> unidades;
 
     public Curso convertToCurso(CursoEntity cursoEntity){
@@ -46,8 +48,8 @@ public class CursoEntity {
 
         curso.setUnidades(unidaddesDominio);
 
-        List<Inscripcion> inscripcioesDominio = new ArrayList<>();
-        List<InscripcionEntity> inscripcionesEntity = inscripciones;
+        Set<Inscripcion> inscripcioesDominio =  new HashSet<>();
+        Set<InscripcionEntity> inscripcionesEntity = inscripciones;
         inscripcionesEntity.forEach(inscripcionEntity -> inscripcioesDominio.add(inscripcionEntity.convertToInscripcion(inscripcionEntity)));
 
         curso.setInscripciones(inscripcioesDominio);

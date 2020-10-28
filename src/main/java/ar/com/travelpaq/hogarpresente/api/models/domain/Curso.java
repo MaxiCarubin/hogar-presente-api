@@ -7,7 +7,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -26,7 +28,7 @@ public class Curso {
 
     private float horas;
 
-    private List<Inscripcion> inscripciones;
+    private Set<Inscripcion> inscripciones;
 
     private List<Unidad> unidades;
 
@@ -39,9 +41,9 @@ public class Curso {
         cursoEntity.setCapacitador(curso.getCapacitador());
         cursoEntity.setHoras(curso.getHoras());
 
-        List<InscripcionEntity> inscripcionesEntity = new ArrayList<>();
+        Set<InscripcionEntity> inscripcionesEntity = new HashSet<>();
 
-        List<Inscripcion> inscripcioesDominio = inscripciones;
+        Set<Inscripcion> inscripcioesDominio = inscripciones;
 
         inscripcioesDominio.forEach(inscripcion -> inscripcionesEntity.add(inscripcion.convertToInscripcionEntity(inscripcion)));
 

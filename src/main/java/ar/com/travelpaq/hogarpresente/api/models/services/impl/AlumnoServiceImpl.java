@@ -1,9 +1,10 @@
 package ar.com.travelpaq.hogarpresente.api.models.services.impl;
 
 import ar.com.travelpaq.hogarpresente.api.models.domain.Alumno;
+import ar.com.travelpaq.hogarpresente.api.models.domain.Inscripcion;
 import ar.com.travelpaq.hogarpresente.api.models.entity.AlumnoEntity;
+import ar.com.travelpaq.hogarpresente.api.models.entity.InscripcionEntity;
 import ar.com.travelpaq.hogarpresente.api.models.mapper.AlumnoMapper;
-import ar.com.travelpaq.hogarpresente.api.models.mapper.InscripcionMapper;
 import ar.com.travelpaq.hogarpresente.api.models.repository.IAlumnoRepository;
 import ar.com.travelpaq.hogarpresente.api.models.services.IAlumnoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,9 @@ import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class AlumnoServiceImpl implements IAlumnoService {
@@ -23,9 +26,6 @@ public class AlumnoServiceImpl implements IAlumnoService {
 
     @Autowired
     private AlumnoMapper alumnoMapper;
-
-    @Autowired
-    private InscripcionMapper inscripcionMapper;
 
     @Override
     @Transactional(readOnly = true)
@@ -66,18 +66,26 @@ public class AlumnoServiceImpl implements IAlumnoService {
     @Transactional
     public Alumno update(Alumno alumno, Long id) {
 
-        AlumnoEntity alumnoActual = new AlumnoEntity();
-        alumnoActual = alumnoRepository.findById(id).orElse(null);
-        Alumno alumnoUpdate = null;
+        AlumnoEntity alumnoActual = alumnoRepository.findById(id).orElse(null);
 
-        if (alumnoActual==null){
-            return null;
-        }
-        else{
-            alumnoActual = alumnoMapper.mapAlumnoToAlumnoEntity(alumno);
-            alumnoUpdate = alumnoMapper.mapAlumnoEntityToAlumno(alumnoActual);
-            return alumnoUpdate;
-        }
+        alumnoActual.setNombre(alumno.getNombre());
+        alumnoActual.setApellido(alumno.getApellido());
+        alumnoActual.setCorreo(alumno.getCorreo());
+        alumnoActual.setClave(alumno.getClave());
+        alumnoActual.setFoto(alumno.getFoto());
+
+        Set<InscripcionEntity> inscripcionesEntity = new HashSet<>();
+
+        Set<Inscripcion> inscripciones = alumno.getInscripciones();
+
+        inscripciones.forEach(inscripcion -> inscripcionesEntity.add(inscripcion.convertToInscripcionEntity(inscripcion)));
+
+        alumnoActual.setInscripciones(inscripcionesEntity);
+
+        alumnoRepository.save(alumnoActual);
+
+        return alumno;
+
     }
 
     @Override

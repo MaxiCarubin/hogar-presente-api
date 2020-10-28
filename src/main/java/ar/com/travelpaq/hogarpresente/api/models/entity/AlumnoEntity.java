@@ -6,8 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -28,8 +28,8 @@ public class AlumnoEntity {
     private String clave;
     @Column(name = "foto")
     private String foto;
-    @OneToMany(targetEntity = InscripcionEntity.class)
-    private List<InscripcionEntity> inscripciones;
+    @OneToMany(fetch = FetchType.LAZY, targetEntity = InscripcionEntity.class, cascade = CascadeType.ALL)
+    private Set<InscripcionEntity> inscripciones;
 
     public Alumno convertToAlumno(AlumnoEntity alumnoEntity ){
 
@@ -40,9 +40,9 @@ public class AlumnoEntity {
         alumno.setClave(alumnoEntity.getClave());
         alumno.setFoto(alumnoEntity.getFoto());
 
-        List<Inscripcion> inscripcioesDominio = new ArrayList<>();
+        Set<Inscripcion> inscripcioesDominio = new HashSet<>();
 
-        List<InscripcionEntity> inscripcionesEntity = inscripciones;
+        Set<InscripcionEntity> inscripcionesEntity = inscripciones;
 
         inscripcionesEntity.forEach(inscripcionEntity -> inscripcioesDominio.add(inscripcionEntity.convertToInscripcion(inscripcionEntity)));
 

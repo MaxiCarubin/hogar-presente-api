@@ -5,9 +5,8 @@ import ar.com.travelpaq.hogarpresente.api.models.entity.InscripcionEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -26,7 +25,7 @@ public class Alumno {
 
     private String foto;
 
-    private List<Inscripcion> inscripciones;
+    private Set<Inscripcion> inscripciones;
 
     public AlumnoEntity convertToAlumnoEntity(Alumno alumno){
         AlumnoEntity alumnoEntity = new AlumnoEntity();
@@ -37,9 +36,9 @@ public class Alumno {
         alumnoEntity.setClave(alumno.getClave());
         alumnoEntity.setFoto(alumno.getFoto());
 
-        List<InscripcionEntity> inscripcionesEntity = new ArrayList<>();
+        Set<InscripcionEntity> inscripcionesEntity = new HashSet<>();
 
-        List<Inscripcion> inscripcioesDominio = inscripciones;
+        Set<Inscripcion> inscripcioesDominio = inscripciones;
 
         inscripcioesDominio.forEach(inscripcion -> inscripcionesEntity.add(inscripcion.convertToInscripcionEntity(inscripcion)));
 

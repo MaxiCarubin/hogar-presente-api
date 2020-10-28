@@ -7,7 +7,9 @@ import ar.com.travelpaq.hogarpresente.api.models.entity.InscripcionEntity;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Component
 public class AlumnoMapper {
@@ -20,9 +22,9 @@ public class AlumnoMapper {
         alumno.setClave(alumnoEntity.getClave());
         alumno.setFoto(alumnoEntity.getFoto());
 
-        List<Inscripcion> inscripcioesDominio = new ArrayList<>();
+        Set<Inscripcion> inscripcioesDominio = new HashSet<>();
 
-        List<InscripcionEntity> inscripcionEntities = alumnoEntity.getInscripciones();
+        Set<InscripcionEntity> inscripcionEntities = alumnoEntity.getInscripciones();
 
         inscripcionEntities.forEach(inscripcionEntity -> inscripcioesDominio.add(inscripcionEntity.convertToInscripcion(inscripcionEntity)));
 
@@ -39,17 +41,14 @@ public class AlumnoMapper {
         alumnoEntity.setClave(alumno.getClave());
         alumnoEntity.setFoto(alumno.getFoto());
 
-        /*
-        List<InscripcionEntity> inscripcionesEntity = new ArrayList<>();
+        Set<InscripcionEntity> inscripcionesEntity = new HashSet<>();
 
-        List<Inscripcion> inscripciones = alumno.getInscripciones();
+        Set<Inscripcion> inscripciones = alumno.getInscripciones();
 
         inscripciones.forEach(inscripcion -> inscripcionesEntity.add(inscripcion.convertToInscripcionEntity(inscripcion)));
 
         alumnoEntity.setInscripciones(inscripcionesEntity);
 
-
-         */
         return alumnoEntity;
     }
 }
