@@ -24,8 +24,6 @@ public class AlumnoEntity {
     private String apellido;
     @Column(name = "correo",nullable = false, unique = true)
     private String correo;
-    @Column(name = "clave",nullable = false)
-    private String clave;
     @Column(name = "foto")
     private String foto;
     @OneToMany(fetch = FetchType.LAZY, targetEntity = InscripcionEntity.class, cascade = CascadeType.ALL)
@@ -37,7 +35,6 @@ public class AlumnoEntity {
         alumno.setNombre(alumnoEntity.getNombre());
         alumno.setApellido(alumnoEntity.getApellido());
         alumno.setCorreo(alumnoEntity.getCorreo());
-        alumno.setClave(alumnoEntity.getClave());
         alumno.setFoto(alumnoEntity.getFoto());
 
         Set<Inscripcion> inscripcioesDominio = new HashSet<>();

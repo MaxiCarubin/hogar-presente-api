@@ -19,7 +19,6 @@ public class AlumnoMapper {
         alumno.setNombre(alumnoEntity.getNombre());
         alumno.setApellido(alumnoEntity.getApellido());
         alumno.setCorreo(alumnoEntity.getCorreo());
-        alumno.setClave(alumnoEntity.getClave());
         alumno.setFoto(alumnoEntity.getFoto());
 
         Set<Inscripcion> inscripcioesDominio = new HashSet<>();
@@ -38,7 +37,6 @@ public class AlumnoMapper {
         alumnoEntity.setNombre(alumno.getNombre());
         alumnoEntity.setApellido(alumno.getApellido());
         alumnoEntity.setCorreo(alumno.getCorreo());
-        alumnoEntity.setClave(alumno.getClave());
         alumnoEntity.setFoto(alumno.getFoto());
 
         Set<InscripcionEntity> inscripcionesEntity = new HashSet<>();

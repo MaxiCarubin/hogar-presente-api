@@ -21,8 +21,6 @@ public class Alumno {
 
     private String correo;
 
-    private String clave;
-
     private String foto;
 
     private Set<Inscripcion> inscripciones;
@@ -33,7 +31,6 @@ public class Alumno {
         alumnoEntity.setNombre(alumno.getNombre());
         alumnoEntity.setApellido(alumno.getApellido());
         alumnoEntity.setCorreo(alumno.getCorreo());
-        alumnoEntity.setClave(alumno.getClave());
         alumnoEntity.setFoto(alumno.getFoto());
 
         Set<InscripcionEntity> inscripcionesEntity = new HashSet<>();

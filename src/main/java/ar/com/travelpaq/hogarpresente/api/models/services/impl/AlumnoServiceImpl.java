@@ -71,7 +71,6 @@ public class AlumnoServiceImpl implements IAlumnoService {
         alumnoActual.setNombre(alumno.getNombre());
         alumnoActual.setApellido(alumno.getApellido());
         alumnoActual.setCorreo(alumno.getCorreo());
-        alumnoActual.setClave(alumno.getClave());
         alumnoActual.setFoto(alumno.getFoto());
 
         Set<InscripcionEntity> inscripcionesEntity = new HashSet<>();
