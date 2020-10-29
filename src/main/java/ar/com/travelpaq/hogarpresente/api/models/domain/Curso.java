@@ -28,6 +28,8 @@ public class Curso {
 
     private float horas;
 
+    //imagen
+
     private Set<Inscripcion> inscripciones;
 
     private List<Unidad> unidades;
