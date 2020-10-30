@@ -43,9 +43,7 @@ public class AlumnoServiceImpl implements IAlumnoService {
     public Alumno findById(Long id) {
         AlumnoEntity alumnoEntity = alumnoRepository.findById(id).orElse(null);
 
-        Alumno alumno = new Alumno();
-
-        alumno = alumnoMapper.mapAlumnoEntityToAlumno(alumnoEntity);
+        Alumno alumno = alumnoMapper.mapAlumnoEntityToAlumno(alumnoEntity);
 
         return alumno;
     }
@@ -71,6 +69,7 @@ public class AlumnoServiceImpl implements IAlumnoService {
         alumnoActual.setNombre(alumno.getNombre());
         alumnoActual.setApellido(alumno.getApellido());
         alumnoActual.setCorreo(alumno.getCorreo());
+        alumnoActual.setClave(alumno.getClave());
         alumnoActual.setFoto(alumno.getFoto());
 
         Set<InscripcionEntity> inscripcionesEntity = new HashSet<>();

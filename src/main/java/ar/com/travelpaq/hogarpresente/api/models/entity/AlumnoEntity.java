@@ -6,7 +6,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -14,20 +16,36 @@ import java.util.Set;
 @NoArgsConstructor
 @Entity
 @Table(name = "alumnos")
-public class AlumnoEntity {
+public class AlumnoEntity implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @Column(name = "nombre",nullable = false)
+
+    @Column(nullable = false, length = 45)
     private String nombre;
-    @Column(name = "apellido",nullable = false)
+
+    @Column(nullable = false, length = 45)
     private String apellido;
-    @Column(name = "correo",nullable = false, unique = true)
+
+    @Column(nullable = false, unique = true, length = 60)
     private String correo;
-    @Column(name = "foto")
+
+    @Column(nullable = false, length = 60)
+    private String clave;
+
     private String foto;
+
+    private Boolean enabled;
+
     @OneToMany(fetch = FetchType.LAZY, targetEntity = InscripcionEntity.class, cascade = CascadeType.ALL)
     private Set<InscripcionEntity> inscripciones;
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "alumnos_roles", joinColumns = @JoinColumn(name = "alumno_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"),
+            uniqueConstraints = {@UniqueConstraint(columnNames = {"alumno_id","role_id"})})
+    private List<RoleEntity> roles;
 
     public Alumno convertToAlumno(AlumnoEntity alumnoEntity ){
 
@@ -35,6 +53,7 @@ public class AlumnoEntity {
         alumno.setNombre(alumnoEntity.getNombre());
         alumno.setApellido(alumnoEntity.getApellido());
         alumno.setCorreo(alumnoEntity.getCorreo());
+        alumno.setClave(alumnoEntity.getClave());
         alumno.setFoto(alumnoEntity.getFoto());
 
         Set<Inscripcion> inscripcioesDominio = new HashSet<>();
