@@ -23,7 +23,7 @@ public class CursoMapper {
         curso.setCapacitador(cursoEntity.getCapacitador());
         curso.setHoras(cursoEntity.getHoras());
         curso.setPrecio(cursoEntity.getPrecio());
-
+        curso.setEnabled(cursoEntity.getEnabled());
         Set<Inscripcion> inscripcioesDominio = new HashSet<>();
         Set<InscripcionEntity> inscripcionesEntity = cursoEntity.getInscripciones();
         inscripcionesEntity.forEach(inscripcionEntity -> inscripcioesDominio.add(inscripcionEntity.convertToInscripcion(inscripcionEntity)));
@@ -44,7 +44,7 @@ public class CursoMapper {
         cursoEntity.setCapacitador(curso.getCapacitador());
         cursoEntity.setHoras(curso.getHoras());
         cursoEntity.setPrecio(curso.getPrecio());
-
+        cursoEntity.setEnabled(curso.getEnabled());
         Set<InscripcionEntity> inscripcionesEntity = new HashSet<>();
         Set<Inscripcion> inscripcionesDominio = curso.getInscripciones();
         inscripcionesDominio.forEach(inscripcion -> inscripcionesEntity.add(inscripcion.convertToInscripcionEntity(inscripcion)));

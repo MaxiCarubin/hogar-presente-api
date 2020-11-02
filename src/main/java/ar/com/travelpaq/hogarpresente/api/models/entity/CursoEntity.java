@@ -28,6 +28,9 @@ public class CursoEntity {
     private String capacitador;
     private double precio;
     private float horas;
+
+    private Boolean enabled;
+
     @OneToMany(fetch = FetchType.LAZY, targetEntity = InscripcionEntity.class)
     private Set<InscripcionEntity> inscripciones;
     @OneToMany(fetch = FetchType.LAZY, targetEntity = UnidadEntity.class, cascade = CascadeType.ALL)
@@ -41,7 +44,7 @@ public class CursoEntity {
         curso.setCapacitador(cursoEntity.getCapacitador());
         curso.setPrecio(cursoEntity.getPrecio());
         curso.setHoras(cursoEntity.getHoras());
-
+        curso.setEnabled(cursoEntity.getEnabled());
         List<Unidad> unidaddesDominio = new ArrayList<>();
         List<UnidadEntity> unidadesEntity = unidades;
         unidadesEntity.forEach(unidadEntity -> unidaddesDominio.add(unidadEntity.convertToUnidad(unidadEntity)));

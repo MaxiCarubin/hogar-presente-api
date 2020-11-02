@@ -28,6 +28,7 @@ public class Curso {
 
     private float horas;
 
+    private Boolean enabled;
     //imagen
 
     private Set<Inscripcion> inscripciones;
@@ -42,7 +43,7 @@ public class Curso {
         cursoEntity.setPrecio(curso.getPrecio());
         cursoEntity.setCapacitador(curso.getCapacitador());
         cursoEntity.setHoras(curso.getHoras());
-
+        cursoEntity.setEnabled(curso.getEnabled());
         Set<InscripcionEntity> inscripcionesEntity = new HashSet<>();
 
         Set<Inscripcion> inscripcioesDominio = inscripciones;
