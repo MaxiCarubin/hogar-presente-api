@@ -7,7 +7,15 @@ import ar.com.travelpaq.hogarpresente.api.models.entity.InscripcionEntity;
 import ar.com.travelpaq.hogarpresente.api.models.mapper.AlumnoMapper;
 import ar.com.travelpaq.hogarpresente.api.models.repository.IAlumnoRepository;
 import ar.com.travelpaq.hogarpresente.api.models.services.IAlumnoService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.io.File;
@@ -17,9 +25,12 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
-public class AlumnoServiceImpl implements IAlumnoService {
+public class AlumnoServiceImpl implements IAlumnoService, UserDetailsService {
+
+    private Logger logger = LoggerFactory.getLogger(AlumnoServiceImpl.class);
 
     @Autowired
     private IAlumnoRepository alumnoRepository;
@@ -105,5 +116,24 @@ public class AlumnoServiceImpl implements IAlumnoService {
             }
             alumnoRepository.deleteById(id);
         }
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public UserDetails loadUserByUsername(String correo) throws UsernameNotFoundException {
+        AlumnoEntity alumnoEntity = alumnoRepository.findByCorreo(correo);
+
+        if (alumnoEntity == null)
+        {
+            logger.error("Error en el Login: no existe el usuario con correo '"+ correo + "' en el sistema! ");
+            throw new UsernameNotFoundException("Error en el Login: no existe el usuario con correo '"+ correo + "' en el sistema! ");
+        }
+        List<GrantedAuthority> authorities = alumnoEntity.getRoles()
+                .stream()
+                .map(roleEntity -> new SimpleGrantedAuthority(roleEntity.getNombre()))
+                .peek(authority -> logger.info("Role: " + authority.getAuthority()))
+                .collect(Collectors.toList());
+
+        return new User(alumnoEntity.getCorreo(), alumnoEntity.getClave(), alumnoEntity.getEnabled(), true, true, true, authorities);
     }
 }
