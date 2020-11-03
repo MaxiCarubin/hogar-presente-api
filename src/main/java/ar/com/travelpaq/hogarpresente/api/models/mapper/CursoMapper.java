@@ -45,6 +45,7 @@ public class CursoMapper {
         cursoEntity.setHoras(curso.getHoras());
         cursoEntity.setPrecio(curso.getPrecio());
         cursoEntity.setEnabled(curso.getEnabled());
+
         Set<InscripcionEntity> inscripcionesEntity = new HashSet<>();
         Set<Inscripcion> inscripcionesDominio = curso.getInscripciones();
         inscripcionesDominio.forEach(inscripcion -> inscripcionesEntity.add(inscripcion.convertToInscripcionEntity(inscripcion)));
