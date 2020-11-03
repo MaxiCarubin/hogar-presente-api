@@ -40,6 +40,12 @@ public class AlumnoServiceImpl implements IAlumnoService, UserDetailsService {
 
     @Override
     @Transactional(readOnly = true)
+    public AlumnoEntity findByCorreo(String correo) {
+        return alumnoRepository.findByCorreo(correo);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
     public List<Alumno> findAll() {
         List<AlumnoEntity> alumnoEntities = alumnoRepository.findAll();
         List<Alumno> alumnos = new ArrayList<>();

@@ -1,6 +1,8 @@
 package ar.com.travelpaq.hogarpresente.api.models.services;
 
 import ar.com.travelpaq.hogarpresente.api.models.domain.Alumno;
+import ar.com.travelpaq.hogarpresente.api.models.entity.AlumnoEntity;
+
 import java.util.List;
 
 public interface IAlumnoService {
@@ -15,4 +17,5 @@ public interface IAlumnoService {
 
     public void delete(Long id);
 
+    AlumnoEntity findByCorreo(String correo);
 }
