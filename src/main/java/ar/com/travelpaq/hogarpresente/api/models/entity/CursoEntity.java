@@ -22,9 +22,11 @@ public class CursoEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @Column(nullable = false)
+    @Column(nullable = false, length = 45)
     private String nombre;
+    @Column(nullable = false, length = 70)
     private String descripcion;
+    @Column(nullable = false, length = 45)
     private String capacitador;
     private double precio;
     private float horas;
