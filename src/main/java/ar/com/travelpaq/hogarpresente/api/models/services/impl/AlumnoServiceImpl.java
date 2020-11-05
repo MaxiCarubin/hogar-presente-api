@@ -60,27 +60,19 @@ public class AlumnoServiceImpl implements IAlumnoService, UserDetailsService {
         Map<String, Object> response = new HashMap<>();
 
         AlumnoEntity alumnoEntity = null;
-        Alumno alumno = null;
 
         try{
             alumnoEntity = alumnoRepository.findById(id).orElse(null);
-            if (alumnoEntity == null){
-                alumno = null;
-            }
-            else
-            {
-                alumno = alumnoMapper.mapAlumnoEntityToAlumno(alumnoEntity);
-            }
         }catch (DataAccessException e){
             response.put("mensaje", "Error al realizar consulta en la base de datos");
             response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
         }
 
-        if (alumno == null){
+        if (alumnoEntity == null){
             response.put("mensaje", "El Cliente ID: ".concat(id.toString().concat(" no existe en la base de datos!")));
             return new ResponseEntity<Map<String,Object>>(response, HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<Alumno>(alumno, HttpStatus.OK);
+        return new ResponseEntity<AlumnoEntity>(alumnoEntity, HttpStatus.OK);
     }
 
     @Override

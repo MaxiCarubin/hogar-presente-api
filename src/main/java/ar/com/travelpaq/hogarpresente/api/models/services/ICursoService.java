@@ -1,16 +1,18 @@
 package ar.com.travelpaq.hogarpresente.api.models.services;
 import ar.com.travelpaq.hogarpresente.api.models.domain.Curso;
+import org.springframework.http.ResponseEntity;
+
 import java.util.List;
 
 public interface ICursoService {
 
     public List<Curso> findAll();
 
-    public Curso findByNombre(String nombre);
+    public ResponseEntity<?> findById(Long id);
 
-    public Curso create(Curso curso);
+    public ResponseEntity<?> create(Curso curso);
 
-    public Curso update(Curso curso, Long id);
+    public ResponseEntity<?> update(Curso curso, Long id);
 
-    public void delete(Long id);
+    public ResponseEntity<?> delete(Long id);
 }
