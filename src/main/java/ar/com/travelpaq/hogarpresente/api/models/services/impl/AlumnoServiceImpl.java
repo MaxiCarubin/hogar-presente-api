@@ -1,15 +1,16 @@
 package ar.com.travelpaq.hogarpresente.api.models.services.impl;
 
 import ar.com.travelpaq.hogarpresente.api.models.domain.Alumno;
-import ar.com.travelpaq.hogarpresente.api.models.domain.Inscripcion;
 import ar.com.travelpaq.hogarpresente.api.models.entity.AlumnoEntity;
-import ar.com.travelpaq.hogarpresente.api.models.entity.InscripcionEntity;
 import ar.com.travelpaq.hogarpresente.api.models.mapper.AlumnoMapper;
 import ar.com.travelpaq.hogarpresente.api.models.repository.IAlumnoRepository;
 import ar.com.travelpaq.hogarpresente.api.models.services.IAlumnoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -21,10 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -57,71 +55,122 @@ public class AlumnoServiceImpl implements IAlumnoService, UserDetailsService {
 
     @Override
     @Transactional(readOnly = true)
-    public Alumno findById(Long id) {
-        AlumnoEntity alumnoEntity = alumnoRepository.findById(id).orElse(null);
+    public ResponseEntity<?> findById(Long id) {
 
-        Alumno alumno = alumnoMapper.mapAlumnoEntityToAlumno(alumnoEntity);
+        Map<String, Object> response = new HashMap<>();
 
-        return alumno;
+        AlumnoEntity alumnoEntity = null;
+        Alumno alumno = null;
+
+        try{
+            alumnoEntity = alumnoRepository.findById(id).orElse(null);
+            if (alumnoEntity == null){
+                alumno = null;
+            }
+            else
+            {
+                alumno = alumnoMapper.mapAlumnoEntityToAlumno(alumnoEntity);
+            }
+        }catch (DataAccessException e){
+            response.put("mensaje", "Error al realizar consulta en la base de datos");
+            response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+        }
+
+        if (alumno == null){
+            response.put("mensaje", "El Cliente ID: ".concat(id.toString().concat(" no existe en la base de datos!")));
+            return new ResponseEntity<Map<String,Object>>(response, HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<Alumno>(alumno, HttpStatus.OK);
     }
 
     @Override
     @Transactional
-    public Alumno create(Alumno alumno) {
-        AlumnoEntity alumnoEntity = new AlumnoEntity();
+    public ResponseEntity<?> create(Alumno alumno) {
 
-        alumnoEntity = alumnoMapper.mapAlumnoToAlumnoEntity(alumno);
+        Map<String, Object> response = new HashMap<>();
 
-        alumnoRepository.save(alumnoEntity);
+        AlumnoEntity alumnoEntityNew = null;
 
-        return alumno;
+        AlumnoEntity alumnoEntity = alumnoMapper.mapAlumnoToAlumnoEntity(alumno);
+
+        try{
+            alumnoEntityNew = alumnoRepository.save(alumnoEntity);
+        }catch (DataAccessException e){
+            response.put("mensaje", "Error al realizar el insert en la base de datos");
+            response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+            return new ResponseEntity<Map<String,Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        response.put("mensaje", "El cliente fue creado con exito!");
+        response.put("cliente", alumnoEntityNew);
+        return new ResponseEntity<Map<String,Object>>(response, HttpStatus.CREATED);
     }
 
     @Override
     @Transactional
-    public Alumno update(Alumno alumno, Long id) {
+    public ResponseEntity<?> update(Alumno alumno, Long id) {
+
+        Map<String, Object> response = new HashMap<>();
 
         AlumnoEntity alumnoActual = alumnoRepository.findById(id).orElse(null);
 
-        alumnoActual.setNombre(alumno.getNombre());
-        alumnoActual.setApellido(alumno.getApellido());
-        alumnoActual.setCorreo(alumno.getCorreo());
-        alumnoActual.setClave(alumno.getClave());
-        alumnoActual.setFoto(alumno.getFoto());
+        AlumnoEntity alumnoUpdate = alumnoMapper.mapAlumnoToAlumnoEntity(alumno);
 
-        Set<InscripcionEntity> inscripcionesEntity = new HashSet<>();
+        AlumnoEntity alumnoFinal = null;
+        if (alumnoActual == null){
+            response.put("mensaje", "Error: no se pudo editar, el Alumno ID".concat(id.toString().concat(" no existe en la base de datos!")));
+            return new ResponseEntity<Map<String,Object>>(response, HttpStatus.NOT_FOUND);
+        }
+        try{
+            alumnoActual.setNombre(alumnoUpdate.getNombre());
+            alumnoActual.setApellido(alumnoUpdate.getApellido());
+            alumnoActual.setCorreo(alumnoUpdate.getCorreo());
+            alumnoActual.setClave(alumnoUpdate.getClave());
+            alumnoActual.setFoto(alumnoUpdate.getFoto());
+            alumnoActual.setInscripciones(alumnoUpdate.getInscripciones());
+            alumnoActual.setRoles(alumnoUpdate.getRoles());
+            alumnoActual.setEnabled(alumnoUpdate.getEnabled());
 
-        Set<Inscripcion> inscripciones = alumno.getInscripciones();
+            /*
+            Set<InscripcionEntity> inscripcionesEntity = new HashSet<>();
 
-        inscripciones.forEach(inscripcion -> inscripcionesEntity.add(inscripcion.convertToInscripcionEntity(inscripcion)));
+            Set<Inscripcion> inscripciones = alumno.getInscripciones();
 
-        alumnoActual.setInscripciones(inscripcionesEntity);
+            inscripciones.forEach(inscripcion -> inscripcionesEntity.add(inscripcion.convertToInscripcionEntity(inscripcion)));
 
-        alumnoRepository.save(alumnoActual);
+            alumnoActual.setInscripciones(inscripcionesEntity);
+            alumnoRepository.save(alumnoActual);
 
-        return alumno;
+            return alumno;
+             */
 
+            alumnoFinal = alumnoRepository.save(alumnoActual);
+        }catch (DataAccessException e){
+            response.put("mensaje", "Error al actualizar el cliente en la base de datos");
+            response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+            return new ResponseEntity<Map<String,Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        response.put("mensaje", "El Alumno ha sido actualizado con exito! ");
+        response.put("alumno", alumnoFinal);
+        return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
     }
 
     @Override
     @Transactional
-    public void delete(Long id) {
-        AlumnoEntity alumnoEntity = new AlumnoEntity();
-        alumnoEntity = alumnoRepository.findById(id).orElse(null);
-        if (alumnoEntity == null){
-            return;
-        }
-        else{
-            String nombreFotoAnterior = alumnoEntity.getFoto();
-            if (nombreFotoAnterior != null && nombreFotoAnterior.length()>0){
-                Path rutaFotoAnterior = Paths.get("uploads").toAbsolutePath();
-                File archivoFotoAnterior = rutaFotoAnterior.toFile();
-                if (archivoFotoAnterior.exists() && archivoFotoAnterior.canRead()){
-                    archivoFotoAnterior.delete();
-                }
-            }
+    public ResponseEntity<?> delete(Long id) {
+
+        Map<String,Object> response = new HashMap<>();
+
+        try{
             alumnoRepository.deleteById(id);
+        }catch (DataAccessException e){
+            response.put("mensaje", "Error al eliminar el alumno de la basa de datos");
+            response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+            return new ResponseEntity<Map<String,Object>>(response,HttpStatus.INTERNAL_SERVER_ERROR);
         }
+
+        response.put("mensaje", "El cliente fue eliminado con éxito! ");
+        return new ResponseEntity<Map<String,Object>>(response, HttpStatus.OK);
     }
 
     @Override

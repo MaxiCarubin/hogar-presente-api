@@ -2,23 +2,10 @@ package ar.com.travelpaq.hogarpresente.api.controllers;
 import ar.com.travelpaq.hogarpresente.api.models.domain.Alumno;
 import ar.com.travelpaq.hogarpresente.api.models.services.IAlumnoService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-import java.io.File;
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.HashMap;
+
 import java.util.List;
-import java.util.Map;
-import java.util.UUID;
 
 @CrossOrigin(origins = {"http://localhost:4200"})
 @RestController
@@ -34,25 +21,26 @@ public class AlumnoRestController {
     }
 
     @GetMapping("/alumnos/{id}")
-    public Alumno show(@PathVariable Long id){
+    public ResponseEntity<?> show(@PathVariable Long id){
         return alumnoService.findById(id);
     }
 
     @PostMapping("/alumnos")
-    public Alumno create(@RequestBody Alumno alumno){
+    public ResponseEntity<?> create(@RequestBody Alumno alumno){
         return alumnoService.create(alumno);
     }
 
     @PutMapping("/alumnos/{id}")
-    public Alumno update(@RequestBody Alumno alumno, @PathVariable Long id){
+    public ResponseEntity<?> update(@RequestBody Alumno alumno, @PathVariable Long id){
         return alumnoService.update(alumno, id);
     }
 
     @DeleteMapping("/alumnos/{id}")
-    public void delente(@PathVariable Long id) {
-        alumnoService.delete(id);
+    public ResponseEntity<?> delete(@PathVariable Long id) {
+        return alumnoService.delete(id);
     }
 
+    /*
     @PostMapping("/alumnos/upload")
     public ResponseEntity<?> upload(@RequestParam("archivo")MultipartFile archivo, @RequestParam("id") Long id){
         Map<String, Object> response = new HashMap<>();
@@ -109,5 +97,7 @@ public class AlumnoRestController {
         cabecera.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename\"" + recurso.getFilename() + "\"");
         return new ResponseEntity<Resource>(recurso, cabecera, HttpStatus.OK);
     }
+
+     */
 
 }
