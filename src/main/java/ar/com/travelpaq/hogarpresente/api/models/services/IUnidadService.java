@@ -2,17 +2,18 @@ package ar.com.travelpaq.hogarpresente.api.models.services;
 
 import ar.com.travelpaq.hogarpresente.api.models.domain.Alumno;
 import ar.com.travelpaq.hogarpresente.api.models.domain.Unidad;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
 public interface IUnidadService {
     public List<Unidad> findAll();
 
-    public Unidad findById(String nombre);
+    public ResponseEntity<?> findById(String nombre);
 
-    public Unidad create(Unidad unidad);
+    public ResponseEntity<?> create(Unidad unidad);
 
-    public Unidad update(Unidad unidad, String nombre);
+    public ResponseEntity<?> update(Unidad unidad, String nombre);
 
-    public void delete(String nombre);
+    public ResponseEntity<?> delete(String nombre);
 }

@@ -1,6 +1,5 @@
 package ar.com.travelpaq.hogarpresente.api.models.services.impl;
 import ar.com.travelpaq.hogarpresente.api.models.domain.Curso;
-import ar.com.travelpaq.hogarpresente.api.models.entity.AlumnoEntity;
 import ar.com.travelpaq.hogarpresente.api.models.entity.CursoEntity;
 import ar.com.travelpaq.hogarpresente.api.models.mapper.CursoMapper;
 import ar.com.travelpaq.hogarpresente.api.models.repository.ICursoRepository;
@@ -74,8 +73,8 @@ public class CursoServiceImpl implements ICursoService {
             response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
             return new ResponseEntity<Map<String,Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        response.put("mensaje", "El cliente fue creado con exito!");
-        response.put("cliente", cursoEntityNew);
+        response.put("mensaje", "El curso fue creado con exito!");
+        response.put("curso", cursoEntityNew);
         return new ResponseEntity<Map<String,Object>>(response, HttpStatus.CREATED);
     }
 
@@ -127,7 +126,7 @@ public class CursoServiceImpl implements ICursoService {
             response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
             return new ResponseEntity<Map<String,Object>>(response,HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        
+
         response.put("mensaje", "El Curso fue eliminado con éxito! ");
         return new ResponseEntity<Map<String,Object>>(response, HttpStatus.OK);
     }

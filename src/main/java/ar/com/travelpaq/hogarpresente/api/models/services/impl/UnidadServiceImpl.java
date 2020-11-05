@@ -6,10 +6,15 @@ import ar.com.travelpaq.hogarpresente.api.models.mapper.UnidadMapper;
 import ar.com.travelpaq.hogarpresente.api.models.repository.IUnidadRepository;
 import ar.com.travelpaq.hogarpresente.api.models.services.IUnidadService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class UnidadServiceImpl implements IUnidadService {
@@ -30,42 +35,87 @@ public class UnidadServiceImpl implements IUnidadService {
     }
 
     @Override
-    public Unidad findById(String nombre) {
-        UnidadEntity unidadEntity = unidadRepository.findById(nombre).orElse(null);
+    public ResponseEntity<?> findById(String nombre) {
+        Map<String, Object> response = new HashMap<>();
 
-        Unidad unidad = new Unidad();
+        UnidadEntity unidadEntity = null;
 
-        unidad = unidadMapper.mapUnidadEntityToUnidad(unidadEntity);
+        try{
+            unidadEntity = unidadRepository.findById(nombre).orElse(null);
+        }catch (DataAccessException e){
+            response.put("mensaje", "Error al realizar consulta en la base de datos");
+            response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+        }
 
-        return unidad;
+        if (unidadEntity == null){
+            response.put("mensaje", "La Unidad con nombre ".concat(nombre.concat(" no existe en la base de datos!")));
+            return new ResponseEntity<Map<String,Object>>(response, HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<UnidadEntity>(unidadEntity, HttpStatus.OK);
     }
 
     @Override
-    public Unidad create(Unidad unidad) {
+    public ResponseEntity<?> create(Unidad unidad) {
+        Map<String, Object> response = new HashMap<>();
+
+        UnidadEntity unidadEntityNew = null;
+
         UnidadEntity unidadEntity = unidadMapper.mapUnidadToUnidadEntity(unidad);
 
-        unidadEntity =unidadRepository.save(unidadEntity);
-
-        return unidad;
+        try{
+            unidadEntityNew = unidadRepository.save(unidadEntity);
+        }catch (DataAccessException e){
+            response.put("mensaje", "Error al realizar el insert en la base de datos");
+            response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+            return new ResponseEntity<Map<String,Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        response.put("mensaje", "La unidad fue creada con exito!");
+        response.put("unidad", unidadEntityNew);
+        return new ResponseEntity<Map<String,Object>>(response, HttpStatus.CREATED);
     }
 
     @Override
-    public Unidad update(Unidad unidad, String nombre) {
+    public ResponseEntity<?> update(Unidad unidad, String nombre) {
+        Map<String, Object> response = new HashMap<>();
+
         UnidadEntity unidadActual = unidadRepository.findById(nombre).orElse(null);
-        Unidad unidadUpdate = null;
 
-        if (unidadActual==null){
-            return null;
+        UnidadEntity unidadUpdate = unidadMapper.mapUnidadToUnidadEntity(unidad);
+
+        UnidadEntity unidadFinal = null;
+        if (unidadActual == null){
+            response.put("mensaje", "Error: no se pudo editar, la unidad NOMBRE ".concat(nombre.concat(" no existe en la base de datos!")));
+            return new ResponseEntity<Map<String,Object>>(response, HttpStatus.NOT_FOUND);
         }
-        else{
-            unidadActual = unidadMapper.mapUnidadToUnidadEntity(unidad);
-            unidadUpdate = unidadMapper.mapUnidadEntityToUnidad(unidadActual);
-            return unidadUpdate;
+        try{
+            unidadActual.setNombre(unidadUpdate.getNombre());
+            unidadActual.setDescripcion(unidadUpdate.getDescripcion());
+            unidadActual.setTareas(unidadUpdate.getTareas());
+
+            unidadFinal = unidadRepository.save(unidadActual);
+        }catch (DataAccessException e){
+            response.put("mensaje", "Error al actualizar la unidad en la base de datos");
+            response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+            return new ResponseEntity<Map<String,Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
+
+        response.put("mensaje", "La unidad ha sido actualizado con exito! ");
+        response.put("unidad", unidadFinal);
+        return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
     }
 
     @Override
-    public void delete(String nombre) {
-        unidadRepository.deleteById(nombre);
+    public ResponseEntity<?> delete(String nombre) {
+        Map<String,Object> response = new HashMap<>();
+
+        try{
+            unidadRepository.deleteById(nombre);
+        }catch (DataAccessException e){
+            response.put("mensaje", "Error al eliminar la unidad de la basa de datos");
+            response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+            return new ResponseEntity<Map<String,Object>>(response,HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        response.put("mensaje", "La unidad fue eliminada con éxito! ");
+        return new ResponseEntity<Map<String,Object>>(response, HttpStatus.OK);
     }
 }

@@ -69,7 +69,7 @@ public class AlumnoServiceImpl implements IAlumnoService, UserDetailsService {
         }
 
         if (alumnoEntity == null){
-            response.put("mensaje", "El Cliente ID: ".concat(id.toString().concat(" no existe en la base de datos!")));
+            response.put("mensaje", "El Alumno ID: ".concat(id.toString().concat(" no existe en la base de datos!")));
             return new ResponseEntity<Map<String,Object>>(response, HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<AlumnoEntity>(alumnoEntity, HttpStatus.OK);
@@ -92,8 +92,8 @@ public class AlumnoServiceImpl implements IAlumnoService, UserDetailsService {
             response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
             return new ResponseEntity<Map<String,Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        response.put("mensaje", "El cliente fue creado con exito!");
-        response.put("cliente", alumnoEntityNew);
+        response.put("mensaje", "El alumno fue creado con exito!");
+        response.put("alumno", alumnoEntityNew);
         return new ResponseEntity<Map<String,Object>>(response, HttpStatus.CREATED);
     }
 
@@ -137,7 +137,7 @@ public class AlumnoServiceImpl implements IAlumnoService, UserDetailsService {
 
             alumnoFinal = alumnoRepository.save(alumnoActual);
         }catch (DataAccessException e){
-            response.put("mensaje", "Error al actualizar el cliente en la base de datos");
+            response.put("mensaje", "Error al actualizar el alumno en la base de datos");
             response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
             return new ResponseEntity<Map<String,Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -160,7 +160,6 @@ public class AlumnoServiceImpl implements IAlumnoService, UserDetailsService {
             response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
             return new ResponseEntity<Map<String,Object>>(response,HttpStatus.INTERNAL_SERVER_ERROR);
         }
-
         response.put("mensaje", "El cliente fue eliminado con éxito! ");
         return new ResponseEntity<Map<String,Object>>(response, HttpStatus.OK);
     }

@@ -4,6 +4,7 @@ import ar.com.travelpaq.hogarpresente.api.models.domain.Inscripcion;
 import ar.com.travelpaq.hogarpresente.api.models.domain.Unidad;
 import ar.com.travelpaq.hogarpresente.api.models.services.IInscripcionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -23,12 +24,12 @@ public class InscripcionRestController {
     }
 
     @PostMapping("/inscripciones")
-    public Inscripcion create(@RequestBody Inscripcion inscripcion){
+    public ResponseEntity<?> create(@RequestBody Inscripcion inscripcion){
         return inscripcionService.create(inscripcion);
     }
 
     @DeleteMapping("/inscripciones/{fecha}")
-    public void delente(@PathVariable Date fecha) {
-        inscripcionService.delete(fecha);
+    public ResponseEntity<?> delente(@PathVariable Date fecha) {
+        return inscripcionService.delete(fecha);
     }
 }
