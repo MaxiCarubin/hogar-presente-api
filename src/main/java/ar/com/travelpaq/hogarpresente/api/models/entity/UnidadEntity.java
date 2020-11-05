@@ -15,10 +15,13 @@ import java.util.List;
 @Entity
 @Table(name = "unidades")
 public class UnidadEntity {
+
     @Id
     private String nombre;
+
     @Column(nullable = false, length = 75)
     private String descripcion;
+
     @OneToMany(targetEntity = TareaEntity.class)
     private List<TareaEntity> tareas;
 

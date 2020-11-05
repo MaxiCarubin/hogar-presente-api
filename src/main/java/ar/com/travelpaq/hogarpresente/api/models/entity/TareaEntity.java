@@ -19,8 +19,10 @@ public class TareaEntity {
     @Id
     private String nombre;
     @Column(nullable = false, length = 70)
+
     private String descripcion;
     @Column(nullable = false, length = 60)
+
     private String documento;
 
     public Tarea convertToTarea(TareaEntity tareaEntity) {
