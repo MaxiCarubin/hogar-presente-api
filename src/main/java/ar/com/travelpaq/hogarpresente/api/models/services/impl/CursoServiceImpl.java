@@ -58,6 +58,15 @@ public class CursoServiceImpl implements ICursoService {
     }
 
     @Override
+    @Transactional(readOnly = true)
+    public boolean findById2(Long id) {
+        if(cursoRepository.findById(id) != null){
+            return true;
+        }
+        else return false;
+    }
+
+    @Override
     @Transactional
     public ResponseEntity<?> create(Curso curso) {
         Map<String, Object> response = new HashMap<>();

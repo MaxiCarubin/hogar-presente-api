@@ -1,5 +1,6 @@
 package ar.com.travelpaq.hogarpresente.api;
 
+import com.mercadopago.MercadoPago;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -19,6 +20,7 @@ public class ApiHogarPresenteApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 
+		MercadoPago.SDK.setAccessToken(System.getenv("MP_ACCESS_TOKEN"));
 		String password = "12345";
 
 		for (int i = 0; i<4; i++){

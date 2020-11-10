@@ -8,6 +8,8 @@ public interface ICursoService {
 
     public List<Curso> findAll();
 
+    public boolean findById2(Long id);
+
     public ResponseEntity<?> findById(Long id);
 
     public ResponseEntity<?> create(Curso curso);

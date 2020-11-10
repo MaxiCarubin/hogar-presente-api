@@ -1,7 +1,6 @@
 package ar.com.travelpaq.hogarpresente.api.models.services;
 
 import ar.com.travelpaq.hogarpresente.api.models.domain.Tarea;
-import ar.com.travelpaq.hogarpresente.api.models.domain.Unidad;
 
 import java.util.List;
 
