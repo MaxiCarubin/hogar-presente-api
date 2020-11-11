@@ -1,20 +1,19 @@
-package ar.com.travelpaq.hogarpresente.api.models.domain;
+package ar.com.travelpaq.hogarpresente.api.models.dto;
 import ar.com.travelpaq.hogarpresente.api.models.entity.CursoEntity;
-import ar.com.travelpaq.hogarpresente.api.models.entity.InscripcionEntity;
 import ar.com.travelpaq.hogarpresente.api.models.entity.UnidadEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.sql.Time;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Curso {
+public class CursoDto {
 
     private long id;
 
@@ -24,26 +23,26 @@ public class Curso {
 
     private String capacitador;
 
-    private double precio;
+    private float precio;
 
-    private float horas;
+    private Time horas;
 
     private Boolean enabled;
     //imagen
 
-    private Set<Inscripcion> inscripciones;
+    private Set<InscripcionDto> inscripciones;
 
-    private List<Unidad> unidades;
+    private List<UnidadDto> unidades;
 
-    public CursoEntity convertToCursoEntity(Curso curso){
+    public CursoEntity convertToCursoEntity(CursoDto cursoDto){
         CursoEntity cursoEntity = new CursoEntity();
-        cursoEntity.setId(curso.getId());
-        cursoEntity.setNombre(curso.getNombre());
-        cursoEntity.setDescripcion(curso.getDescripcion());
-        cursoEntity.setPrecio(curso.getPrecio());
-        cursoEntity.setCapacitador(curso.getCapacitador());
-        cursoEntity.setHoras(curso.getHoras());
-        cursoEntity.setEnabled(curso.getEnabled());
+        cursoEntity.setId(cursoDto.getId());
+        cursoEntity.setNombre(cursoDto.getNombre());
+        cursoEntity.setDescripcion(cursoDto.getDescripcion());
+        cursoEntity.setPrecio(cursoDto.getPrecio());
+        cursoEntity.setCapacitador(cursoDto.getCapacitador());
+        cursoEntity.setHoras(cursoDto.getHoras());
+        cursoEntity.setEnabled(cursoDto.getEnabled());
 
         /*
         Set<InscripcionEntity> inscripcionesEntity = new HashSet<>();
@@ -53,7 +52,7 @@ public class Curso {
         */
 
         List<UnidadEntity> unidadesEntity = new ArrayList<>();
-        List<Unidad> unidadesDominio = unidades;
+        List<UnidadDto> unidadesDominio = unidades;
         unidadesDominio.forEach(unidad -> unidadesEntity.add(unidad.convertToUnidadEntity(unidad)));
         cursoEntity.setUnidades(unidadesEntity);
 

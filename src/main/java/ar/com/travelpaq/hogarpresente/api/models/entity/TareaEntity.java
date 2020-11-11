@@ -1,6 +1,6 @@
 package ar.com.travelpaq.hogarpresente.api.models.entity;
 
-import ar.com.travelpaq.hogarpresente.api.models.domain.Tarea;
+import ar.com.travelpaq.hogarpresente.api.models.dto.TareaDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -28,12 +28,12 @@ public class TareaEntity {
     @Column(nullable = false, length = 60)
     private String documento;
 
-    public Tarea convertToTarea(TareaEntity tareaEntity) {
-        Tarea tarea = new Tarea();
-        tarea.setId(tareaEntity.getId());
-        tarea.setNombre(tareaEntity.getNombre());
-        tarea.setDocumento(tareaEntity.getDocumento());
-        tarea.setDescripcion(tareaEntity.getDescripcion());
-        return tarea;
+    public TareaDto convertToTarea(TareaEntity tareaEntity) {
+        TareaDto tareaDto = new TareaDto();
+        tareaDto.setId(tareaEntity.getId());
+        tareaDto.setNombre(tareaEntity.getNombre());
+        tareaDto.setDocumento(tareaEntity.getDocumento());
+        tareaDto.setDescripcion(tareaEntity.getDescripcion());
+        return tareaDto;
     }
 }

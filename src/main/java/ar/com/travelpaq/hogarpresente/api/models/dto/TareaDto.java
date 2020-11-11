@@ -1,4 +1,4 @@
-package ar.com.travelpaq.hogarpresente.api.models.domain;
+package ar.com.travelpaq.hogarpresente.api.models.dto;
 
 import ar.com.travelpaq.hogarpresente.api.models.entity.TareaEntity;
 import lombok.AllArgsConstructor;
@@ -8,18 +8,18 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Tarea {
+public class TareaDto {
     private long id;
     private String nombre;
     private String descripcion;
     private String documento;
 
-    public TareaEntity convertToTareaEntity(Tarea tarea) {
+    public TareaEntity convertToTareaEntity(TareaDto tareaDto) {
         TareaEntity tareaEntity = new TareaEntity();
-        tareaEntity.setId(tarea.getId());
-        tareaEntity.setNombre(tarea.getNombre());
-        tareaEntity.setDocumento(tarea.getDocumento());
-        tareaEntity.setDescripcion(tarea.getDescripcion());
+        tareaEntity.setId(tareaDto.getId());
+        tareaEntity.setNombre(tareaDto.getNombre());
+        tareaEntity.setDocumento(tareaDto.getDocumento());
+        tareaEntity.setDescripcion(tareaDto.getDescripcion());
         return tareaEntity;
     }
 }

@@ -1,7 +1,7 @@
 package ar.com.travelpaq.hogarpresente.api.models.entity;
 
-import ar.com.travelpaq.hogarpresente.api.models.domain.Tarea;
-import ar.com.travelpaq.hogarpresente.api.models.domain.Unidad;
+import ar.com.travelpaq.hogarpresente.api.models.dto.TareaDto;
+import ar.com.travelpaq.hogarpresente.api.models.dto.UnidadDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -28,20 +28,20 @@ public class UnidadEntity {
     @OneToMany(targetEntity = TareaEntity.class)
     private List<TareaEntity> tareas;
 
-    public Unidad convertToUnidad(UnidadEntity unidadEntity) {
-        Unidad unidad = new Unidad();
-        unidad.setId(unidadEntity.getId());
-        unidad.setNombre(unidadEntity.getNombre());
-        unidad.setDescripcion(unidadEntity.getDescripcion());
+    public UnidadDto convertToUnidad(UnidadEntity unidadEntity) {
+        UnidadDto unidadDto = new UnidadDto();
+        unidadDto.setId(unidadEntity.getId());
+        unidadDto.setNombre(unidadEntity.getNombre());
+        unidadDto.setDescripcion(unidadEntity.getDescripcion());
 
-        List<Tarea> tareasDominio = new ArrayList<>();
+        List<TareaDto> tareasDominio = new ArrayList<>();
 
         List<TareaEntity> tareasEntity = tareas;
 
         tareasEntity.forEach(tareaEntity -> tareasDominio.add(tareaEntity.convertToTarea(tareaEntity)));
 
-        unidad.setTareas(tareasDominio);
+        unidadDto.setTareaDtos(tareasDominio);
 
-        return unidad;
+        return unidadDto;
     }
 }

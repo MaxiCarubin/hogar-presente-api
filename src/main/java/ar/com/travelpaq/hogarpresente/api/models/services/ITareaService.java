@@ -1,17 +1,18 @@
 package ar.com.travelpaq.hogarpresente.api.models.services;
 
-import ar.com.travelpaq.hogarpresente.api.models.domain.Tarea;
+import ar.com.travelpaq.hogarpresente.api.models.dto.TareaDto;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
 public interface ITareaService {
-    public List<Tarea> findAll();
+    public ResponseEntity<List<TareaDto>> findAll();
 
-    public Tarea findById(String nombre);
+    public ResponseEntity<?> findById(Long id);
 
-    public Tarea create(Tarea tarea);
+    public  ResponseEntity<?> create(TareaDto tareaDto);
 
-    public Tarea update(Tarea tarea, String nombre);
+    public  ResponseEntity<?> update(TareaDto tareaDto, Long id);
 
-    public void delete(String nombre);
+    public  ResponseEntity<?> delete(Long id);
 }

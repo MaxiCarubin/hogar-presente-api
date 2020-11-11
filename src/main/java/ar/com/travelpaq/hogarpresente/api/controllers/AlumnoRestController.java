@@ -1,5 +1,6 @@
 package ar.com.travelpaq.hogarpresente.api.controllers;
-import ar.com.travelpaq.hogarpresente.api.models.domain.Alumno;
+import ar.com.travelpaq.hogarpresente.api.models.dto.AlumnoDto;
+import ar.com.travelpaq.hogarpresente.api.models.entity.AlumnoEntity;
 import ar.com.travelpaq.hogarpresente.api.models.services.IAlumnoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +17,7 @@ public class AlumnoRestController {
     private IAlumnoService alumnoService;
 
     @GetMapping("/alumnos")
-    public List<Alumno> index(){
+    public ResponseEntity<List<AlumnoEntity>> index(){
         return alumnoService.findAll();
     }
 
@@ -26,13 +27,13 @@ public class AlumnoRestController {
     }
 
     @PostMapping("/alumnos")
-    public ResponseEntity<?> create(@RequestBody Alumno alumno){
-        return alumnoService.create(alumno);
+    public ResponseEntity<?> create(@RequestBody AlumnoDto alumnoDto){
+        return alumnoService.create(alumnoDto);
     }
 
     @PutMapping("/alumnos/{id}")
-    public ResponseEntity<?> update(@RequestBody Alumno alumno, @PathVariable Long id){
-        return alumnoService.update(alumno, id);
+    public ResponseEntity<?> update(@RequestBody AlumnoDto alumnoDto, @PathVariable Long id){
+        return alumnoService.update(alumnoDto, id);
     }
 
     @DeleteMapping("/alumnos/{id}")

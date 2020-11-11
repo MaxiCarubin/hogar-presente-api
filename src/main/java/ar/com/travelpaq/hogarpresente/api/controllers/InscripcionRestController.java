@@ -1,13 +1,11 @@
 package ar.com.travelpaq.hogarpresente.api.controllers;
 
-import ar.com.travelpaq.hogarpresente.api.models.domain.Inscripcion;
-import ar.com.travelpaq.hogarpresente.api.models.domain.Unidad;
+import ar.com.travelpaq.hogarpresente.api.models.dto.InscripcionDto;
 import ar.com.travelpaq.hogarpresente.api.models.services.IInscripcionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
 import java.util.List;
 
 @CrossOrigin(origins = {"http://localhost:4200"})
@@ -19,13 +17,23 @@ public class InscripcionRestController {
     private IInscripcionService inscripcionService;
 
     @GetMapping("/inscripciones")
-    public List<Inscripcion> index(){
+    public ResponseEntity<List<InscripcionDto>> index(){
         return inscripcionService.findAll();
     }
 
+    @GetMapping("/inscripciones/{id}")
+    public ResponseEntity<?> show(@PathVariable Long id){
+        return inscripcionService.findById(id);
+    }
+
     @PostMapping("/inscripciones")
-    public ResponseEntity<?> create(@RequestBody Inscripcion inscripcion){
-        return inscripcionService.create(inscripcion);
+    public ResponseEntity<?> create(@RequestBody InscripcionDto inscripcionDto){
+        return inscripcionService.create(inscripcionDto);
+    }
+
+    @PutMapping("/inscripciones/{id}")
+    public ResponseEntity<?> update(@RequestBody InscripcionDto inscripcionDto, @PathVariable Long id){
+        return inscripcionService.update(inscripcionDto, id);
     }
 
     @DeleteMapping("/inscripciones/{id}")

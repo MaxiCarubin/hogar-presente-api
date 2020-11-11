@@ -1,51 +1,47 @@
 package ar.com.travelpaq.hogarpresente.api.models.mapper;
 
-import ar.com.travelpaq.hogarpresente.api.models.domain.Curso;
-import ar.com.travelpaq.hogarpresente.api.models.domain.Inscripcion;
-import ar.com.travelpaq.hogarpresente.api.models.domain.Unidad;
+import ar.com.travelpaq.hogarpresente.api.models.dto.CursoDto;
+import ar.com.travelpaq.hogarpresente.api.models.dto.UnidadDto;
 import ar.com.travelpaq.hogarpresente.api.models.entity.CursoEntity;
-import ar.com.travelpaq.hogarpresente.api.models.entity.InscripcionEntity;
 import ar.com.travelpaq.hogarpresente.api.models.entity.UnidadEntity;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Component
 public class CursoMapper {
-    public Curso mapCursoEntityToCurso(CursoEntity cursoEntity){
-        Curso curso = new Curso();
-        curso.setId(cursoEntity.getId());
-        curso.setNombre(cursoEntity.getNombre());
-        curso.setDescripcion(cursoEntity.getDescripcion());
-        curso.setCapacitador(cursoEntity.getCapacitador());
-        curso.setHoras(cursoEntity.getHoras());
-        curso.setPrecio(cursoEntity.getPrecio());
-        curso.setEnabled(cursoEntity.getEnabled());
+    public CursoDto mapCursoEntityToCurso(CursoEntity cursoEntity){
+        CursoDto cursoDto = new CursoDto();
+        cursoDto.setId(cursoEntity.getId());
+        cursoDto.setNombre(cursoEntity.getNombre());
+        cursoDto.setDescripcion(cursoEntity.getDescripcion());
+        cursoDto.setCapacitador(cursoEntity.getCapacitador());
+        cursoDto.setHoras(cursoEntity.getHoras());
+        cursoDto.setPrecio(cursoEntity.getPrecio());
+        cursoDto.setEnabled(cursoEntity.getEnabled());
         /*
         Set<Inscripcion> inscripcioesDominio = new HashSet<>();
         Set<InscripcionEntity> inscripcionesEntity = cursoEntity.getInscripciones();
         inscripcionesEntity.forEach(inscripcionEntity -> inscripcioesDominio.add(inscripcionEntity.convertToInscripcion(inscripcionEntity)));
         curso.setInscripciones(inscripcioesDominio);
         */
-        List<Unidad> unidadesDominio = new ArrayList<>();
+        List<UnidadDto> unidadesDominio = new ArrayList<>();
         List<UnidadEntity> undadesEntity = cursoEntity.getUnidades();
         undadesEntity.forEach(unidadEntity -> unidadesDominio.add(unidadEntity.convertToUnidad(unidadEntity)));
-        curso.setUnidades(unidadesDominio);
+        cursoDto.setUnidades(unidadesDominio);
 
-        return curso;
+        return cursoDto;
     }
-    public CursoEntity mapCursoToCursoEntity(Curso curso){
+    public CursoEntity mapCursoToCursoEntity(CursoDto cursoDto){
         CursoEntity cursoEntity = new CursoEntity();
-        cursoEntity.setId(curso.getId());
-        cursoEntity.setNombre(curso.getNombre());
-        cursoEntity.setDescripcion(curso.getDescripcion());
-        cursoEntity.setCapacitador(curso.getCapacitador());
-        cursoEntity.setHoras(curso.getHoras());
-        cursoEntity.setPrecio(curso.getPrecio());
-        cursoEntity.setEnabled(curso.getEnabled());
+        cursoEntity.setId(cursoDto.getId());
+        cursoEntity.setNombre(cursoDto.getNombre());
+        cursoEntity.setDescripcion(cursoDto.getDescripcion());
+        cursoEntity.setCapacitador(cursoDto.getCapacitador());
+        cursoEntity.setHoras(cursoDto.getHoras());
+        cursoEntity.setPrecio(cursoDto.getPrecio());
+        cursoEntity.setEnabled(cursoDto.getEnabled());
         /*
         Set<InscripcionEntity> inscripcionesEntity = new HashSet<>();
         Set<Inscripcion> inscripcionesDominio = curso.getInscripciones();
@@ -53,7 +49,7 @@ public class CursoMapper {
         cursoEntity.setInscripciones(inscripcionesEntity);
         */
         List<UnidadEntity> unidadesEntity = new ArrayList<>();
-        List<Unidad> unidadesDominio = curso.getUnidades();
+        List<UnidadDto> unidadesDominio = cursoDto.getUnidades();
         unidadesDominio.forEach(unidad -> unidadesEntity.add(unidad.convertToUnidadEntity(unidad)));
         cursoEntity.setUnidades(unidadesEntity);
 

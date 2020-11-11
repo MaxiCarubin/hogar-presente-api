@@ -1,26 +1,26 @@
 package ar.com.travelpaq.hogarpresente.api.models.mapper;
 
-import ar.com.travelpaq.hogarpresente.api.models.domain.Tarea;
+import ar.com.travelpaq.hogarpresente.api.models.dto.TareaDto;
 import ar.com.travelpaq.hogarpresente.api.models.entity.TareaEntity;
 import org.springframework.stereotype.Component;
 
 @Component
 public class TareaMapper {
-    public Tarea mapTareaToTareaEntity(TareaEntity tareaEntity) {
-        Tarea tarea = new Tarea();
-        tarea.setId(tareaEntity.getId());
-        tarea.setNombre(tareaEntity.getNombre());
-        tarea.setDescripcion(tareaEntity.getDescripcion());
-        tarea.setDocumento(tareaEntity.getDocumento());
+    public TareaDto mapTareaToTareaEntity(TareaEntity tareaEntity) {
+        TareaDto tareaDto = new TareaDto();
+        tareaDto.setId(tareaEntity.getId());
+        tareaDto.setNombre(tareaEntity.getNombre());
+        tareaDto.setDescripcion(tareaEntity.getDescripcion());
+        tareaDto.setDocumento(tareaEntity.getDocumento());
 
-        return tarea;
+        return tareaDto;
     }
-    public TareaEntity mapTareaEntityToTarea(Tarea tarea) {
+    public TareaEntity mapTareaEntityToTarea(TareaDto tareaDto) {
         TareaEntity tareaEntity = new TareaEntity();
-        tareaEntity.setId(tarea.getId());
-        tareaEntity.setNombre(tarea.getNombre());
-        tareaEntity.setDescripcion(tarea.getDescripcion());
-        tareaEntity.setDocumento(tarea.getDocumento());
+        tareaEntity.setId(tareaDto.getId());
+        tareaEntity.setNombre(tareaDto.getNombre());
+        tareaEntity.setDescripcion(tareaDto.getDescripcion());
+        tareaEntity.setDocumento(tareaDto.getDocumento());
 
         return tareaEntity;
     }

@@ -1,17 +1,14 @@
 package ar.com.travelpaq.hogarpresente.api.models.entity;
 
-import ar.com.travelpaq.hogarpresente.api.models.domain.Curso;
-import ar.com.travelpaq.hogarpresente.api.models.domain.Inscripcion;
-import ar.com.travelpaq.hogarpresente.api.models.domain.Unidad;
+import ar.com.travelpaq.hogarpresente.api.models.dto.CursoDto;
+import ar.com.travelpaq.hogarpresente.api.models.dto.UnidadDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import javax.persistence.*;
+import java.sql.Time;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -32,9 +29,10 @@ public class CursoEntity {
     @Column(nullable = false, length = 45)
     private String capacitador;
 
-    private double precio;
+    private float precio;
 
-    private float horas;
+    //@Temporal(TemporalType.TIME)
+    private Time horas;
 
     private Boolean enabled;
     /*
@@ -44,20 +42,20 @@ public class CursoEntity {
     @OneToMany(fetch = FetchType.LAZY, targetEntity = UnidadEntity.class, cascade = CascadeType.ALL)
     private List<UnidadEntity> unidades;
 
-    public Curso convertToCurso(CursoEntity cursoEntity){
-        Curso curso = new Curso();
-        curso.setId(cursoEntity.getId());
-        curso.setNombre(cursoEntity.getNombre());
-        curso.setDescripcion(cursoEntity.getDescripcion());
-        curso.setCapacitador(cursoEntity.getCapacitador());
-        curso.setPrecio(cursoEntity.getPrecio());
-        curso.setHoras(cursoEntity.getHoras());
-        curso.setEnabled(cursoEntity.getEnabled());
+    public CursoDto convertToCurso(CursoEntity cursoEntity){
+        CursoDto cursoDto = new CursoDto();
+        cursoDto.setId(cursoEntity.getId());
+        cursoDto.setNombre(cursoEntity.getNombre());
+        cursoDto.setDescripcion(cursoEntity.getDescripcion());
+        cursoDto.setCapacitador(cursoEntity.getCapacitador());
+        cursoDto.setPrecio(cursoEntity.getPrecio());
+        cursoDto.setHoras(cursoEntity.getHoras());
+        cursoDto.setEnabled(cursoEntity.getEnabled());
 
-        List<Unidad> unidaddesDominio = new ArrayList<>();
+        List<UnidadDto> unidaddesDominio = new ArrayList<>();
         List<UnidadEntity> unidadesEntity = unidades;
         unidadesEntity.forEach(unidadEntity -> unidaddesDominio.add(unidadEntity.convertToUnidad(unidadEntity)));
-        curso.setUnidades(unidaddesDominio);
+        cursoDto.setUnidades(unidaddesDominio);
 
         /*
         Set<Inscripcion> inscripcioesDominio =  new HashSet<>();
@@ -66,7 +64,7 @@ public class CursoEntity {
         curso.setInscripciones(inscripcioesDominio);
         */
 
-        return curso;
+        return cursoDto;
     }
 
 }

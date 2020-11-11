@@ -1,6 +1,6 @@
 package ar.com.travelpaq.hogarpresente.api.controllers;
 
-import ar.com.travelpaq.hogarpresente.api.models.domain.Unidad;
+import ar.com.travelpaq.hogarpresente.api.models.dto.UnidadDto;
 import ar.com.travelpaq.hogarpresente.api.models.services.IUnidadService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +16,7 @@ public class UnidadRestController {
     private IUnidadService unidadService;
 
     @GetMapping("/unidades")
-    public List<Unidad> index(){
+    public ResponseEntity<List<UnidadDto>> index(){
         return unidadService.findAll();
     }
 
@@ -26,13 +26,13 @@ public class UnidadRestController {
     }
 
     @PostMapping("/unidades")
-    public ResponseEntity<?> create(@RequestBody Unidad unidad){
-        return unidadService.create(unidad);
+    public ResponseEntity<?> create(@RequestBody UnidadDto unidadDto){
+        return unidadService.create(unidadDto);
     }
 
     @PutMapping("/unidades/{id}")
-    public ResponseEntity<?> update(@RequestBody Unidad unidad, @PathVariable Long id){
-        return unidadService.update(unidad, id);
+    public ResponseEntity<?> update(@RequestBody UnidadDto unidadDto, @PathVariable Long id){
+        return unidadService.update(unidadDto, id);
     }
 
     @DeleteMapping("/unidades/{id}")

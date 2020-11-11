@@ -1,12 +1,14 @@
 package ar.com.travelpaq.hogarpresente.api.models.services.impl;
 
-import ar.com.travelpaq.hogarpresente.api.models.domain.Inscripcion;
+import ar.com.travelpaq.hogarpresente.api.models.dto.InscripcionDto;
+import ar.com.travelpaq.hogarpresente.api.models.dto.Mensaje;
 import ar.com.travelpaq.hogarpresente.api.models.entity.InscripcionEntity;
 import ar.com.travelpaq.hogarpresente.api.models.mapper.InscripcionMapper;
+import ar.com.travelpaq.hogarpresente.api.models.repository.IAlumnoRepository;
+import ar.com.travelpaq.hogarpresente.api.models.repository.ICursoRepository;
 import ar.com.travelpaq.hogarpresente.api.models.repository.IInscripcionRepository;
 import ar.com.travelpaq.hogarpresente.api.models.services.IInscripcionService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -20,52 +22,63 @@ public class InscripcionServiceImpl implements IInscripcionService {
     private IInscripcionRepository inscripcionRepository;
 
     @Autowired
+    private IAlumnoRepository alumnoRepository;
+
+    @Autowired
+    private ICursoRepository cursoRepository;
+
+    @Autowired
     private InscripcionMapper inscripcionMapper;
 
     @Override
-    public List<Inscripcion> findAll() {
+    public ResponseEntity<List<InscripcionDto>> findAll() {
         List<InscripcionEntity> inscripcionEntities = inscripcionRepository.findAll();
-        List<Inscripcion> inscripciones = new ArrayList<>();
+        List<InscripcionDto> inscripciones = new ArrayList<>();
 
         inscripcionEntities.forEach(inscripcionEntity -> inscripciones.add(inscripcionMapper.mapInscripcionEntityToInscripcion(inscripcionEntity)));
 
-        return inscripciones;
+        return new ResponseEntity(inscripciones, HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<?> create(Inscripcion inscripcion) {
-        Map<String, Object> response = new HashMap<>();
+    public ResponseEntity<?> findById(Long id) {
+        if (!inscripcionRepository.existsById(id))
+            return new ResponseEntity(new Mensaje("no existe"), HttpStatus.NOT_FOUND);
+        InscripcionEntity inscripcionEntity = inscripcionRepository.getOne(id);
+        return new ResponseEntity(inscripcionEntity, HttpStatus.OK);
+    }
 
-        InscripcionEntity inscripcionEntityNew = null;
+    @Override
+    public ResponseEntity<?> create(InscripcionDto inscripcionDto) {
+        if(inscripcionDto.getInscripcionAt() == null)
+            return new ResponseEntity(new Mensaje("Debe contntener una fecha"), HttpStatus.BAD_REQUEST);
+        if(!alumnoRepository.existsById(inscripcionDto.getAlumnoDto().getId()))
+            return new ResponseEntity(new Mensaje("El alumno no existe en la base de datos"), HttpStatus.BAD_REQUEST);
+        if(!cursoRepository.existsById(inscripcionDto.getId()))
+            return new ResponseEntity(new Mensaje("El curso no existe en la base de datos"), HttpStatus.BAD_REQUEST);
+        InscripcionEntity inscripcionEntity = inscripcionMapper.mapInscripcionToInscripcionEntity(inscripcionDto);
+        inscripcionRepository.save(inscripcionEntity);
+        return new ResponseEntity(new Mensaje("Inscripción creada!"), HttpStatus.OK);
+    }
 
-        InscripcionEntity inscripcionEntity = inscripcionMapper.mapInscripcionToInscripcionEntity(inscripcion);
-
-        try{
-            inscripcionEntityNew = inscripcionRepository.save(inscripcionEntity);
-        }catch (DataAccessException e){
-            response.put("mensaje", "Error al realizar el insert en la base de datos");
-            response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
-            return new ResponseEntity<Map<String,Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-        response.put("mensaje", "La inscripcion fue creada con éxito!");
-        response.put("inscripcion", inscripcionEntityNew);
-        return new ResponseEntity<Map<String,Object>>(response, HttpStatus.CREATED);
+    @Override
+    public ResponseEntity<?> update(InscripcionDto inscripcionDto, Long id) {
+        if (!inscripcionRepository.existsById(id))
+            return new ResponseEntity(new Mensaje("no existe la inscripción en la base de datos"), HttpStatus.NOT_FOUND);
+        InscripcionEntity inscripcionEntity = inscripcionRepository.getOne(id);
+        inscripcionEntity.setInscripcionAt(inscripcionDto.getInscripcionAt());
+        inscripcionEntity.setAlumnoEntity(inscripcionDto.getAlumnoDto().convertToAlumnoEntity(inscripcionDto.getAlumnoDto()));
+        inscripcionEntity.setCursoEntity(inscripcionDto.getCursoDto().convertToCursoEntity(inscripcionDto.getCursoDto()));
+        inscripcionRepository.save(inscripcionEntity);
+        return new ResponseEntity(new Mensaje("Inscripción Actualizada!"), HttpStatus.OK);
     }
 
     @Override
     public ResponseEntity<?> delete(Long id) {
-        Map<String,Object> response = new HashMap<>();
-
-        try{
-            inscripcionRepository.deleteById(id);
-        }catch (DataAccessException e){
-            response.put("mensaje", "Error al eliminar la inscripcion de la basa de datos");
-            response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
-            return new ResponseEntity<Map<String,Object>>(response,HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-
-        response.put("mensaje", "La inscripcion fue eliminado con éxito! ");
-        return new ResponseEntity<Map<String,Object>>(response, HttpStatus.OK);
+        if (!inscripcionRepository.existsById(id))
+            return new ResponseEntity(new Mensaje("No existe"), HttpStatus.NOT_FOUND);
+        inscripcionRepository.deleteById(id);
+        return new ResponseEntity(new Mensaje("Inscripción Eliminada!"), HttpStatus.OK);
     }
 }
 

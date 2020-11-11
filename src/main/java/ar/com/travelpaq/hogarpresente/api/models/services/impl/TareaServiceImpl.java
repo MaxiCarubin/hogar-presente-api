@@ -1,13 +1,15 @@
 package ar.com.travelpaq.hogarpresente.api.models.services.impl;
 
-import ar.com.travelpaq.hogarpresente.api.models.domain.Tarea;
-import ar.com.travelpaq.hogarpresente.api.models.domain.Unidad;
+import ar.com.travelpaq.hogarpresente.api.models.dto.Mensaje;
+import ar.com.travelpaq.hogarpresente.api.models.dto.TareaDto;
 import ar.com.travelpaq.hogarpresente.api.models.entity.TareaEntity;
-import ar.com.travelpaq.hogarpresente.api.models.entity.UnidadEntity;
 import ar.com.travelpaq.hogarpresente.api.models.mapper.TareaMapper;
 import ar.com.travelpaq.hogarpresente.api.models.repository.ITareaRepository;
 import ar.com.travelpaq.hogarpresente.api.models.services.ITareaService;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -22,52 +24,51 @@ public class TareaServiceImpl implements ITareaService {
     TareaMapper tareaMapper;
 
     @Override
-    public List<Tarea> findAll() {
+    public ResponseEntity<List<TareaDto>> findAll() {
         List<TareaEntity> tareaEntities = tareaRepository.findAll();
-        List<Tarea> tareas = new ArrayList<>();
+        List<TareaDto> tareaDtos = new ArrayList<>();
 
-        tareaEntities.forEach(tareaEntity -> tareas.add(tareaMapper.mapTareaToTareaEntity(tareaEntity)));
+        tareaEntities.forEach(tareaEntity -> tareaDtos.add(tareaMapper.mapTareaToTareaEntity(tareaEntity)));
 
-        return tareas;
+        return new ResponseEntity(tareaDtos, HttpStatus.OK);
     }
 
     @Override
-    public Tarea findById(String nombre) {
-        TareaEntity tareaEntity = tareaRepository.findById(nombre).orElse(null);
-
-        Tarea tarea = new Tarea();
-
-        tarea = tareaMapper.mapTareaToTareaEntity(tareaEntity);
-
-        return tarea;
+    public ResponseEntity<?> findById(Long id) {
+        if (!tareaRepository.existsById(id))
+            return new ResponseEntity(new Mensaje("no existe"), HttpStatus.NOT_FOUND);
+        TareaEntity tareaEntity = tareaRepository.getOne(id);
+        return new ResponseEntity(tareaEntity, HttpStatus.OK);
     }
 
     @Override
-    public Tarea create(Tarea tarea) {
-        TareaEntity tareaEntity = tareaMapper.mapTareaEntityToTarea(tarea);
-
-        tareaEntity =tareaRepository.save(tareaEntity);
-
-        return tarea;
+    public ResponseEntity<?> create(TareaDto tareaDto) {
+        if(StringUtils.isBlank(tareaDto.getNombre()))
+            return new ResponseEntity(new Mensaje("El nombre es obligatorio"), HttpStatus.BAD_REQUEST);
+        if(StringUtils.isBlank(tareaDto.getDescripcion()))
+            return new ResponseEntity(new Mensaje("La descripcion es obligatoria"), HttpStatus.BAD_REQUEST);
+        TareaEntity tareaEntity = tareaMapper.mapTareaEntityToTarea(tareaDto);
+        tareaRepository.save(tareaEntity);
+        return new ResponseEntity(new Mensaje("Tarea Creada!"), HttpStatus.OK);
     }
 
     @Override
-    public Tarea update(Tarea tarea, String nombre) {
-        TareaEntity tareaAcutal = tareaRepository.findById(nombre).orElse(null);
-        Tarea tareaUpdate = null;
-
-        if (tareaAcutal==null){
-            return null;
-        }
-        else{
-            tareaAcutal = tareaMapper.mapTareaEntityToTarea(tarea);
-            tareaUpdate = tareaMapper.mapTareaToTareaEntity(tareaAcutal);
-            return tareaUpdate;
-        }
+    public ResponseEntity<?> update(TareaDto tareaDto, Long id) {
+        if (!tareaRepository.existsById(id))
+            return new ResponseEntity(new Mensaje("no existe la tarea en la base de datos"), HttpStatus.NOT_FOUND);
+        TareaEntity tareaEntity = tareaRepository.getOne(id);
+        tareaEntity.setNombre(tareaDto.getNombre());
+        tareaEntity.setDescripcion(tareaDto.getDescripcion());
+        tareaEntity.setDocumento(tareaDto.getDocumento());
+        tareaRepository.save(tareaEntity);
+        return new ResponseEntity(new Mensaje("Unidad Actualizada!"), HttpStatus.OK);
     }
 
     @Override
-    public void delete(String nombre) {
-        tareaRepository.deleteById(nombre);
+    public ResponseEntity<?> delete(Long id) {
+        if (!tareaRepository.existsById(id))
+            return new ResponseEntity(new Mensaje("No existe"), HttpStatus.NOT_FOUND);
+        tareaRepository.deleteById(id);
+        return new ResponseEntity(new Mensaje("Unidad Eliminada!"), HttpStatus.OK);
     }
 }

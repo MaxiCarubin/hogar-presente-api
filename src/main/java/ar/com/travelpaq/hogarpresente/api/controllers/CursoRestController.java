@@ -1,6 +1,6 @@
 package ar.com.travelpaq.hogarpresente.api.controllers;
 
-import ar.com.travelpaq.hogarpresente.api.models.domain.Curso;
+import ar.com.travelpaq.hogarpresente.api.models.dto.CursoDto;
 import ar.com.travelpaq.hogarpresente.api.models.services.ICursoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +16,7 @@ public class CursoRestController {
     private ICursoService cursoService;
 
     @GetMapping("/cursos")
-    public List<Curso> index(){
+    public ResponseEntity<List<CursoDto>> index(){
         return cursoService.findAll();
     }
     @GetMapping("/cursos/{id}")
@@ -25,13 +25,13 @@ public class CursoRestController {
     }
 
     @PostMapping("/cursos")
-    public ResponseEntity<?> create(@RequestBody Curso curso){
-        return cursoService.create(curso);
+    public ResponseEntity<?> create(@RequestBody CursoDto cursoDto){
+        return cursoService.create(cursoDto);
     }
 
     @PutMapping("/cursos/{id}")
-    public ResponseEntity<?> update(@RequestBody Curso curso, @PathVariable Long id){
-        return cursoService.update(curso, id);
+    public ResponseEntity<?> update(@RequestBody CursoDto cursoDto, @PathVariable Long id){
+        return cursoService.update(cursoDto, id);
     }
 
     @DeleteMapping("/cursos/{id}")

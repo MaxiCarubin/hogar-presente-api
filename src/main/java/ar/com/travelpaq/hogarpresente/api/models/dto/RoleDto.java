@@ -1,4 +1,4 @@
-package ar.com.travelpaq.hogarpresente.api.models.domain;
+package ar.com.travelpaq.hogarpresente.api.models.dto;
 
 import ar.com.travelpaq.hogarpresente.api.models.entity.RoleEntity;
 import lombok.AllArgsConstructor;
@@ -8,16 +8,16 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Role {
+public class RoleDto {
 
     private long id;
 
     private String nombre;
 
-    public RoleEntity convertToRoleEntity(Role role) {
+    public RoleEntity convertToRoleEntity(RoleDto roleDto) {
         RoleEntity roleEntity = new RoleEntity();
-        roleEntity.setId(role.getId());
-        roleEntity.setNombre(role.getNombre());
+        roleEntity.setId(roleDto.getId());
+        roleEntity.setNombre(roleDto.getNombre());
         return roleEntity;
     }
 }

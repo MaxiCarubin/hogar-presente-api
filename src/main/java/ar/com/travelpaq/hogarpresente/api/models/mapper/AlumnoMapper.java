@@ -1,7 +1,7 @@
 package ar.com.travelpaq.hogarpresente.api.models.mapper;
 
-import ar.com.travelpaq.hogarpresente.api.models.domain.Alumno;
-import ar.com.travelpaq.hogarpresente.api.models.domain.Role;
+import ar.com.travelpaq.hogarpresente.api.models.dto.AlumnoDto;
+import ar.com.travelpaq.hogarpresente.api.models.dto.RoleDto;
 import ar.com.travelpaq.hogarpresente.api.models.entity.AlumnoEntity;
 import ar.com.travelpaq.hogarpresente.api.models.entity.RoleEntity;
 import org.springframework.stereotype.Component;
@@ -10,19 +10,19 @@ import java.util.List;
 
 @Component
 public class AlumnoMapper {
-    public Alumno mapAlumnoEntityToAlumno(AlumnoEntity alumnoEntity) {
-        Alumno alumno = new Alumno();
-        alumno.setId(alumnoEntity.getId());
-        alumno.setNombre(alumnoEntity.getNombre());
-        alumno.setApellido(alumnoEntity.getApellido());
-        alumno.setCorreo(alumnoEntity.getCorreo());
-        alumno.setClave(alumnoEntity.getClave());
-        alumno.setFoto(alumnoEntity.getFoto());
+    public AlumnoDto mapAlumnoEntityToAlumno(AlumnoEntity alumnoEntity) {
+        AlumnoDto alumnoDto = new AlumnoDto();
+        alumnoDto.setId(alumnoEntity.getId());
+        alumnoDto.setNombre(alumnoEntity.getNombre());
+        alumnoDto.setApellido(alumnoEntity.getApellido());
+        alumnoDto.setCorreo(alumnoEntity.getCorreo());
+        alumnoDto.setClave(alumnoEntity.getClave());
+        alumnoDto.setFoto(alumnoEntity.getFoto());
 
-        List<Role> rolesDominio = new ArrayList<>();
+        List<RoleDto> rolesDominio = new ArrayList<>();
         List<RoleEntity> rolesEntity = alumnoEntity.getRoles();
         rolesEntity.forEach(roleEntity -> rolesDominio.add(roleEntity.convertToRole(roleEntity)));
-        alumno.setRoles(rolesDominio);
+        alumnoDto.setRoleDtos(rolesDominio);
 
         /*
         Set<Inscripcion> inscripcioesDominio = new HashSet<>();
@@ -33,19 +33,19 @@ public class AlumnoMapper {
 
         alumno.setInscripciones(inscripcioesDominio);
         */
-        return alumno;
+        return alumnoDto;
     }
-    public AlumnoEntity mapAlumnoToAlumnoEntity(Alumno alumno){
+    public AlumnoEntity mapAlumnoToAlumnoEntity(AlumnoDto alumnoDto){
         AlumnoEntity alumnoEntity= new AlumnoEntity();
-        alumnoEntity.setId(alumno.getId());
-        alumnoEntity.setNombre(alumno.getNombre());
-        alumnoEntity.setApellido(alumno.getApellido());
-        alumnoEntity.setCorreo(alumno.getCorreo());
-        alumnoEntity.setClave(alumno.getClave());
-        alumnoEntity.setFoto(alumno.getFoto());
+        alumnoEntity.setId(alumnoDto.getId());
+        alumnoEntity.setNombre(alumnoDto.getNombre());
+        alumnoEntity.setApellido(alumnoDto.getApellido());
+        alumnoEntity.setCorreo(alumnoDto.getCorreo());
+        alumnoEntity.setClave(alumnoDto.getClave());
+        alumnoEntity.setFoto(alumnoDto.getFoto());
 
         List<RoleEntity> rolesEntity = new ArrayList<>();
-        List<Role> rolesDominio = alumno.getRoles();
+        List<RoleDto> rolesDominio = alumnoDto.getRoleDtos();
         rolesDominio.forEach(role -> rolesEntity.add(role.convertToRoleEntity(role)));
         alumnoEntity.setRoles(rolesEntity);
 

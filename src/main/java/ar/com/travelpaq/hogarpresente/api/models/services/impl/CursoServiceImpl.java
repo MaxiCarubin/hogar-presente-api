@@ -1,20 +1,21 @@
 package ar.com.travelpaq.hogarpresente.api.models.services.impl;
-import ar.com.travelpaq.hogarpresente.api.models.domain.Curso;
+
+import ar.com.travelpaq.hogarpresente.api.models.dto.CursoDto;
+import ar.com.travelpaq.hogarpresente.api.models.dto.Mensaje;
+import ar.com.travelpaq.hogarpresente.api.models.dto.UnidadDto;
 import ar.com.travelpaq.hogarpresente.api.models.entity.CursoEntity;
+import ar.com.travelpaq.hogarpresente.api.models.entity.UnidadEntity;
 import ar.com.travelpaq.hogarpresente.api.models.mapper.CursoMapper;
 import ar.com.travelpaq.hogarpresente.api.models.repository.ICursoRepository;
 import ar.com.travelpaq.hogarpresente.api.models.services.ICursoService;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
 @Service
 public class CursoServiceImpl implements ICursoService {
 
@@ -25,36 +26,21 @@ public class CursoServiceImpl implements ICursoService {
     CursoMapper cursoMapper;
 
     @Override
-    @Transactional(readOnly = true)
-    public List<Curso> findAll() {
+    public ResponseEntity<List<CursoDto>> findAll() {
         List<CursoEntity> cursoEntities = cursoRepository.findAll();
-        List<Curso> cursos = new ArrayList<>();
+        List<CursoDto> cursoDtos = new ArrayList<>();
 
-        cursoEntities.forEach(cursoEntity -> cursos.add(cursoMapper.mapCursoEntityToCurso(cursoEntity)));
+        cursoEntities.forEach(cursoEntity -> cursoDtos.add(cursoMapper.mapCursoEntityToCurso(cursoEntity)));
 
-        return cursos;
+        return new ResponseEntity(cursoDtos, HttpStatus.OK);
     }
 
     @Override
-    @Transactional(readOnly = true)
     public ResponseEntity<?> findById(Long id) {
-
-        Map<String, Object> response = new HashMap<>();
-
-        CursoEntity cursoEntity = null;
-
-        try{
-            cursoEntity = cursoRepository.findById(id).orElse(null);
-        }catch (DataAccessException e){
-            response.put("mensaje", "Error al realizar consulta en la base de datos");
-            response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
-        }
-
-        if (cursoEntity == null){
-            response.put("mensaje", "El Curso ID: ".concat(id.toString().concat(" no existe en la base de datos!")));
-            return new ResponseEntity<Map<String,Object>>(response, HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<CursoEntity>(cursoEntity, HttpStatus.OK);
+        if (!cursoRepository.existsById(id))
+            return new ResponseEntity(new Mensaje("no existe"), HttpStatus.NOT_FOUND);
+        CursoEntity cursoEntity = cursoRepository.getOne(id);
+        return new ResponseEntity(cursoEntity, HttpStatus.OK);
     }
 
     @Override
@@ -67,76 +53,48 @@ public class CursoServiceImpl implements ICursoService {
     }
 
     @Override
-    @Transactional
-    public ResponseEntity<?> create(Curso curso) {
-        Map<String, Object> response = new HashMap<>();
-
-        CursoEntity cursoEntityNew = null;
-
-        CursoEntity cursoEntity = cursoMapper.mapCursoToCursoEntity(curso);
-
-        try{
-            cursoEntityNew = cursoRepository.save(cursoEntity);
-        }catch (DataAccessException e){
-            response.put("mensaje", "Error al realizar el insert en la base de datos");
-            response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
-            return new ResponseEntity<Map<String,Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-        response.put("mensaje", "El curso fue creado con exito!");
-        response.put("curso", cursoEntityNew);
-        return new ResponseEntity<Map<String,Object>>(response, HttpStatus.CREATED);
+    public ResponseEntity<?> create(CursoDto cursoDto) {
+        if(StringUtils.isBlank(cursoDto.getNombre()))
+            return new ResponseEntity(new Mensaje("El nombre es obligatorio"), HttpStatus.BAD_REQUEST);
+        if(StringUtils.isBlank(cursoDto.getDescripcion()))
+            return new ResponseEntity(new Mensaje("La descripcion es obligatoria"), HttpStatus.BAD_REQUEST);
+        if(cursoDto.getPrecio() < 0)
+            return new ResponseEntity(new Mensaje("El precio no puede ser negativo"), HttpStatus.BAD_REQUEST);
+        if(cursoDto.getHoras() == null)
+            return new ResponseEntity(new Mensaje("No puede contener 0 horas el curso"), HttpStatus.BAD_REQUEST);
+        if(StringUtils.isBlank(cursoDto.getCapacitador()))
+            return new ResponseEntity(new Mensaje("El capacitador es obligatorio"), HttpStatus.BAD_REQUEST);
+        CursoEntity cursoEntity = cursoMapper.mapCursoToCursoEntity(cursoDto);
+        cursoRepository.save(cursoEntity);
+        return new ResponseEntity(new Mensaje("Curso creado!"), HttpStatus.OK);
     }
 
     @Override
     @Transactional
-    public ResponseEntity<?> update(Curso curso, Long id) {
-        Map<String, Object> response = new HashMap<>();
+    public ResponseEntity<?> update(CursoDto cursoDto, Long id) {
+        if (!cursoRepository.existsById(id))
+            return new ResponseEntity(new Mensaje("no existe el curso en la base de datos"), HttpStatus.NOT_FOUND);
+        CursoEntity cursoEntity = cursoRepository.getOne(id);
+        cursoEntity.setNombre(cursoDto.getNombre());
+        cursoEntity.setDescripcion(cursoDto.getDescripcion());
+        cursoEntity.setCapacitador(cursoDto.getCapacitador());
+        cursoEntity.setHoras(cursoDto.getHoras());
+        cursoEntity.setPrecio(cursoDto.getPrecio());
+        List<UnidadEntity> unidadesEntity = new ArrayList<>();
+        List<UnidadDto> unidadesDominio = cursoDto.getUnidades();
+        unidadesDominio.forEach(unidad -> unidadesEntity.add(unidad.convertToUnidadEntity(unidad)));
+        cursoEntity.setUnidades(unidadesEntity);
 
-        CursoEntity cursoActual = cursoRepository.findById(id).orElse(null);
-
-        CursoEntity cursoUpdate = cursoMapper.mapCursoToCursoEntity(curso);
-
-        CursoEntity cursoFinal = null;
-        if (cursoActual == null){
-            response.put("mensaje", "Error: no se pudo editar, el Curso ID".concat(id.toString().concat(" no existe en la base de datos!")));
-            return new ResponseEntity<Map<String,Object>>(response, HttpStatus.NOT_FOUND);
-        }
-        try{
-            cursoActual.setNombre(cursoUpdate.getNombre());
-            cursoActual.setDescripcion(cursoUpdate.getDescripcion());
-            cursoActual.setEnabled(cursoUpdate.getEnabled());
-            cursoActual.setHoras(cursoUpdate.getHoras());
-            cursoActual.setPrecio(cursoUpdate.getPrecio());
-            cursoActual.setCapacitador(cursoUpdate.getCapacitador());
-            //cursoActual.setInscripciones(cursoUpdate.getInscripciones());
-            cursoActual.setUnidades(cursoUpdate.getUnidades());
-
-            cursoFinal = cursoRepository.save(cursoActual);
-        }catch (DataAccessException e){
-            response.put("mensaje", "Error al actualizar el curso en la base de datos");
-            response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
-            return new ResponseEntity<Map<String,Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-
-        response.put("mensaje", "El Curso ha sido actualizado con exito! ");
-        response.put("alumno", cursoFinal);
-        return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
+        cursoRepository.save(cursoEntity);
+        return new ResponseEntity(new Mensaje("Alumno Actualizado!"), HttpStatus.OK);
     }
 
     @Override
     @Transactional
     public ResponseEntity<?> delete(Long id) {
-        Map<String,Object> response = new HashMap<>();
-
-        try{
-            cursoRepository.deleteById(id);
-        }catch (DataAccessException e){
-            response.put("mensaje", "Error al eliminar el curso de la basa de datos");
-            response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
-            return new ResponseEntity<Map<String,Object>>(response,HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-
-        response.put("mensaje", "El Curso fue eliminado con éxito! ");
-        return new ResponseEntity<Map<String,Object>>(response, HttpStatus.OK);
+        if (!cursoRepository.existsById(id))
+            return new ResponseEntity(new Mensaje("No existe"), HttpStatus.NOT_FOUND);
+        cursoRepository.deleteById(id);
+        return new ResponseEntity(new Mensaje("Alumno Eliminado!"), HttpStatus.OK);
     }
 }

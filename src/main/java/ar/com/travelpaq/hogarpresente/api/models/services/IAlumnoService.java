@@ -1,6 +1,6 @@
 package ar.com.travelpaq.hogarpresente.api.models.services;
 
-import ar.com.travelpaq.hogarpresente.api.models.domain.Alumno;
+import ar.com.travelpaq.hogarpresente.api.models.dto.AlumnoDto;
 import ar.com.travelpaq.hogarpresente.api.models.entity.AlumnoEntity;
 import org.springframework.http.ResponseEntity;
 
@@ -8,13 +8,13 @@ import java.util.List;
 
 public interface IAlumnoService {
 
-    public List<Alumno> findAll();
+    public ResponseEntity<List<AlumnoEntity>> findAll();
 
     public ResponseEntity<?> findById(Long id);
 
-    public ResponseEntity<?> create(Alumno alumno);
+    public ResponseEntity<?> create(AlumnoDto alumnoDto);
 
-    public ResponseEntity<?> update(Alumno alumno, Long id);
+    public ResponseEntity<?> update(AlumnoDto alumnoDto, Long id);
 
     public ResponseEntity<?> delete(Long id);
 

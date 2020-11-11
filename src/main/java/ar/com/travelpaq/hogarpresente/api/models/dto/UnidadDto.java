@@ -1,4 +1,4 @@
-package ar.com.travelpaq.hogarpresente.api.models.domain;
+package ar.com.travelpaq.hogarpresente.api.models.dto;
 import ar.com.travelpaq.hogarpresente.api.models.entity.TareaEntity;
 import ar.com.travelpaq.hogarpresente.api.models.entity.UnidadEntity;
 import lombok.AllArgsConstructor;
@@ -11,24 +11,24 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Unidad {
+public class UnidadDto {
     private long id;
 
     private String nombre;
 
     private String descripcion;
 
-    private List<Tarea> tareas;
+    private List<TareaDto> tareaDtos;
 
-    public UnidadEntity convertToUnidadEntity(Unidad unidad) {
+    public UnidadEntity convertToUnidadEntity(UnidadDto unidadDto) {
         UnidadEntity unidadEntity = new UnidadEntity();
-        unidadEntity.setId(unidad.getId());
-        unidadEntity.setNombre(unidad.getNombre());
-        unidadEntity.setDescripcion(unidad.getDescripcion());
+        unidadEntity.setId(unidadDto.getId());
+        unidadEntity.setNombre(unidadDto.getNombre());
+        unidadEntity.setDescripcion(unidadDto.getDescripcion());
 
         List<TareaEntity> tareasEntity = new ArrayList<>();
 
-        List<Tarea> tareasDominio = tareas;
+        List<TareaDto> tareasDominio = tareaDtos;
 
         tareasDominio.forEach(tarea -> tareasEntity.add(tarea.convertToTareaEntity(tarea)));
 

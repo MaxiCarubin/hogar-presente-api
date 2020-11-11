@@ -1,18 +1,8 @@
 package ar.com.travelpaq.hogarpresente.api.controllers;
 
-import ar.com.travelpaq.hogarpresente.api.models.domain.Curso;
 import ar.com.travelpaq.hogarpresente.api.models.services.ICursoService;
-import com.google.gson.GsonBuilder;
-import com.mercadopago.exceptions.MPException;
-import com.mercadopago.resources.Preference;
-import com.mercadopago.resources.datastructures.preference.BackUrls;
-import com.mercadopago.resources.datastructures.preference.Item;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletRequest;
 
 @CrossOrigin(origins = {"http://localhost:4200"})
 @RestController

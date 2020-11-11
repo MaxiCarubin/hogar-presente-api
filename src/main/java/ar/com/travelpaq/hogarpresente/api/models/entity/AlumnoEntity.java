@@ -1,7 +1,6 @@
 package ar.com.travelpaq.hogarpresente.api.models.entity;
-import ar.com.travelpaq.hogarpresente.api.models.domain.Alumno;
-import ar.com.travelpaq.hogarpresente.api.models.domain.Inscripcion;
-import ar.com.travelpaq.hogarpresente.api.models.domain.Role;
+import ar.com.travelpaq.hogarpresente.api.models.dto.AlumnoDto;
+import ar.com.travelpaq.hogarpresente.api.models.dto.RoleDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,9 +8,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -51,20 +48,20 @@ public class AlumnoEntity implements Serializable {
             uniqueConstraints = {@UniqueConstraint(columnNames = {"alumno_id","role_id"})})
     private List<RoleEntity> roles;
 
-    public Alumno convertToAlumno(AlumnoEntity alumnoEntity ){
+    public AlumnoDto convertToAlumno(AlumnoEntity alumnoEntity ){
 
-        Alumno alumno = new Alumno();
-        alumno.setId(alumnoEntity.getId());
-        alumno.setNombre(alumnoEntity.getNombre());
-        alumno.setApellido(alumnoEntity.getApellido());
-        alumno.setCorreo(alumnoEntity.getCorreo());
-        alumno.setClave(alumnoEntity.getClave());
-        alumno.setFoto(alumnoEntity.getFoto());
+        AlumnoDto alumnoDto = new AlumnoDto();
+        alumnoDto.setId(alumnoEntity.getId());
+        alumnoDto.setNombre(alumnoEntity.getNombre());
+        alumnoDto.setApellido(alumnoEntity.getApellido());
+        alumnoDto.setCorreo(alumnoEntity.getCorreo());
+        alumnoDto.setClave(alumnoEntity.getClave());
+        alumnoDto.setFoto(alumnoEntity.getFoto());
 
-        List<Role> rolesDominio = new ArrayList<>();
+        List<RoleDto> rolesDominio = new ArrayList<>();
         List<RoleEntity> rolesEntity = alumnoEntity.getRoles();
         rolesEntity.forEach(roleEntity -> rolesDominio.add(roleEntity.convertToRole(roleEntity)));
-        alumno.setRoles(rolesDominio);
+        alumnoDto.setRoleDtos(rolesDominio);
 
         /*
         Set<Inscripcion> inscripcioesDominio = new HashSet<>();
@@ -73,6 +70,6 @@ public class AlumnoEntity implements Serializable {
         alumno.setInscripciones(inscripcioesDominio);
         */
 
-        return alumno;
+        return alumnoDto;
     }
 }

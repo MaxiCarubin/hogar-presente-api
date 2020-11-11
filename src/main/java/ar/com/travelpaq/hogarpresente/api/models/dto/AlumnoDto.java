@@ -1,21 +1,19 @@
-package ar.com.travelpaq.hogarpresente.api.models.domain;
+package ar.com.travelpaq.hogarpresente.api.models.dto;
 
 import ar.com.travelpaq.hogarpresente.api.models.entity.AlumnoEntity;
-import ar.com.travelpaq.hogarpresente.api.models.entity.InscripcionEntity;
 import ar.com.travelpaq.hogarpresente.api.models.entity.RoleEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Alumno {
+public class AlumnoDto {
 
     private long id;
 
@@ -29,21 +27,21 @@ public class Alumno {
 
     private String foto;
 
-    private Set<Inscripcion> inscripciones;
+    private Set<InscripcionDto> inscripciones;
 
-    private List<Role> roles;
+    private List<RoleDto> roleDtos;
 
-    public AlumnoEntity convertToAlumnoEntity(Alumno alumno){
+    public AlumnoEntity convertToAlumnoEntity(AlumnoDto alumnoDto){
         AlumnoEntity alumnoEntity = new AlumnoEntity();
-        alumnoEntity.setId(alumno.getId());
-        alumnoEntity.setNombre(alumno.getNombre());
-        alumnoEntity.setApellido(alumno.getApellido());
-        alumnoEntity.setCorreo(alumno.getCorreo());
-        alumnoEntity.setClave(alumno.getClave());
-        alumnoEntity.setFoto(alumno.getFoto());
+        alumnoEntity.setId(alumnoDto.getId());
+        alumnoEntity.setNombre(alumnoDto.getNombre());
+        alumnoEntity.setApellido(alumnoDto.getApellido());
+        alumnoEntity.setCorreo(alumnoDto.getCorreo());
+        alumnoEntity.setClave(alumnoDto.getClave());
+        alumnoEntity.setFoto(alumnoDto.getFoto());
 
         List<RoleEntity> rolesEntity = new ArrayList<>();
-        List<Role> rolesDominio = alumno.getRoles();
+        List<RoleDto> rolesDominio = alumnoDto.getRoleDtos();
         rolesDominio.forEach(role -> rolesEntity.add(role.convertToRoleEntity(role)));
         alumnoEntity.setRoles(rolesEntity);
 

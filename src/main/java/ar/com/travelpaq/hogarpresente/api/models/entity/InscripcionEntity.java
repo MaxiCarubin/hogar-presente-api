@@ -1,5 +1,5 @@
 package ar.com.travelpaq.hogarpresente.api.models.entity;
-import ar.com.travelpaq.hogarpresente.api.models.domain.Inscripcion;
+import ar.com.travelpaq.hogarpresente.api.models.dto.InscripcionDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -33,12 +33,12 @@ public class InscripcionEntity {
         inscripcionAt = new Date();
     }
 
-    public Inscripcion convertToInscripcion(InscripcionEntity inscripcionEntity) {
-        Inscripcion inscripcion = new Inscripcion();
-        inscripcion.setId(inscripcionEntity.getId());
-        inscripcion.setInscripcionAt(inscripcionEntity.getInscripcionAt());
-        inscripcion.setAlumno(inscripcionEntity.getAlumnoEntity().convertToAlumno(inscripcionEntity.getAlumnoEntity()));
-        inscripcion.setCurso(inscripcionEntity.getCursoEntity().convertToCurso(inscripcionEntity.getCursoEntity()));
-        return inscripcion;
+    public InscripcionDto convertToInscripcion(InscripcionEntity inscripcionEntity) {
+        InscripcionDto inscripcionDto = new InscripcionDto();
+        inscripcionDto.setId(inscripcionEntity.getId());
+        inscripcionDto.setInscripcionAt(inscripcionEntity.getInscripcionAt());
+        inscripcionDto.setAlumnoDto(inscripcionEntity.getAlumnoEntity().convertToAlumno(inscripcionEntity.getAlumnoEntity()));
+        inscripcionDto.setCursoDto(inscripcionEntity.getCursoEntity().convertToCurso(inscripcionEntity.getCursoEntity()));
+        return inscripcionDto;
     }
 }
