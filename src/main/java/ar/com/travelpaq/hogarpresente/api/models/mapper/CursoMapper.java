@@ -24,11 +24,12 @@ public class CursoMapper {
         curso.setHoras(cursoEntity.getHoras());
         curso.setPrecio(cursoEntity.getPrecio());
         curso.setEnabled(cursoEntity.getEnabled());
+        /*
         Set<Inscripcion> inscripcioesDominio = new HashSet<>();
         Set<InscripcionEntity> inscripcionesEntity = cursoEntity.getInscripciones();
         inscripcionesEntity.forEach(inscripcionEntity -> inscripcioesDominio.add(inscripcionEntity.convertToInscripcion(inscripcionEntity)));
         curso.setInscripciones(inscripcioesDominio);
-
+        */
         List<Unidad> unidadesDominio = new ArrayList<>();
         List<UnidadEntity> undadesEntity = cursoEntity.getUnidades();
         undadesEntity.forEach(unidadEntity -> unidadesDominio.add(unidadEntity.convertToUnidad(unidadEntity)));
@@ -45,12 +46,12 @@ public class CursoMapper {
         cursoEntity.setHoras(curso.getHoras());
         cursoEntity.setPrecio(curso.getPrecio());
         cursoEntity.setEnabled(curso.getEnabled());
-
+        /*
         Set<InscripcionEntity> inscripcionesEntity = new HashSet<>();
         Set<Inscripcion> inscripcionesDominio = curso.getInscripciones();
         inscripcionesDominio.forEach(inscripcion -> inscripcionesEntity.add(inscripcion.convertToInscripcionEntity(inscripcion)));
         cursoEntity.setInscripciones(inscripcionesEntity);
-
+        */
         List<UnidadEntity> unidadesEntity = new ArrayList<>();
         List<Unidad> unidadesDominio = curso.getUnidades();
         unidadesDominio.forEach(unidad -> unidadesEntity.add(unidad.convertToUnidadEntity(unidad)));

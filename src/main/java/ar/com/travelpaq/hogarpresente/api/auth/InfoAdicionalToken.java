@@ -32,5 +32,4 @@ public class InfoAdicionalToken implements TokenEnhancer {
 
         return oAuth2AccessToken;
     }
-    //hola<zx<z
 }

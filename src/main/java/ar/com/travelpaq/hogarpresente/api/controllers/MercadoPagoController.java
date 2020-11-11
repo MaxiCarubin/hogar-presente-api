@@ -73,6 +73,6 @@ public class MercadoPagoController {
 
     @GetMapping("/failure")
     public String failure(HttpServletRequest request)
- 
+
  */
 }

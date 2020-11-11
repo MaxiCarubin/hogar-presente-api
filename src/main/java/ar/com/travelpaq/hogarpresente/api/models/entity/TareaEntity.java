@@ -17,16 +17,20 @@ import javax.persistence.Table;
 @Table(name = "tareas")
 public class TareaEntity {
     @Id
-    private String nombre;
-    @Column(nullable = false, length = 70)
+    private long id;
 
-    private String descripcion;
     @Column(nullable = false, length = 60)
+    private String nombre;
 
+    @Column(nullable = false, length = 70)
+    private String descripcion;
+
+    @Column(nullable = false, length = 60)
     private String documento;
 
     public Tarea convertToTarea(TareaEntity tareaEntity) {
         Tarea tarea = new Tarea();
+        tarea.setId(tareaEntity.getId());
         tarea.setNombre(tareaEntity.getNombre());
         tarea.setDocumento(tareaEntity.getDocumento());
         tarea.setDescripcion(tareaEntity.getDescripcion());

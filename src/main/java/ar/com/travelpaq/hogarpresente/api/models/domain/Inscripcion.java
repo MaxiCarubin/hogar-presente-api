@@ -10,6 +10,8 @@ import java.util.Date;
 @NoArgsConstructor
 public class Inscripcion {
 
+    private long id;
+
     private Date inscripcionAt;
 
     private Alumno alumno;
@@ -18,6 +20,7 @@ public class Inscripcion {
 
     public InscripcionEntity convertToInscripcionEntity(Inscripcion inscripcion) {
         InscripcionEntity inscripcionEntity = new InscripcionEntity();
+        inscripcionEntity.setId(inscripcion.getId());
         inscripcionEntity.setInscripcionAt(inscripcion.getInscripcionAt());
         inscripcionEntity.setAlumnoEntity(inscripcion.getAlumno().convertToAlumnoEntity(inscripcion.getAlumno()));
         inscripcionEntity.setCursoEntity(inscripcion.getCurso().convertToCursoEntity(inscripcion.getCurso()));

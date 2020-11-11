@@ -21,6 +21,7 @@ public class ApiHogarPresenteApplication implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 
 		MercadoPago.SDK.setAccessToken(System.getenv("MP_ACCESS_TOKEN"));
+
 		String password = "12345";
 
 		for (int i = 0; i<4; i++){

@@ -13,6 +13,9 @@ import java.util.Date;
 @Table(name = "inscripciones")
 public class InscripcionEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+
     @Column(name = "inscripcion_at")
     @Temporal(TemporalType.DATE)
     private Date inscripcionAt;
@@ -32,6 +35,7 @@ public class InscripcionEntity {
 
     public Inscripcion convertToInscripcion(InscripcionEntity inscripcionEntity) {
         Inscripcion inscripcion = new Inscripcion();
+        inscripcion.setId(inscripcionEntity.getId());
         inscripcion.setInscripcionAt(inscripcionEntity.getInscripcionAt());
         inscripcion.setAlumno(inscripcionEntity.getAlumnoEntity().convertToAlumno(inscripcionEntity.getAlumnoEntity()));
         inscripcion.setCurso(inscripcionEntity.getCursoEntity().convertToCurso(inscripcionEntity.getCursoEntity()));

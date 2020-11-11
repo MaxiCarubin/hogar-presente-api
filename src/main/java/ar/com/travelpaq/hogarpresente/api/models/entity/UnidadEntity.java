@@ -17,6 +17,9 @@ import java.util.List;
 public class UnidadEntity {
 
     @Id
+    private long id;
+
+    @Column(nullable = false, length = 75)
     private String nombre;
 
     @Column(nullable = false, length = 75)
@@ -27,6 +30,7 @@ public class UnidadEntity {
 
     public Unidad convertToUnidad(UnidadEntity unidadEntity) {
         Unidad unidad = new Unidad();
+        unidad.setId(unidadEntity.getId());
         unidad.setNombre(unidadEntity.getNombre());
         unidad.setDescripcion(unidadEntity.getDescripcion());
 

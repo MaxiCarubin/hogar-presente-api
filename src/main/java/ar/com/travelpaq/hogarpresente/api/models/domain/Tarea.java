@@ -9,12 +9,14 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Tarea {
+    private long id;
     private String nombre;
     private String descripcion;
     private String documento;
 
     public TareaEntity convertToTareaEntity(Tarea tarea) {
         TareaEntity tareaEntity = new TareaEntity();
+        tareaEntity.setId(tarea.getId());
         tareaEntity.setNombre(tarea.getNombre());
         tareaEntity.setDocumento(tarea.getDocumento());
         tareaEntity.setDescripcion(tarea.getDescripcion());

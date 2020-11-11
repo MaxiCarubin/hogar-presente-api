@@ -35,20 +35,20 @@ public class UnidadServiceImpl implements IUnidadService {
     }
 
     @Override
-    public ResponseEntity<?> findById(String nombre) {
+    public ResponseEntity<?> findById(Long id) {
         Map<String, Object> response = new HashMap<>();
 
         UnidadEntity unidadEntity = null;
 
         try{
-            unidadEntity = unidadRepository.findById(nombre).orElse(null);
+            unidadEntity = unidadRepository.findById(id).orElse(null);
         }catch (DataAccessException e){
             response.put("mensaje", "Error al realizar consulta en la base de datos");
             response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
         }
 
         if (unidadEntity == null){
-            response.put("mensaje", "La Unidad con nombre ".concat(nombre.concat(" no existe en la base de datos!")));
+            response.put("mensaje", "La Unidad con id ".concat(id.toString().concat(" no existe en la base de datos!")));
             return new ResponseEntity<Map<String,Object>>(response, HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<UnidadEntity>(unidadEntity, HttpStatus.OK);
@@ -75,16 +75,16 @@ public class UnidadServiceImpl implements IUnidadService {
     }
 
     @Override
-    public ResponseEntity<?> update(Unidad unidad, String nombre) {
+    public ResponseEntity<?> update(Unidad unidad, Long id) {
         Map<String, Object> response = new HashMap<>();
 
-        UnidadEntity unidadActual = unidadRepository.findById(nombre).orElse(null);
+        UnidadEntity unidadActual = unidadRepository.findById(id).orElse(null);
 
         UnidadEntity unidadUpdate = unidadMapper.mapUnidadToUnidadEntity(unidad);
 
         UnidadEntity unidadFinal = null;
         if (unidadActual == null){
-            response.put("mensaje", "Error: no se pudo editar, la unidad NOMBRE ".concat(nombre.concat(" no existe en la base de datos!")));
+            response.put("mensaje", "Error: no se pudo editar, la unidad ID ".concat(id.toString().concat(" no existe en la base de datos!")));
             return new ResponseEntity<Map<String,Object>>(response, HttpStatus.NOT_FOUND);
         }
         try{
@@ -105,11 +105,11 @@ public class UnidadServiceImpl implements IUnidadService {
     }
 
     @Override
-    public ResponseEntity<?> delete(String nombre) {
+    public ResponseEntity<?> delete(Long id) {
         Map<String,Object> response = new HashMap<>();
 
         try{
-            unidadRepository.deleteById(nombre);
+            unidadRepository.deleteById(id);
         }catch (DataAccessException e){
             response.put("mensaje", "Error al eliminar la unidad de la basa de datos");
             response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));

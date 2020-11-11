@@ -13,6 +13,7 @@ import java.util.List;
 public class UnidadMapper {
     public Unidad mapUnidadEntityToUnidad(UnidadEntity unidadEntity){
         Unidad unidad = new Unidad();
+        unidad.setId(unidadEntity.getId());
         unidad.setNombre(unidadEntity.getNombre());
         unidad.setDescripcion(unidadEntity.getDescripcion());
 
@@ -24,6 +25,7 @@ public class UnidadMapper {
     }
     public UnidadEntity mapUnidadToUnidadEntity(Unidad unidad){
         UnidadEntity unidadEntity = new UnidadEntity();
+        unidadEntity.setId(unidad.getId());
         unidadEntity.setNombre(unidad.getNombre());
         unidadEntity.setDescripcion(unidad.getDescripcion());
 

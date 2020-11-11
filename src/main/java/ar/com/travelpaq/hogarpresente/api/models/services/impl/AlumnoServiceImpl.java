@@ -115,7 +115,6 @@ public class AlumnoServiceImpl implements IAlumnoService, UserDetailsService {
             alumnoActual.setCorreo(alumnoUpdate.getCorreo());
             alumnoActual.setClave(alumnoUpdate.getClave());
             alumnoActual.setFoto(alumnoUpdate.getFoto());
-            alumnoActual.setInscripciones(alumnoUpdate.getInscripciones());
             alumnoActual.setRoles(alumnoUpdate.getRoles());
             alumnoActual.setEnabled(alumnoUpdate.getEnabled());
 
@@ -131,7 +130,6 @@ public class AlumnoServiceImpl implements IAlumnoService, UserDetailsService {
 
             return alumno;
              */
-
             alumnoFinal = alumnoRepository.save(alumnoActual);
         }catch (DataAccessException e){
             response.put("mensaje", "Error al actualizar el alumno en la base de datos");

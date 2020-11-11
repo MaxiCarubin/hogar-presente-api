@@ -11,5 +11,5 @@ public interface IInscripcionService {
 
     public ResponseEntity<?> create(Inscripcion inscripcion);
 
-    public ResponseEntity<?> delete(Date fecha);
+    public ResponseEntity<?> delete(Long id);
 }

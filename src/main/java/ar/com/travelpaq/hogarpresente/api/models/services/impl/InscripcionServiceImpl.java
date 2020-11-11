@@ -53,11 +53,11 @@ public class InscripcionServiceImpl implements IInscripcionService {
     }
 
     @Override
-    public ResponseEntity<?> delete(Date fecha) {
+    public ResponseEntity<?> delete(Long id) {
         Map<String,Object> response = new HashMap<>();
 
         try{
-            inscripcionRepository.deleteById(fecha);
+            inscripcionRepository.deleteById(id);
         }catch (DataAccessException e){
             response.put("mensaje", "Error al eliminar la inscripcion de la basa de datos");
             response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));

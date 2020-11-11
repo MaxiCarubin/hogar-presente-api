@@ -44,20 +44,17 @@ public class Curso {
         cursoEntity.setCapacitador(curso.getCapacitador());
         cursoEntity.setHoras(curso.getHoras());
         cursoEntity.setEnabled(curso.getEnabled());
+
+        /*
         Set<InscripcionEntity> inscripcionesEntity = new HashSet<>();
-
         Set<Inscripcion> inscripcioesDominio = inscripciones;
-
         inscripcioesDominio.forEach(inscripcion -> inscripcionesEntity.add(inscripcion.convertToInscripcionEntity(inscripcion)));
-
         cursoEntity.setInscripciones(inscripcionesEntity);
+        */
 
         List<UnidadEntity> unidadesEntity = new ArrayList<>();
-
         List<Unidad> unidadesDominio = unidades;
-
         unidadesDominio.forEach(unidad -> unidadesEntity.add(unidad.convertToUnidadEntity(unidad)));
-
         cursoEntity.setUnidades(unidadesEntity);
 
         return cursoEntity;

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 public class TareaMapper {
     public Tarea mapTareaToTareaEntity(TareaEntity tareaEntity) {
         Tarea tarea = new Tarea();
+        tarea.setId(tareaEntity.getId());
         tarea.setNombre(tareaEntity.getNombre());
         tarea.setDescripcion(tareaEntity.getDescripcion());
         tarea.setDocumento(tareaEntity.getDocumento());
@@ -16,6 +17,7 @@ public class TareaMapper {
     }
     public TareaEntity mapTareaEntityToTarea(Tarea tarea) {
         TareaEntity tareaEntity = new TareaEntity();
+        tareaEntity.setId(tarea.getId());
         tareaEntity.setNombre(tarea.getNombre());
         tareaEntity.setDescripcion(tarea.getDescripcion());
         tareaEntity.setDocumento(tarea.getDocumento());

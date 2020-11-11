@@ -12,6 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Unidad {
+    private long id;
 
     private String nombre;
 
@@ -21,6 +22,7 @@ public class Unidad {
 
     public UnidadEntity convertToUnidadEntity(Unidad unidad) {
         UnidadEntity unidadEntity = new UnidadEntity();
+        unidadEntity.setId(unidad.getId());
         unidadEntity.setNombre(unidad.getNombre());
         unidadEntity.setDescripcion(unidad.getDescripcion());
 

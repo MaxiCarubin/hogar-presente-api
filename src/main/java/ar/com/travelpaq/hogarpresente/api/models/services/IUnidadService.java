@@ -8,11 +8,11 @@ import java.util.List;
 public interface IUnidadService {
     public List<Unidad> findAll();
 
-    public ResponseEntity<?> findById(String nombre);
+    public ResponseEntity<?> findById(Long id);
 
     public ResponseEntity<?> create(Unidad unidad);
 
-    public ResponseEntity<?> update(Unidad unidad, String nombre);
+    public ResponseEntity<?> update(Unidad unidad, Long id);
 
-    public ResponseEntity<?> delete(String nombre);
+    public ResponseEntity<?> delete(Long id);
 }

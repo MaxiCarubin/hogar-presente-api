@@ -20,9 +20,9 @@ public class UnidadRestController {
         return unidadService.findAll();
     }
 
-    @GetMapping("/unidades/{nombre}")
-    public ResponseEntity<?> show(@PathVariable String nombre){
-        return unidadService.findById(nombre);
+    @GetMapping("/unidades/{id}")
+    public ResponseEntity<?> show(@PathVariable Long id){
+        return unidadService.findById(id);
     }
 
     @PostMapping("/unidades")
@@ -31,12 +31,12 @@ public class UnidadRestController {
     }
 
     @PutMapping("/unidades/{id}")
-    public ResponseEntity<?> update(@RequestBody Unidad unidad, @PathVariable String nombre){
-        return unidadService.update(unidad, nombre);
+    public ResponseEntity<?> update(@RequestBody Unidad unidad, @PathVariable Long id){
+        return unidadService.update(unidad, id);
     }
 
-    @DeleteMapping("/unidades/{nombre}")
-    public ResponseEntity<?> delete(@PathVariable String nombre) {
-        return unidadService.delete(nombre);
+    @DeleteMapping("/unidades/{id}")
+    public ResponseEntity<?> delete(@PathVariable Long id) {
+        return unidadService.delete(id);
     }
 }

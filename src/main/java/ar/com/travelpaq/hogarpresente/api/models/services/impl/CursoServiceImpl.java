@@ -108,7 +108,7 @@ public class CursoServiceImpl implements ICursoService {
             cursoActual.setHoras(cursoUpdate.getHoras());
             cursoActual.setPrecio(cursoUpdate.getPrecio());
             cursoActual.setCapacitador(cursoUpdate.getCapacitador());
-            cursoActual.setInscripciones(cursoUpdate.getInscripciones());
+            //cursoActual.setInscripciones(cursoUpdate.getInscripciones());
             cursoActual.setUnidades(cursoUpdate.getUnidades());
 
             cursoFinal = cursoRepository.save(cursoActual);

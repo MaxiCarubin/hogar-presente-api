@@ -1,12 +1,14 @@
 package ar.com.travelpaq.hogarpresente.api.models.entity;
 import ar.com.travelpaq.hogarpresente.api.models.domain.Alumno;
 import ar.com.travelpaq.hogarpresente.api.models.domain.Inscripcion;
+import ar.com.travelpaq.hogarpresente.api.models.domain.Role;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -38,8 +40,10 @@ public class AlumnoEntity implements Serializable {
 
     private Boolean enabled;
 
+    /*
     @OneToMany(fetch = FetchType.LAZY, targetEntity = InscripcionEntity.class, cascade = CascadeType.ALL)
     private Set<InscripcionEntity> inscripciones;
+     */
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "alumnos_roles", joinColumns = @JoinColumn(name = "alumno_id"),
@@ -50,19 +54,24 @@ public class AlumnoEntity implements Serializable {
     public Alumno convertToAlumno(AlumnoEntity alumnoEntity ){
 
         Alumno alumno = new Alumno();
+        alumno.setId(alumnoEntity.getId());
         alumno.setNombre(alumnoEntity.getNombre());
         alumno.setApellido(alumnoEntity.getApellido());
         alumno.setCorreo(alumnoEntity.getCorreo());
         alumno.setClave(alumnoEntity.getClave());
         alumno.setFoto(alumnoEntity.getFoto());
 
+        List<Role> rolesDominio = new ArrayList<>();
+        List<RoleEntity> rolesEntity = alumnoEntity.getRoles();
+        rolesEntity.forEach(roleEntity -> rolesDominio.add(roleEntity.convertToRole(roleEntity)));
+        alumno.setRoles(rolesDominio);
+
+        /*
         Set<Inscripcion> inscripcioesDominio = new HashSet<>();
-
         Set<InscripcionEntity> inscripcionesEntity = inscripciones;
-
         inscripcionesEntity.forEach(inscripcionEntity -> inscripcioesDominio.add(inscripcionEntity.convertToInscripcion(inscripcionEntity)));
-
         alumno.setInscripciones(inscripcioesDominio);
+        */
 
         return alumno;
     }

@@ -28,8 +28,8 @@ public class InscripcionRestController {
         return inscripcionService.create(inscripcion);
     }
 
-    @DeleteMapping("/inscripciones/{fecha}")
-    public ResponseEntity<?> delente(@PathVariable Date fecha) {
-        return inscripcionService.delete(fecha);
+    @DeleteMapping("/inscripciones/{id}")
+    public ResponseEntity<?> delente(@PathVariable Long id) {
+        return inscripcionService.delete(id);
     }
 }
