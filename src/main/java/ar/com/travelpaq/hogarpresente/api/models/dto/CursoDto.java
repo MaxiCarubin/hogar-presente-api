@@ -30,8 +30,6 @@ public class CursoDto {
     private Boolean enabled;
     //imagen
 
-    private Set<InscripcionDto> inscripciones;
-
     private List<UnidadDto> unidades;
 
     public CursoEntity convertToCursoEntity(CursoDto cursoDto){

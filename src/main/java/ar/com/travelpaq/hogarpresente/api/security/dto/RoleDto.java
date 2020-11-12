@@ -1,6 +1,7 @@
-package ar.com.travelpaq.hogarpresente.api.models.dto;
+package ar.com.travelpaq.hogarpresente.api.security.dto;
 
-import ar.com.travelpaq.hogarpresente.api.models.entity.RoleEntity;
+import ar.com.travelpaq.hogarpresente.api.security.entity.RoleEntity;
+import ar.com.travelpaq.hogarpresente.api.security.enums.RoleNombre;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,12 +13,12 @@ public class RoleDto {
 
     private long id;
 
-    private String nombre;
+    private RoleNombre roleNombre;
 
     public RoleEntity convertToRoleEntity(RoleDto roleDto) {
         RoleEntity roleEntity = new RoleEntity();
         roleEntity.setId(roleDto.getId());
-        roleEntity.setNombre(roleDto.getNombre());
+        roleEntity.setRoleNombre(roleDto.getRoleNombre());
         return roleEntity;
     }
 }

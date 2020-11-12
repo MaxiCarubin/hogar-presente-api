@@ -18,6 +18,7 @@ import java.util.*;
 
 
 @Service
+@Transactional
 public class AlumnoServiceImpl implements IAlumnoService {
 
     private Logger logger = LoggerFactory.getLogger(AlumnoServiceImpl.class);
@@ -29,8 +30,16 @@ public class AlumnoServiceImpl implements IAlumnoService {
     private AlumnoMapper alumnoMapper;
 
     @Override
-    public AlumnoEntity findByCorreo(String correo) {
+    public Optional<AlumnoEntity> getByCorreo(String correo) {
         return alumnoRepository.findByCorreo(correo);
+    }
+
+    public boolean existsByCorreo(String correo){
+        return alumnoRepository.existsByCorreo(correo);
+    }
+
+    public void save(AlumnoEntity alumnoEntity){
+        alumnoRepository.save(alumnoEntity);
     }
 
     @Override

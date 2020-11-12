@@ -5,8 +5,15 @@ import ar.com.travelpaq.hogarpresente.api.models.entity.AlumnoEntity;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface IAlumnoService {
+
+    Optional<AlumnoEntity> getByCorreo(String correo);
+
+    public boolean existsByCorreo(String correo);
+
+    public void save(AlumnoEntity alumnoEntity);
 
     public ResponseEntity<List<AlumnoEntity>> findAll();
 
@@ -18,5 +25,4 @@ public interface IAlumnoService {
 
     public ResponseEntity<?> delete(Long id);
 
-    AlumnoEntity findByCorreo(String correo);
 }

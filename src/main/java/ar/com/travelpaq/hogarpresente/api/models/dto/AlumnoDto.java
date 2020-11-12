@@ -1,12 +1,14 @@
 package ar.com.travelpaq.hogarpresente.api.models.dto;
 
 import ar.com.travelpaq.hogarpresente.api.models.entity.AlumnoEntity;
-import ar.com.travelpaq.hogarpresente.api.models.entity.RoleEntity;
+import ar.com.travelpaq.hogarpresente.api.security.entity.RoleEntity;
+import ar.com.travelpaq.hogarpresente.api.security.dto.RoleDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -27,9 +29,7 @@ public class AlumnoDto {
 
     private String foto;
 
-    private Set<InscripcionDto> inscripciones;
-
-    private List<RoleDto> roleDtos;
+    private Set<RoleDto> roles;
 
     public AlumnoEntity convertToAlumnoEntity(AlumnoDto alumnoDto){
         AlumnoEntity alumnoEntity = new AlumnoEntity();
@@ -40,8 +40,8 @@ public class AlumnoDto {
         alumnoEntity.setClave(alumnoDto.getClave());
         alumnoEntity.setFoto(alumnoDto.getFoto());
 
-        List<RoleEntity> rolesEntity = new ArrayList<>();
-        List<RoleDto> rolesDominio = alumnoDto.getRoleDtos();
+        Set<RoleEntity> rolesEntity = new HashSet<>();
+        Set<RoleDto> rolesDominio = alumnoDto.getRoles();
         rolesDominio.forEach(role -> rolesEntity.add(role.convertToRoleEntity(role)));
         alumnoEntity.setRoles(rolesEntity);
 

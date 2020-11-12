@@ -1,4 +1,4 @@
-package ar.com.travelpaq.hogarpresente.api.controllers;
+package ar.com.travelpaq.hogarpresente.api.controller;
 
 import ar.com.travelpaq.hogarpresente.api.models.dto.TareaDto;
 import ar.com.travelpaq.hogarpresente.api.models.services.ITareaService;

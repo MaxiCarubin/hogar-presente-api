@@ -1,6 +1,8 @@
-package ar.com.travelpaq.hogarpresente.api.models.entity;
+package ar.com.travelpaq.hogarpresente.api.security.entity;
 
-import ar.com.travelpaq.hogarpresente.api.models.dto.RoleDto;
+import ar.com.travelpaq.hogarpresente.api.security.dto.RoleDto;
+import ar.com.travelpaq.hogarpresente.api.security.enums.RoleNombre;
+import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,13 +21,14 @@ public class RoleEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(unique = true, length = 20)
-    private String nombre;
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private RoleNombre roleNombre;
 
     public RoleDto convertToRole(RoleEntity roleEntity) {
         RoleDto roleDto = new RoleDto();
         roleDto.setId(roleEntity.getId());
-        roleDto.setNombre(roleEntity.getNombre());
+        roleDto.setRoleNombre(roleEntity.getRoleNombre());
         return roleDto;
     }
 }

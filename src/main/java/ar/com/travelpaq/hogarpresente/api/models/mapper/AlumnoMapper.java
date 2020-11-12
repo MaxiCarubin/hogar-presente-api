@@ -1,12 +1,12 @@
 package ar.com.travelpaq.hogarpresente.api.models.mapper;
 
 import ar.com.travelpaq.hogarpresente.api.models.dto.AlumnoDto;
-import ar.com.travelpaq.hogarpresente.api.models.dto.RoleDto;
+import ar.com.travelpaq.hogarpresente.api.security.dto.RoleDto;
 import ar.com.travelpaq.hogarpresente.api.models.entity.AlumnoEntity;
-import ar.com.travelpaq.hogarpresente.api.models.entity.RoleEntity;
+import ar.com.travelpaq.hogarpresente.api.security.entity.RoleEntity;
 import org.springframework.stereotype.Component;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Component
 public class AlumnoMapper {
@@ -19,10 +19,10 @@ public class AlumnoMapper {
         alumnoDto.setClave(alumnoEntity.getClave());
         alumnoDto.setFoto(alumnoEntity.getFoto());
 
-        List<RoleDto> rolesDominio = new ArrayList<>();
-        List<RoleEntity> rolesEntity = alumnoEntity.getRoles();
+        Set<RoleDto> rolesDominio = new HashSet<>();
+        Set<RoleEntity> rolesEntity = alumnoEntity.getRoles();
         rolesEntity.forEach(roleEntity -> rolesDominio.add(roleEntity.convertToRole(roleEntity)));
-        alumnoDto.setRoleDtos(rolesDominio);
+        alumnoDto.setRoles(rolesDominio);
 
         /*
         Set<Inscripcion> inscripcioesDominio = new HashSet<>();
@@ -44,8 +44,8 @@ public class AlumnoMapper {
         alumnoEntity.setClave(alumnoDto.getClave());
         alumnoEntity.setFoto(alumnoDto.getFoto());
 
-        List<RoleEntity> rolesEntity = new ArrayList<>();
-        List<RoleDto> rolesDominio = alumnoDto.getRoleDtos();
+        Set<RoleEntity> rolesEntity = new HashSet<>();
+        Set<RoleDto> rolesDominio = alumnoDto.getRoles();
         rolesDominio.forEach(role -> rolesEntity.add(role.convertToRoleEntity(role)));
         alumnoEntity.setRoles(rolesEntity);
 
