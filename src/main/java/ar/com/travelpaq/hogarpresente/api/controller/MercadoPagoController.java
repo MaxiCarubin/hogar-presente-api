@@ -4,7 +4,7 @@ import ar.com.travelpaq.hogarpresente.api.models.services.ICursoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin(origins = {"http://localhost:4200"})
+@CrossOrigin
 @RestController
 @RequestMapping("/api")
 public class MercadoPagoController {
