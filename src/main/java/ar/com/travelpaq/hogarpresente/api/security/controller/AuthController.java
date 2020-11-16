@@ -6,6 +6,7 @@ import ar.com.travelpaq.hogarpresente.api.models.services.IAlumnoService;
 import ar.com.travelpaq.hogarpresente.api.security.dto.JwtDto;
 import ar.com.travelpaq.hogarpresente.api.security.dto.LoginUsuario;
 import ar.com.travelpaq.hogarpresente.api.security.dto.NuevoUsuario;
+import ar.com.travelpaq.hogarpresente.api.security.dto.RoleDto;
 import ar.com.travelpaq.hogarpresente.api.security.entity.RoleEntity;
 import ar.com.travelpaq.hogarpresente.api.security.enums.RoleNombre;
 import ar.com.travelpaq.hogarpresente.api.security.jwt.JwtProvider;
@@ -23,6 +24,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @RestController
@@ -44,6 +46,12 @@ public class AuthController {
 
     @Autowired
     JwtProvider jwtProvider;
+
+
+    @GetMapping("/roles")
+    public ResponseEntity<List<RoleEntity>> obtenerRoles(){
+        return rolService.findAll();
+    }
 
     @PostMapping("/nuevo")
     public ResponseEntity<?> nuevo(@Valid @RequestBody NuevoUsuario nuevoUsuario, BindingResult bindingResult){
