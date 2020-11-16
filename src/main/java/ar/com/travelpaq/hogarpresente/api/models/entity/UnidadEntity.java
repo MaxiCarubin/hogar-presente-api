@@ -25,6 +25,8 @@ public class UnidadEntity {
     @Column(nullable = false, length = 75)
     private String descripcion;
 
+    private Boolean terminada;
+
     @OneToMany(targetEntity = TareaEntity.class)
     private List<TareaEntity> tareas;
 

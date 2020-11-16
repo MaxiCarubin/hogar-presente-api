@@ -34,6 +34,10 @@ public class CursoEntity {
     //@Temporal(TemporalType.TIME)
     private Time horas;
 
+    private Boolean terminado;
+
+    private float progreso;
+
     private Boolean enabled;
     /*
     @OneToMany(fetch = FetchType.LAZY, targetEntity = InscripcionEntity.class)

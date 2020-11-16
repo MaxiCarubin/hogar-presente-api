@@ -13,6 +13,7 @@ public class TareaDto {
     private String nombre;
     private String descripcion;
     private String documento;
+    private Boolean terminada;
 
     public TareaEntity convertToTareaEntity(TareaDto tareaDto) {
         TareaEntity tareaEntity = new TareaEntity();

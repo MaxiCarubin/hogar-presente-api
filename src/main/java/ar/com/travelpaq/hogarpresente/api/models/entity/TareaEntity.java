@@ -28,6 +28,8 @@ public class TareaEntity {
     @Column(nullable = false, length = 60)
     private String documento;
 
+    private Boolean terminada;
+
     public TareaDto convertToTarea(TareaEntity tareaEntity) {
         TareaDto tareaDto = new TareaDto();
         tareaDto.setId(tareaEntity.getId());

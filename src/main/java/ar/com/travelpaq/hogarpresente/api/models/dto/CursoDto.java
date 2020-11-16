@@ -28,6 +28,8 @@ public class CursoDto {
     private Time horas;
 
     private Boolean enabled;
+
+    private Boolean terminado;
     //imagen
 
     private List<UnidadDto> unidades;

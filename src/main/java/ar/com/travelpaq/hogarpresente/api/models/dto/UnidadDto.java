@@ -20,6 +20,8 @@ public class UnidadDto {
 
     private List<TareaDto> tareaDtos;
 
+    private Boolean terminada;
+
     public UnidadEntity convertToUnidadEntity(UnidadDto unidadDto) {
         UnidadEntity unidadEntity = new UnidadEntity();
         unidadEntity.setId(unidadDto.getId());
