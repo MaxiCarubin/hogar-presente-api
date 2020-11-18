@@ -24,7 +24,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @RestController
@@ -47,11 +46,12 @@ public class AuthController {
     @Autowired
     JwtProvider jwtProvider;
 
-
+    /*
     @GetMapping("/roles")
     public ResponseEntity<List<RoleEntity>> obtenerRoles(){
         return rolService.findAll();
     }
+    */
 
     @PostMapping("/nuevo")
     public ResponseEntity<?> nuevo(@Valid @RequestBody NuevoUsuario nuevoUsuario, BindingResult bindingResult){
@@ -80,7 +80,8 @@ public class AuthController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = jwtProvider.generateToken(authentication);
         UserDetails userDetails = (UserDetails)authentication.getPrincipal();
-        JwtDto jwtDto = new JwtDto(jwt, userDetails.getUsername(), userDetails.getAuthorities());
+        AlumnoEntity alumnoEntity = alumnoService.getByCorreo(userDetails.getUsername()).orElse(null);
+        JwtDto jwtDto = new JwtDto(jwt, userDetails.getUsername(), userDetails.getAuthorities(),alumnoEntity.getNombre(),alumnoEntity.getApellido(), alumnoEntity.getFoto());
         return new ResponseEntity(jwtDto, HttpStatus.OK);
     }
 

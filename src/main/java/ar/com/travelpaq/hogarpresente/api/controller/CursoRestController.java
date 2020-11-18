@@ -14,13 +14,14 @@ import java.util.List;
 public class CursoRestController {
     @Autowired
     private ICursoService cursoService;
-
+    //cambiar por findAll
     @GetMapping("/cursos")
-    public ResponseEntity<List<CursoDto>> index(){
+    public ResponseEntity<List<CursoDto>> findAll(){
         return cursoService.findAll();
     }
+    //cambiar por findOne
     @GetMapping("/cursos/{id}")
-    public ResponseEntity<?> show(@PathVariable Long id){
+    public ResponseEntity<?> findOne(@PathVariable Long id){
         return cursoService.findById(id);
     }
 

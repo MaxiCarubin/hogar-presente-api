@@ -1,6 +1,5 @@
 package ar.com.travelpaq.hogarpresente.api.security.dto;
 
-import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

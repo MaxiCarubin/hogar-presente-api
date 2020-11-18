@@ -17,12 +17,12 @@ public class AlumnoRestController {
     private IAlumnoService alumnoService;
 
     @GetMapping("/alumnos")
-    public ResponseEntity<List<AlumnoEntity>> index(){
+    public ResponseEntity<List<AlumnoEntity>> findAll(){
         return alumnoService.findAll();
     }
 
     @GetMapping("/alumnos/{id}")
-    public ResponseEntity<?> show(@PathVariable Long id){
+    public ResponseEntity<?> findOne(@PathVariable Long id){
         return alumnoService.findById(id);
     }
 

@@ -40,7 +40,11 @@ public class AlumnoEntity implements Serializable {
 
     private String foto;
 
-    private Boolean enabled;
+    private Boolean enabled;//sacar
+
+    //Edad
+
+    //Estudios
 
     public AlumnoEntity(String nombre, String apellido, String correo, String clave) {
         this.nombre = nombre;

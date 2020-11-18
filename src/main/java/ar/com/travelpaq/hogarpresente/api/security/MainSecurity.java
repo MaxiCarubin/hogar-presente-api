@@ -60,6 +60,7 @@ public class MainSecurity extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/auth/**").permitAll()
                 .antMatchers("/roles/**").permitAll()
+                .antMatchers("/api/cursos").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .exceptionHandling().authenticationEntryPoint(jwtEntryPoint)
