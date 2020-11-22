@@ -9,6 +9,7 @@ import javax.persistence.*;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -31,44 +32,18 @@ public class CursoEntity {
 
     private float precio;
 
-    //@Temporal(TemporalType.TIME)
-    private Time horas;
+    private int horas;
 
-    private Boolean terminado;
+    private String imagen;
 
-    private float progreso;
+//    private Boolean terminado;
+//
+//    private float progreso;
 
-    private Boolean enabled;
-    /*
-    @OneToMany(fetch = FetchType.LAZY, targetEntity = InscripcionEntity.class)
-    private Set<InscripcionEntity> inscripciones;
-    */
-    @OneToMany(fetch = FetchType.LAZY, targetEntity = UnidadEntity.class, cascade = CascadeType.ALL)
-    private List<UnidadEntity> unidades;
-
-    public CursoDto convertToCurso(CursoEntity cursoEntity){
-        CursoDto cursoDto = new CursoDto();
-        cursoDto.setId(cursoEntity.getId());
-        cursoDto.setNombre(cursoEntity.getNombre());
-        cursoDto.setDescripcion(cursoEntity.getDescripcion());
-        cursoDto.setCapacitador(cursoEntity.getCapacitador());
-        cursoDto.setPrecio(cursoEntity.getPrecio());
-        cursoDto.setHoras(cursoEntity.getHoras());
-        cursoDto.setEnabled(cursoEntity.getEnabled());
-
-        List<UnidadDto> unidaddesDominio = new ArrayList<>();
-        List<UnidadEntity> unidadesEntity = unidades;
-        unidadesEntity.forEach(unidadEntity -> unidaddesDominio.add(unidadEntity.convertToUnidad(unidadEntity)));
-        cursoDto.setUnidades(unidaddesDominio);
-
-        /*
-        Set<Inscripcion> inscripcioesDominio =  new HashSet<>();
-        Set<InscripcionEntity> inscripcionesEntity = inscripciones;
-        inscripcionesEntity.forEach(inscripcionEntity -> inscripcioesDominio.add(inscripcionEntity.convertToInscripcion(inscripcionEntity)));
-        curso.setInscripciones(inscripcioesDominio);
-        */
-
-        return cursoDto;
-    }
+//    @OneToMany(mappedBy = "curso_entity",fetch = FetchType.EAGER)
+//    private Set<InscripcionEntity> inscripciones;
+//
+//    @OneToMany(targetEntity = UnidadEntity.class,cascade = CascadeType.ALL)
+//    private List<UnidadEntity> unidades;
 
 }

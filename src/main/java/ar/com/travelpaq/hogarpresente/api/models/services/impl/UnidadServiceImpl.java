@@ -1,10 +1,14 @@
 package ar.com.travelpaq.hogarpresente.api.models.services.impl;
 
 import ar.com.travelpaq.hogarpresente.api.models.dto.Mensaje;
+import ar.com.travelpaq.hogarpresente.api.models.dto.TareaDto;
 import ar.com.travelpaq.hogarpresente.api.models.dto.UnidadDto;
 import ar.com.travelpaq.hogarpresente.api.models.entity.TareaEntity;
 import ar.com.travelpaq.hogarpresente.api.models.entity.UnidadEntity;
+import ar.com.travelpaq.hogarpresente.api.models.mapper.CursoMapper;
+import ar.com.travelpaq.hogarpresente.api.models.mapper.TareaMapper;
 import ar.com.travelpaq.hogarpresente.api.models.mapper.UnidadMapper;
+import ar.com.travelpaq.hogarpresente.api.models.repository.ICursoRepository;
 import ar.com.travelpaq.hogarpresente.api.models.repository.IUnidadRepository;
 import ar.com.travelpaq.hogarpresente.api.models.services.IUnidadService;
 import org.apache.commons.lang.StringUtils;
@@ -17,20 +21,26 @@ import java.util.List;
 
 @Service
 public class UnidadServiceImpl implements IUnidadService {
-    @Autowired
-    IUnidadRepository unidadRepository;
 
     @Autowired
-    UnidadMapper unidadMapper;
+    private IUnidadRepository unidadRepository;
+
+    @Autowired
+    private ICursoRepository cursoRepository;
+
+    @Autowired
+    private CursoMapper cursoMapper;
+
+    @Autowired
+    private UnidadMapper unidadMapper;
+
+    @Autowired
+    private TareaMapper tareaMapper;
 
     @Override
     public ResponseEntity<List<UnidadDto>> findAll() {
         List<UnidadEntity> unidadEntities = unidadRepository.findAll();
-        List<UnidadDto> unidadDtos = new ArrayList<>();
-
-        unidadEntities.forEach(unidadEntity -> unidadDtos.add(unidadMapper.mapUnidadEntityToUnidad(unidadEntity)));
-
-        return new ResponseEntity(unidadDtos, HttpStatus.OK);
+        return new ResponseEntity(unidadEntities, HttpStatus.OK);
     }
 
     @Override
@@ -47,7 +57,12 @@ public class UnidadServiceImpl implements IUnidadService {
             return new ResponseEntity(new Mensaje("El nombre es obligatorio"), HttpStatus.BAD_REQUEST);
         if(StringUtils.isBlank(unidadDto.getDescripcion()))
             return new ResponseEntity(new Mensaje("La descripcion es obligatoria"), HttpStatus.BAD_REQUEST);
+        if(!cursoRepository.existsById(unidadDto.getCursoId())){
+            //return new ResponseEntity(new Mensaje("El curso debe existir en la base de datos"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(unidadDto, HttpStatus.BAD_REQUEST);
+        }
         UnidadEntity unidadEntity = unidadMapper.mapUnidadToUnidadEntity(unidadDto);
+        unidadEntity.setCurso(cursoRepository.findById(unidadDto.getCursoId()).orElse(null));
         unidadRepository.save(unidadEntity);
         return new ResponseEntity(new Mensaje("Unidad creada!"), HttpStatus.OK);
     }
@@ -59,9 +74,13 @@ public class UnidadServiceImpl implements IUnidadService {
         UnidadEntity unidadEntity = unidadRepository.getOne(id);
         unidadEntity.setNombre(unidadDto.getNombre());
         unidadEntity.setDescripcion(unidadDto.getDescripcion());
-        List<TareaEntity> tareaEntities = new ArrayList<>();
-        unidadDto.getTareaDtos().forEach(tarea -> tareaEntities.add(tarea.convertToTareaEntity(tarea)));
-        unidadEntity.setTareas(tareaEntities);
+        unidadEntity.setCurso(cursoRepository.findById(unidadDto.getCursoId()).orElse(null));
+//        List<TareaEntity> tareasEntity = new ArrayList<>();
+//        List<TareaDto> tareasDto = unidadDto.getTareas();
+//        for (TareaDto tareaDto : tareasDto) {
+//            tareasEntity.add(tareaMapper.mapTareaEntityToTarea(tareaDto));
+//        }
+//        unidadEntity.setTareas(tareasEntity);
         unidadRepository.save(unidadEntity);
         return new ResponseEntity(new Mensaje("Unidad Actualizada!"), HttpStatus.OK);
     }

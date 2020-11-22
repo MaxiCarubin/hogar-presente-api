@@ -1,11 +1,15 @@
 package ar.com.travelpaq.hogarpresente.api.models.services.impl;
 
 import ar.com.travelpaq.hogarpresente.api.models.dto.CursoDto;
+import ar.com.travelpaq.hogarpresente.api.models.dto.InscripcionDto;
 import ar.com.travelpaq.hogarpresente.api.models.dto.Mensaje;
 import ar.com.travelpaq.hogarpresente.api.models.dto.UnidadDto;
 import ar.com.travelpaq.hogarpresente.api.models.entity.CursoEntity;
+import ar.com.travelpaq.hogarpresente.api.models.entity.InscripcionEntity;
 import ar.com.travelpaq.hogarpresente.api.models.entity.UnidadEntity;
 import ar.com.travelpaq.hogarpresente.api.models.mapper.CursoMapper;
+import ar.com.travelpaq.hogarpresente.api.models.mapper.InscripcionMapper;
+import ar.com.travelpaq.hogarpresente.api.models.mapper.UnidadMapper;
 import ar.com.travelpaq.hogarpresente.api.models.repository.ICursoRepository;
 import ar.com.travelpaq.hogarpresente.api.models.services.ICursoService;
 import org.apache.commons.lang.StringUtils;
@@ -15,24 +19,29 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
 @Service
 public class CursoServiceImpl implements ICursoService {
 
     @Autowired
-    ICursoRepository cursoRepository;
+    private ICursoRepository cursoRepository;
 
     @Autowired
-    CursoMapper cursoMapper;
+    private CursoMapper cursoMapper;
+
+    @Autowired
+    private InscripcionMapper inscripcionMapper;
+
+    @Autowired
+    private UnidadMapper unidadMapper;
 
     @Override
     public ResponseEntity<List<CursoDto>> findAll() {
         List<CursoEntity> cursoEntities = cursoRepository.findAll();
-        List<CursoDto> cursoDtos = new ArrayList<>();
-
-        cursoEntities.forEach(cursoEntity -> cursoDtos.add(cursoMapper.mapCursoEntityToCurso(cursoEntity)));
-
-        return new ResponseEntity(cursoDtos, HttpStatus.OK);
+        return new ResponseEntity(cursoEntities, HttpStatus.OK);
     }
 
     @Override
@@ -60,8 +69,8 @@ public class CursoServiceImpl implements ICursoService {
             return new ResponseEntity(new Mensaje("La descripcion es obligatoria"), HttpStatus.BAD_REQUEST);
         if(cursoDto.getPrecio() < 0)
             return new ResponseEntity(new Mensaje("El precio no puede ser negativo"), HttpStatus.BAD_REQUEST);
-        if(cursoDto.getHoras() == null)
-            return new ResponseEntity(new Mensaje("No puede contener 0 horas el curso"), HttpStatus.BAD_REQUEST);
+        if(cursoDto.getHoras() == 0 || cursoDto.getHoras() < 0)
+            return new ResponseEntity(new Mensaje("No puede contener 0 horas el curso u horas negativas"), HttpStatus.BAD_REQUEST);
         if(StringUtils.isBlank(cursoDto.getCapacitador()))
             return new ResponseEntity(new Mensaje("El capacitador es obligatorio"), HttpStatus.BAD_REQUEST);
         CursoEntity cursoEntity = cursoMapper.mapCursoToCursoEntity(cursoDto);
@@ -80,11 +89,18 @@ public class CursoServiceImpl implements ICursoService {
         cursoEntity.setCapacitador(cursoDto.getCapacitador());
         cursoEntity.setHoras(cursoDto.getHoras());
         cursoEntity.setPrecio(cursoDto.getPrecio());
-        List<UnidadEntity> unidadesEntity = new ArrayList<>();
-        List<UnidadDto> unidadesDominio = cursoDto.getUnidades();
-        unidadesDominio.forEach(unidad -> unidadesEntity.add(unidad.convertToUnidadEntity(unidad)));
-        cursoEntity.setUnidades(unidadesEntity);
-
+        cursoEntity.setImagen(cursoDto.getImagen());
+//        Set<InscripcionEntity> inscripcionesEntity = new HashSet<>();
+//        Set<InscripcionDto> inscripcionesDto = cursoDto.getInscripciones();
+//        for (InscripcionDto inscripcionDto : inscripcionesDto) {
+//            inscripcionesEntity.add(inscripcionMapper.mapInscripcionToInscripcionEntity(inscripcionDto));
+//        }
+//        List<UnidadEntity> unidadesEntity = new ArrayList<>();
+//        List<UnidadDto> unidadesDominio = cursoDto.getUnidades();
+//        for (UnidadDto unidad : unidadesDominio) {
+//            unidadesEntity.add(unidadMapper.mapUnidadToUnidadEntity(unidad));
+//        }
+//        cursoEntity.setUnidades(unidadesEntity);
         cursoRepository.save(cursoEntity);
         return new ResponseEntity(new Mensaje("Alumno Actualizado!"), HttpStatus.OK);
     }

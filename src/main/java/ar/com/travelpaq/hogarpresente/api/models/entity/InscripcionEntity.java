@@ -22,23 +22,15 @@ public class InscripcionEntity {
 
     @ManyToOne
     @JoinColumn(name = "alumno_id")
-    private AlumnoEntity alumnoEntity;
+    private AlumnoEntity alumno;
 
     @ManyToOne
     @JoinColumn(name = "curso_id")
-    private CursoEntity cursoEntity;
+    private CursoEntity curso;
 
     @PrePersist
     public void prePersist(){
         inscripcionAt = new Date();
     }
 
-    public InscripcionDto convertToInscripcion(InscripcionEntity inscripcionEntity) {
-        InscripcionDto inscripcionDto = new InscripcionDto();
-        inscripcionDto.setId(inscripcionEntity.getId());
-        inscripcionDto.setInscripcionAt(inscripcionEntity.getInscripcionAt());
-        inscripcionDto.setAlumnoDto(inscripcionEntity.getAlumnoEntity().convertToAlumno(inscripcionEntity.getAlumnoEntity()));
-        inscripcionDto.setCursoDto(inscripcionEntity.getCursoEntity().convertToCurso(inscripcionEntity.getCursoEntity()));
-        return inscripcionDto;
-    }
 }

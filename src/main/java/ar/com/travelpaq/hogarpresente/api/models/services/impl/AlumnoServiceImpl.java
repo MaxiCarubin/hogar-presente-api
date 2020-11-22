@@ -1,9 +1,12 @@
 package ar.com.travelpaq.hogarpresente.api.models.services.impl;
 
 import ar.com.travelpaq.hogarpresente.api.models.dto.AlumnoDto;
+import ar.com.travelpaq.hogarpresente.api.models.dto.InscripcionDto;
 import ar.com.travelpaq.hogarpresente.api.models.dto.Mensaje;
 import ar.com.travelpaq.hogarpresente.api.models.entity.AlumnoEntity;
+import ar.com.travelpaq.hogarpresente.api.models.entity.InscripcionEntity;
 import ar.com.travelpaq.hogarpresente.api.models.mapper.AlumnoMapper;
+import ar.com.travelpaq.hogarpresente.api.models.mapper.InscripcionMapper;
 import ar.com.travelpaq.hogarpresente.api.models.repository.IAlumnoRepository;
 import ar.com.travelpaq.hogarpresente.api.models.services.IAlumnoService;
 import org.apache.commons.lang.StringUtils;
@@ -29,6 +32,9 @@ public class AlumnoServiceImpl implements IAlumnoService {
     @Autowired
     private AlumnoMapper alumnoMapper;
 
+    @Autowired
+    private InscripcionMapper inscripcionMapper;
+
     @Override
     public Optional<AlumnoEntity> getByCorreo(String correo) {
         return alumnoRepository.findByCorreo(correo);
@@ -45,11 +51,7 @@ public class AlumnoServiceImpl implements IAlumnoService {
     @Override
     public ResponseEntity<List<AlumnoEntity>> findAll() {
         List<AlumnoEntity> alumnoEntities = alumnoRepository.findAll();
-        List<AlumnoDto> alumnoDtos = new ArrayList<>();
-
-        alumnoEntities.forEach(alumnoEntity -> alumnoDtos.add(alumnoMapper.mapAlumnoEntityToAlumno(alumnoEntity)));
-
-        return new ResponseEntity(alumnoDtos, HttpStatus.OK);
+        return new ResponseEntity(alumnoEntities, HttpStatus.OK);
     }
 
     @Override
@@ -86,6 +88,15 @@ public class AlumnoServiceImpl implements IAlumnoService {
         alumnoEntity.setCorreo(alumnoDto.getCorreo());
         alumnoEntity.setClave(alumnoDto.getClave());
         alumnoEntity.setFoto(alumnoDto.getFoto());
+        alumnoEntity.setEdad(alumnoDto.getEdad());
+        alumnoEntity.setEstudio(alumnoDto.getEstudio());
+
+//        Set<InscripcionEntity> inscripcionesEntity = new HashSet<>();
+//        Set<InscripcionDto> inscripcionesDto = alumnoDto.getInscripciones();
+//        for (InscripcionDto inscripcionDto : inscripcionesDto) {
+//            inscripcionesEntity.add(inscripcionMapper.mapInscripcionToInscripcionEntity(inscripcionDto));
+//        }
+//        alumnoEntity.setInscripciones(inscripcionesEntity);
 
         alumnoRepository.save(alumnoEntity);
         return new ResponseEntity(new Mensaje("Alumno Actualizado!"), HttpStatus.OK);

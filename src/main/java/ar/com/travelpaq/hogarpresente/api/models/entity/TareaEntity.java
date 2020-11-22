@@ -1,14 +1,10 @@
 package ar.com.travelpaq.hogarpresente.api.models.entity;
 
-import ar.com.travelpaq.hogarpresente.api.models.dto.TareaDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Data
 @AllArgsConstructor
@@ -16,7 +12,9 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "tareas")
 public class TareaEntity {
+
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Column(nullable = false, length = 60)
@@ -28,14 +26,10 @@ public class TareaEntity {
     @Column(nullable = false, length = 60)
     private String documento;
 
-    private Boolean terminada;
+    @ManyToOne
+    @JoinColumn(name = "unidad_id")
+    private UnidadEntity unidad;
 
-    public TareaDto convertToTarea(TareaEntity tareaEntity) {
-        TareaDto tareaDto = new TareaDto();
-        tareaDto.setId(tareaEntity.getId());
-        tareaDto.setNombre(tareaEntity.getNombre());
-        tareaDto.setDocumento(tareaEntity.getDocumento());
-        tareaDto.setDescripcion(tareaEntity.getDescripcion());
-        return tareaDto;
-    }
+//    private Boolean terminada;
+
 }

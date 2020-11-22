@@ -17,6 +17,7 @@ import java.util.List;
 public class UnidadEntity {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Column(nullable = false, length = 75)
@@ -25,25 +26,13 @@ public class UnidadEntity {
     @Column(nullable = false, length = 75)
     private String descripcion;
 
-    private Boolean terminada;
+//    private Boolean terminada;
 
-    @OneToMany(targetEntity = TareaEntity.class)
-    private List<TareaEntity> tareas;
+    @ManyToOne
+    @JoinColumn(name = "curso_id")
+    private CursoEntity curso;
 
-    public UnidadDto convertToUnidad(UnidadEntity unidadEntity) {
-        UnidadDto unidadDto = new UnidadDto();
-        unidadDto.setId(unidadEntity.getId());
-        unidadDto.setNombre(unidadEntity.getNombre());
-        unidadDto.setDescripcion(unidadEntity.getDescripcion());
+//    @OneToMany(targetEntity = TareaEntity.class, cascade = CascadeType.ALL)
+//    private List<TareaEntity> tareas;
 
-        List<TareaDto> tareasDominio = new ArrayList<>();
-
-        List<TareaEntity> tareasEntity = tareas;
-
-        tareasEntity.forEach(tareaEntity -> tareasDominio.add(tareaEntity.convertToTarea(tareaEntity)));
-
-        unidadDto.setTareaDtos(tareasDominio);
-
-        return unidadDto;
-    }
 }
