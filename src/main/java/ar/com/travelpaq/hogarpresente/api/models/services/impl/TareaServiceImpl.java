@@ -3,6 +3,7 @@ package ar.com.travelpaq.hogarpresente.api.models.services.impl;
 import ar.com.travelpaq.hogarpresente.api.models.dto.Mensaje;
 import ar.com.travelpaq.hogarpresente.api.models.dto.TareaDto;
 import ar.com.travelpaq.hogarpresente.api.models.entity.TareaEntity;
+import ar.com.travelpaq.hogarpresente.api.models.entity.UnidadEntity;
 import ar.com.travelpaq.hogarpresente.api.models.mapper.TareaMapper;
 import ar.com.travelpaq.hogarpresente.api.models.mapper.UnidadMapper;
 import ar.com.travelpaq.hogarpresente.api.models.repository.ITareaRepository;
@@ -80,5 +81,14 @@ public class TareaServiceImpl implements ITareaService {
             return new ResponseEntity(new Mensaje("No existe"), HttpStatus.NOT_FOUND);
         tareaRepository.deleteById(id);
         return new ResponseEntity(new Mensaje("Unidad Eliminada!"), HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<?> findByUnidadId(Long id) {
+        if (!unidadRepository.existsById(id))
+            return new ResponseEntity(new Mensaje("La unidad debe existir en la base de datos"), HttpStatus.NOT_FOUND);
+        UnidadEntity unidadEntity = unidadRepository.findById(id).orElse(null);
+        List<TareaEntity> tareaEntities = tareaRepository.findAllByUnidad(unidadEntity);
+        return new ResponseEntity(tareaEntities, HttpStatus.OK);
     }
 }

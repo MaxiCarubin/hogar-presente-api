@@ -15,4 +15,8 @@ public interface IInscripcionService {
     public ResponseEntity<?> update(InscripcionDto inscripcionDto, Long id);
 
     public ResponseEntity<?> delete(Long id);
+
+    public ResponseEntity<?> findByAlumnoId(Long id);
+
+    public ResponseEntity<?> findByCursoId(Long id);
 }

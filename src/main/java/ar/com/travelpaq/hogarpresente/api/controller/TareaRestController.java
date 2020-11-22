@@ -40,4 +40,9 @@ public class TareaRestController {
     public ResponseEntity<?> delete(@PathVariable Long id) {
         return tareaService.delete(id);
     }
+
+    @GetMapping("/tareas/unidad/{id}")
+    public  ResponseEntity<?> findByUnidadId(@PathVariable Long id){
+        return tareaService.findByUnidadId(id);
+    }
 }

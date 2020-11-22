@@ -15,4 +15,6 @@ public interface ITareaService {
     public  ResponseEntity<?> update(TareaDto tareaDto, Long id);
 
     public  ResponseEntity<?> delete(Long id);
+
+    public ResponseEntity<?> findByUnidadId(Long id);
 }

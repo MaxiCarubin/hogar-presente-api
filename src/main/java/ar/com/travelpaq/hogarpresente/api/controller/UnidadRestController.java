@@ -39,4 +39,9 @@ public class UnidadRestController {
     public ResponseEntity<?> delete(@PathVariable Long id) {
         return unidadService.delete(id);
     }
+
+    @GetMapping("/unidades/curso/{id}")
+    public ResponseEntity<?> findByCursoId(@PathVariable Long id){
+        return unidadService.findByCursoId(id);
+    }
 }

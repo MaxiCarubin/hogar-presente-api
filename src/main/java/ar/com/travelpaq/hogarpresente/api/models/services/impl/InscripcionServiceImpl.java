@@ -2,6 +2,8 @@ package ar.com.travelpaq.hogarpresente.api.models.services.impl;
 
 import ar.com.travelpaq.hogarpresente.api.models.dto.InscripcionDto;
 import ar.com.travelpaq.hogarpresente.api.models.dto.Mensaje;
+import ar.com.travelpaq.hogarpresente.api.models.entity.AlumnoEntity;
+import ar.com.travelpaq.hogarpresente.api.models.entity.CursoEntity;
 import ar.com.travelpaq.hogarpresente.api.models.entity.InscripcionEntity;
 import ar.com.travelpaq.hogarpresente.api.models.mapper.AlumnoMapper;
 import ar.com.travelpaq.hogarpresente.api.models.mapper.CursoMapper;
@@ -85,6 +87,24 @@ public class InscripcionServiceImpl implements IInscripcionService {
             return new ResponseEntity(new Mensaje("No existe"), HttpStatus.NOT_FOUND);
         inscripcionRepository.deleteById(id);
         return new ResponseEntity(new Mensaje("Inscripción Eliminada!"), HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<?> findByAlumnoId(Long id) {
+        if(!alumnoRepository.existsById(id))
+            return new ResponseEntity(new Mensaje("El alumno debe existir en la base de datos"), HttpStatus.NOT_FOUND);
+        AlumnoEntity alumnoEntity = alumnoRepository.findById(id).orElse(null);
+        List<InscripcionEntity> inscripcionEntities = inscripcionRepository.findAllByAlumno(alumnoEntity);
+        return new ResponseEntity(inscripcionEntities, HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<?> findByCursoId(Long id) {
+        if(!cursoRepository.existsById(id))
+            return new ResponseEntity(new Mensaje("El curso debe existir en la base de datos"), HttpStatus.NOT_FOUND);
+        CursoEntity cursoEntity = cursoRepository.findById(id).orElse(null);
+        List<InscripcionEntity> inscripcionEntities = inscripcionRepository.findAllByCurso(cursoEntity);
+        return new ResponseEntity(inscripcionEntities, HttpStatus.OK);
     }
 }
 
