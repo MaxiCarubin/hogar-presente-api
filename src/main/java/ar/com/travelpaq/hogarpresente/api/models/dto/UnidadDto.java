@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 
 @Data
 @AllArgsConstructor
@@ -15,9 +17,9 @@ public class UnidadDto {
 
     private String descripcion;
 
-//    private List<TareaDto> tareas;
-
 //    private Boolean terminada;
+
+    private List<Long> tareasId;
 
     private long cursoId;
 

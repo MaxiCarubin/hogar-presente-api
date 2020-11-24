@@ -26,9 +26,9 @@ public class TareaEntity {
     @Column(nullable = false, length = 60)
     private String documento;
 
-    @ManyToOne
-    @JoinColumn(name = "unidad_id")
-    private UnidadEntity unidad;
+//    @ManyToOne
+//    @JoinColumn(name = "unidad_id")
+//    private UnidadEntity unidad;
 
 //    private Boolean terminada;
 

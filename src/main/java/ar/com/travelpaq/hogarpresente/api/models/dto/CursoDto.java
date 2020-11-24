@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
-import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -31,8 +30,8 @@ public class CursoDto {
     private String imagen;
 
 //    private Set<InscripcionDto> inscripciones;
-//
-//    private List<UnidadDto> unidades;
+
+    private List<Long> unidadesId;
 
 
 

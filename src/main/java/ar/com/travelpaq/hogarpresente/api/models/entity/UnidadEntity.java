@@ -27,12 +27,11 @@ public class UnidadEntity {
     private String descripcion;
 
 //    private Boolean terminada;
+//    @ManyToOne
+//    @JoinColumn(name = "curso_id")
+//    private CursoEntity curso;
 
-    @ManyToOne
-    @JoinColumn(name = "curso_id")
-    private CursoEntity curso;
-
-//    @OneToMany(targetEntity = TareaEntity.class, cascade = CascadeType.ALL)
-//    private List<TareaEntity> tareas;
+    @OneToMany(targetEntity = TareaEntity.class, cascade = CascadeType.ALL)
+    private List<TareaEntity> tareas;
 
 }

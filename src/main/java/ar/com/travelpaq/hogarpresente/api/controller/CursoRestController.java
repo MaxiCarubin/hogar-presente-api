@@ -16,7 +16,7 @@ public class CursoRestController {
     private ICursoService cursoService;
     //cambiar por findAll
     @GetMapping("/cursos")
-    public ResponseEntity<List<CursoDto>> findAll(){
+    public ResponseEntity<?> findAll(){
         return cursoService.findAll();
     }
     //cambiar por findOne

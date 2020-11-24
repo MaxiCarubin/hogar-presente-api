@@ -9,5 +9,4 @@ import java.util.List;
 
 @Repository
 public interface ITareaRepository extends JpaRepository<TareaEntity, Long> {
-    List<TareaEntity> findAllByUnidad(UnidadEntity unidadEntity);
 }

@@ -16,5 +16,5 @@ public interface IUnidadService {
 
     public ResponseEntity<?> delete(Long id);
 
-    public ResponseEntity<?> findByCursoId(Long id);
+//    public ResponseEntity<?> findByCursoId(Long id);
 }

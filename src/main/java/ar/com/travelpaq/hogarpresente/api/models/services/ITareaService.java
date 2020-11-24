@@ -16,5 +16,5 @@ public interface ITareaService {
 
     public  ResponseEntity<?> delete(Long id);
 
-    public ResponseEntity<?> findByUnidadId(Long id);
+//    public ResponseEntity<?> findByUnidadId(Long id);
 }

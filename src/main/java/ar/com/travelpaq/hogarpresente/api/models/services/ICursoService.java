@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface ICursoService {
 
-    public ResponseEntity<List<CursoDto>> findAll();
+    public ResponseEntity<?> findAll();
 
     public boolean findById2(Long id);
 

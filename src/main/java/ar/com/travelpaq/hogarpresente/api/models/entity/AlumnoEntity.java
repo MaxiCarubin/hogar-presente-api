@@ -52,11 +52,14 @@ public class AlumnoEntity implements Serializable {
             uniqueConstraints = {@UniqueConstraint(columnNames = {"alumno_id","role_id"})})
     private Set<RoleEntity> roles;
 
-    public AlumnoEntity(String nombre, String apellido, String correo, String clave) {
+    public AlumnoEntity(String nombre, String apellido, String correo, String clave, int edad, String foto, String estudio) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.correo = correo;
         this.clave = clave;
+        this.edad = edad;
+        this.foto = foto;
+        this.estudio = estudio;
     }
 
 }

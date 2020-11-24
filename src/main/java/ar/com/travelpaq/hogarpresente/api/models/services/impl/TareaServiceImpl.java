@@ -2,6 +2,7 @@ package ar.com.travelpaq.hogarpresente.api.models.services.impl;
 
 import ar.com.travelpaq.hogarpresente.api.models.dto.Mensaje;
 import ar.com.travelpaq.hogarpresente.api.models.dto.TareaDto;
+import ar.com.travelpaq.hogarpresente.api.models.entity.CursoEntity;
 import ar.com.travelpaq.hogarpresente.api.models.entity.TareaEntity;
 import ar.com.travelpaq.hogarpresente.api.models.entity.UnidadEntity;
 import ar.com.travelpaq.hogarpresente.api.models.mapper.TareaMapper;
@@ -53,12 +54,14 @@ public class TareaServiceImpl implements ITareaService {
             return new ResponseEntity(new Mensaje("El nombre es obligatorio"), HttpStatus.BAD_REQUEST);
         if(StringUtils.isBlank(tareaDto.getDescripcion()))
             return new ResponseEntity(new Mensaje("La descripcion es obligatoria"), HttpStatus.BAD_REQUEST);
-        if(!unidadRepository.existsById(tareaDto.getUnidadId())){
-            return new ResponseEntity(new Mensaje("La unidad debe existir en la base de datos"), HttpStatus.BAD_REQUEST);
-        }
+//        if(!unidadRepository.existsById(tareaDto.getUnidadId()))
+//            return new ResponseEntity(new Mensaje("La unidad debe existir en la base de datos"), HttpStatus.BAD_REQUEST);
         TareaEntity tareaEntity = tareaMapper.mapTareaEntityToTarea(tareaDto);
-        tareaEntity.setUnidad(unidadRepository.findById(tareaDto.getUnidadId()).orElse(null));
+//        tareaEntity.setUnidad(unidadRepository.findById(tareaDto.getUnidadId()).orElse(null));
         tareaRepository.save(tareaEntity);
+        UnidadEntity unidadEntity = unidadRepository.getOne(tareaDto.getUnidadId());
+        unidadEntity.getTareas().add(tareaEntity);
+        unidadRepository.save(unidadEntity);
         return new ResponseEntity(new Mensaje("Tarea Creada!"), HttpStatus.OK);
     }
 
@@ -70,7 +73,7 @@ public class TareaServiceImpl implements ITareaService {
         tareaEntity.setNombre(tareaDto.getNombre());
         tareaEntity.setDescripcion(tareaDto.getDescripcion());
         tareaEntity.setDocumento(tareaDto.getDocumento());
-        tareaEntity.setUnidad(unidadRepository.findById(tareaDto.getUnidadId()).orElse(null));
+//        tareaEntity.setUnidad(unidadRepository.findById(tareaDto.getUnidadId()).orElse(null));
         tareaRepository.save(tareaEntity);
         return new ResponseEntity(new Mensaje("Unidad Actualizada!"), HttpStatus.OK);
     }
@@ -83,12 +86,12 @@ public class TareaServiceImpl implements ITareaService {
         return new ResponseEntity(new Mensaje("Unidad Eliminada!"), HttpStatus.OK);
     }
 
-    @Override
-    public ResponseEntity<?> findByUnidadId(Long id) {
-        if (!unidadRepository.existsById(id))
-            return new ResponseEntity(new Mensaje("La unidad debe existir en la base de datos"), HttpStatus.NOT_FOUND);
-        UnidadEntity unidadEntity = unidadRepository.findById(id).orElse(null);
-        List<TareaEntity> tareaEntities = tareaRepository.findAllByUnidad(unidadEntity);
-        return new ResponseEntity(tareaEntities, HttpStatus.OK);
-    }
+//    @Override
+//    public ResponseEntity<?> findByUnidadId(Long id) {
+//        if (!unidadRepository.existsById(id))
+//            return new ResponseEntity(new Mensaje("La unidad debe existir en la base de datos"), HttpStatus.NOT_FOUND);
+//        UnidadEntity unidadEntity = unidadRepository.findById(id).orElse(null);
+//        List<TareaEntity> tareaEntities = tareaRepository.findAllByUnidad(unidadEntity);
+//        return new ResponseEntity(tareaEntities, HttpStatus.OK);
+//    }
 }

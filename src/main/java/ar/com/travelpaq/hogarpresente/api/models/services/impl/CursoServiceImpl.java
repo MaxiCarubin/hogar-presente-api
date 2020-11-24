@@ -11,6 +11,7 @@ import ar.com.travelpaq.hogarpresente.api.models.mapper.CursoMapper;
 import ar.com.travelpaq.hogarpresente.api.models.mapper.InscripcionMapper;
 import ar.com.travelpaq.hogarpresente.api.models.mapper.UnidadMapper;
 import ar.com.travelpaq.hogarpresente.api.models.repository.ICursoRepository;
+import ar.com.travelpaq.hogarpresente.api.models.repository.IUnidadRepository;
 import ar.com.travelpaq.hogarpresente.api.models.services.ICursoService;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,8 +39,11 @@ public class CursoServiceImpl implements ICursoService {
     @Autowired
     private UnidadMapper unidadMapper;
 
+    @Autowired
+    private IUnidadRepository unidadRepository;
+
     @Override
-    public ResponseEntity<List<CursoDto>> findAll() {
+    public ResponseEntity<?> findAll() {
         List<CursoEntity> cursoEntities = cursoRepository.findAll();
         return new ResponseEntity(cursoEntities, HttpStatus.OK);
     }
@@ -70,10 +74,23 @@ public class CursoServiceImpl implements ICursoService {
         if(cursoDto.getPrecio() < 0)
             return new ResponseEntity(new Mensaje("El precio no puede ser negativo"), HttpStatus.BAD_REQUEST);
         if(cursoDto.getHoras() == 0 || cursoDto.getHoras() < 0)
-            return new ResponseEntity(new Mensaje("No puede contener 0 horas el curso u horas negativas"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(new Mensaje("El curso no puede contener 0 horas u horas negativas"), HttpStatus.BAD_REQUEST);
         if(StringUtils.isBlank(cursoDto.getCapacitador()))
             return new ResponseEntity(new Mensaje("El capacitador es obligatorio"), HttpStatus.BAD_REQUEST);
         CursoEntity cursoEntity = cursoMapper.mapCursoToCursoEntity(cursoDto);
+        if (!cursoDto.getUnidadesId().isEmpty())
+        {
+            for(long id : cursoDto.getUnidadesId()){
+                if(!unidadRepository.existsById(id))
+                    return new ResponseEntity(new Mensaje("La unidad ID: " + id + " no existe en la base de datos"), HttpStatus.NOT_FOUND);
+            }
+            List<UnidadEntity> unidades = new ArrayList<>();
+            for(long id : cursoDto.getUnidadesId()){
+                UnidadEntity unidadEntity = unidadRepository.getOne(id);
+                unidades.add(unidadEntity);
+            }
+            cursoEntity.setUnidades(unidades);
+        }
         cursoRepository.save(cursoEntity);
         return new ResponseEntity(new Mensaje("Curso creado!"), HttpStatus.OK);
     }
@@ -83,6 +100,16 @@ public class CursoServiceImpl implements ICursoService {
     public ResponseEntity<?> update(CursoDto cursoDto, Long id) {
         if (!cursoRepository.existsById(id))
             return new ResponseEntity(new Mensaje("no existe el curso en la base de datos"), HttpStatus.NOT_FOUND);
+        if(StringUtils.isBlank(cursoDto.getNombre()))
+            return new ResponseEntity(new Mensaje("El nombre es obligatorio"), HttpStatus.BAD_REQUEST);
+        if(StringUtils.isBlank(cursoDto.getDescripcion()))
+            return new ResponseEntity(new Mensaje("La descripcion es obligatoria"), HttpStatus.BAD_REQUEST);
+        if(cursoDto.getPrecio() < 0)
+            return new ResponseEntity(new Mensaje("El precio no puede ser negativo"), HttpStatus.BAD_REQUEST);
+        if(cursoDto.getHoras() == 0 || cursoDto.getHoras() < 0)
+            return new ResponseEntity(new Mensaje("El curso no puede contener 0 horas u horas negativas"), HttpStatus.BAD_REQUEST);
+        if(StringUtils.isBlank(cursoDto.getCapacitador()))
+            return new ResponseEntity(new Mensaje("El capacitador es obligatorio"), HttpStatus.BAD_REQUEST);
         CursoEntity cursoEntity = cursoRepository.getOne(id);
         cursoEntity.setNombre(cursoDto.getNombre());
         cursoEntity.setDescripcion(cursoDto.getDescripcion());
@@ -90,6 +117,23 @@ public class CursoServiceImpl implements ICursoService {
         cursoEntity.setHoras(cursoDto.getHoras());
         cursoEntity.setPrecio(cursoDto.getPrecio());
         cursoEntity.setImagen(cursoDto.getImagen());
+
+        if (!cursoDto.getUnidadesId().isEmpty()){
+            for(long unidadId : cursoDto.getUnidadesId()){
+                if(!unidadRepository.existsById(unidadId))
+                    return new ResponseEntity(new Mensaje("La unidad ID: " + unidadId + " debe existir en la base de datos"), HttpStatus.NOT_FOUND);
+            }
+            List<UnidadEntity> unidades = new ArrayList<>();
+            for(long unidadId : cursoDto.getUnidadesId()){
+                UnidadEntity unidadEntity = unidadRepository.getOne(unidadId);
+                unidades.add(unidadEntity);
+            }
+            cursoEntity.setUnidades(unidades);
+        }
+
+        cursoRepository.save(cursoEntity);
+        return new ResponseEntity(new Mensaje("Curso Actualizado!"), HttpStatus.OK);
+
 //        Set<InscripcionEntity> inscripcionesEntity = new HashSet<>();
 //        Set<InscripcionDto> inscripcionesDto = cursoDto.getInscripciones();
 //        for (InscripcionDto inscripcionDto : inscripcionesDto) {
@@ -101,8 +145,6 @@ public class CursoServiceImpl implements ICursoService {
 //            unidadesEntity.add(unidadMapper.mapUnidadToUnidadEntity(unidad));
 //        }
 //        cursoEntity.setUnidades(unidadesEntity);
-        cursoRepository.save(cursoEntity);
-        return new ResponseEntity(new Mensaje("Alumno Actualizado!"), HttpStatus.OK);
     }
 
     @Override
@@ -111,6 +153,6 @@ public class CursoServiceImpl implements ICursoService {
         if (!cursoRepository.existsById(id))
             return new ResponseEntity(new Mensaje("No existe"), HttpStatus.NOT_FOUND);
         cursoRepository.deleteById(id);
-        return new ResponseEntity(new Mensaje("Alumno Eliminado!"), HttpStatus.OK);
+        return new ResponseEntity(new Mensaje("Curso Eliminado!"), HttpStatus.OK);
     }
 }

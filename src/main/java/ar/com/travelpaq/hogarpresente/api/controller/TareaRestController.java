@@ -41,8 +41,8 @@ public class TareaRestController {
         return tareaService.delete(id);
     }
 
-    @GetMapping("/tareas/unidad/{id}")
-    public  ResponseEntity<?> findByUnidadId(@PathVariable Long id){
-        return tareaService.findByUnidadId(id);
-    }
+//    @GetMapping("/tareas/unidad/{id}")
+//    public  ResponseEntity<?> findByUnidadId(@PathVariable Long id){
+//        return tareaService.findByUnidadId(id);
+//    }
 }

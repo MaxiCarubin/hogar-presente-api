@@ -43,7 +43,7 @@ public class CursoEntity {
 //    @OneToMany(mappedBy = "curso_entity",fetch = FetchType.EAGER)
 //    private Set<InscripcionEntity> inscripciones;
 //
-//    @OneToMany(targetEntity = UnidadEntity.class,cascade = CascadeType.ALL)
-//    private List<UnidadEntity> unidades;
+    @OneToMany(targetEntity = UnidadEntity.class,cascade = CascadeType.ALL)
+    private List<UnidadEntity> unidades;
 
 }
