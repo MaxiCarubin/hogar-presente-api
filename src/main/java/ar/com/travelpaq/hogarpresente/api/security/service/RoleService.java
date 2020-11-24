@@ -28,10 +28,10 @@ public class RoleService {
     }
 
     public ResponseEntity<List<RoleEntity>> findAll() {
-//        RoleEntity roleEntityADMIN = new RoleEntity(1, RoleNombre.ROLE_ADMIN);
-//        RoleEntity roleEntityUSER = new RoleEntity(2, RoleNombre.ROLE_ALUMNO);
-//        roleRepository.save(roleEntityADMIN);
-//        roleRepository.save(roleEntityUSER);
+        RoleEntity roleEntityADMIN = new RoleEntity(1, RoleNombre.ROLE_ADMIN);
+        RoleEntity roleEntityUSER = new RoleEntity(2, RoleNombre.ROLE_ALUMNO);
+        roleRepository.save(roleEntityADMIN);
+        roleRepository.save(roleEntityUSER);
         List<RoleEntity> roleEntities = roleRepository.findAll();
         return new ResponseEntity(roleEntities, HttpStatus.OK);
     }
