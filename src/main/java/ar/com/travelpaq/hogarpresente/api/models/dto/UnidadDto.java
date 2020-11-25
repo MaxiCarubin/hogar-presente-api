@@ -19,7 +19,7 @@ public class UnidadDto {
 
 //    private Boolean terminada;
 
-    private List<Long> tareasId;
+    private List<Long> ContenidosId;
 
     private long cursoId;
 

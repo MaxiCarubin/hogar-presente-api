@@ -12,7 +12,7 @@ public class UnidadMapper {
     private CursoMapper cursoMapper;
 
     @Autowired
-    private TareaMapper tareaMapper;
+    private ContenidoMapper contenidoMapper;
 
     public UnidadDto mapUnidadEntityToUnidad(UnidadEntity unidadEntity){
         UnidadDto unidadDto = new UnidadDto();

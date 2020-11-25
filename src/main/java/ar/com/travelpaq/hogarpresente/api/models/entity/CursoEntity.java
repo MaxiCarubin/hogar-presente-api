@@ -32,8 +32,6 @@ public class CursoEntity {
 
     private float precio;
 
-    private int horas;
-
     private String imagen;
 
 //    private Boolean terminado;

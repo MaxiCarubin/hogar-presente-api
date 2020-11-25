@@ -25,12 +25,17 @@ public class UsuarioPrincipal implements UserDetails {
         List<GrantedAuthority> authorities =
                 alumnoEntity.getRoles().stream().map(roleEntity -> new SimpleGrantedAuthority(roleEntity
                 .getRoleNombre().name())).collect(Collectors.toList());
-        return new UsuarioPrincipal(alumnoEntity.getNombre(), alumnoEntity.getApellido(), alumnoEntity.getCorreo(),alumnoEntity.getClave(), authorities);
+        return new UsuarioPrincipal(
+                alumnoEntity.getNombre(),
+                alumnoEntity.getApellido(),
+                alumnoEntity.getCorreo(),
+                alumnoEntity.getClave(),
+                authorities);
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return authorities;
     }
 
     @Override

@@ -49,7 +49,7 @@ public class AlumnoServiceImpl implements IAlumnoService {
     }
 
     @Override
-    public ResponseEntity<List<AlumnoEntity>> findAll() {
+    public ResponseEntity<?> findAll() {
         List<AlumnoEntity> alumnoEntities = alumnoRepository.findAll();
         return new ResponseEntity(alumnoEntities, HttpStatus.OK);
     }
@@ -57,8 +57,8 @@ public class AlumnoServiceImpl implements IAlumnoService {
     @Override
     public ResponseEntity<?> findById(Long id) {
         if (!alumnoRepository.existsById(id))
-            return new ResponseEntity(new Mensaje("no existe"), HttpStatus.NOT_FOUND);
-        AlumnoEntity alumnoEntity = alumnoRepository.getOne(id);
+            return new ResponseEntity(new Mensaje("No existe el alumno en la base de datos"), HttpStatus.NOT_FOUND);
+        AlumnoEntity alumnoEntity = alumnoRepository.findById(id).get();
         return new ResponseEntity(alumnoEntity, HttpStatus.OK);
     }
 

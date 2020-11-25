@@ -15,7 +15,7 @@ public interface IAlumnoService {
 
     public void save(AlumnoEntity alumnoEntity);
 
-    public ResponseEntity<List<AlumnoEntity>> findAll();
+    public ResponseEntity<?> findAll();
 
     public ResponseEntity<?> findById(Long id);
 

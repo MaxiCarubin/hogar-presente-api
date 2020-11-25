@@ -1,7 +1,7 @@
 package ar.com.travelpaq.hogarpresente.api.controller;
 
-import ar.com.travelpaq.hogarpresente.api.models.dto.TareaDto;
-import ar.com.travelpaq.hogarpresente.api.models.services.ITareaService;
+import ar.com.travelpaq.hogarpresente.api.models.dto.ContenidoDto;
+import ar.com.travelpaq.hogarpresente.api.models.services.IContenidoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,32 +11,32 @@ import java.util.List;
 @CrossOrigin
 @RestController
 @RequestMapping("/api")
-public class TareaRestController {
+public class ContenidoRestController {
 
     @Autowired
-    private ITareaService tareaService;
+    private IContenidoService tareaService;
 
-    @GetMapping("/tareas")
-    public ResponseEntity<List<TareaDto>> index(){
+    @GetMapping("/contenidos")
+    public ResponseEntity<List<ContenidoDto>> index(){
         return tareaService.findAll();
     }
 
-    @GetMapping("/tareas/{id}")
+    @GetMapping("/contenidos/{id}")
     public ResponseEntity<?> show(@PathVariable Long id){
         return tareaService.findById(id);
     }
 
-    @PostMapping("/tareas")
-    public ResponseEntity<?> create(@RequestBody TareaDto tareaDto){
-        return tareaService.create(tareaDto);
+    @PostMapping("/contenidos")
+    public ResponseEntity<?> create(@RequestBody ContenidoDto contenidoDto){
+        return tareaService.create(contenidoDto);
     }
 
-    @PutMapping("/tareas/{id}")
-    public ResponseEntity<?> update(@RequestBody TareaDto tareaDto, @PathVariable Long id){
-        return tareaService.update(tareaDto, id);
+    @PutMapping("/contenidos/{id}")
+    public ResponseEntity<?> update(@RequestBody ContenidoDto contenidoDto, @PathVariable Long id){
+        return tareaService.update(contenidoDto, id);
     }
 
-    @DeleteMapping("/tareas/{id}")
+    @DeleteMapping("/contenidos/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
         return tareaService.delete(id);
     }

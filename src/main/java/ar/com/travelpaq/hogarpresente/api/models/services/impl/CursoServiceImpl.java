@@ -51,8 +51,8 @@ public class CursoServiceImpl implements ICursoService {
     @Override
     public ResponseEntity<?> findById(Long id) {
         if (!cursoRepository.existsById(id))
-            return new ResponseEntity(new Mensaje("no existe"), HttpStatus.NOT_FOUND);
-        CursoEntity cursoEntity = cursoRepository.getOne(id);
+            return new ResponseEntity(new Mensaje("No existe el curso en la base de datos"), HttpStatus.NOT_FOUND);
+        CursoEntity cursoEntity = cursoRepository.findById(id).get();
         return new ResponseEntity(cursoEntity, HttpStatus.OK);
     }
 
@@ -73,8 +73,6 @@ public class CursoServiceImpl implements ICursoService {
             return new ResponseEntity(new Mensaje("La descripcion es obligatoria"), HttpStatus.BAD_REQUEST);
         if(cursoDto.getPrecio() < 0)
             return new ResponseEntity(new Mensaje("El precio no puede ser negativo"), HttpStatus.BAD_REQUEST);
-        if(cursoDto.getHoras() == 0 || cursoDto.getHoras() < 0)
-            return new ResponseEntity(new Mensaje("El curso no puede contener 0 horas u horas negativas"), HttpStatus.BAD_REQUEST);
         if(StringUtils.isBlank(cursoDto.getCapacitador()))
             return new ResponseEntity(new Mensaje("El capacitador es obligatorio"), HttpStatus.BAD_REQUEST);
         CursoEntity cursoEntity = cursoMapper.mapCursoToCursoEntity(cursoDto);
@@ -106,15 +104,12 @@ public class CursoServiceImpl implements ICursoService {
             return new ResponseEntity(new Mensaje("La descripcion es obligatoria"), HttpStatus.BAD_REQUEST);
         if(cursoDto.getPrecio() < 0)
             return new ResponseEntity(new Mensaje("El precio no puede ser negativo"), HttpStatus.BAD_REQUEST);
-        if(cursoDto.getHoras() == 0 || cursoDto.getHoras() < 0)
-            return new ResponseEntity(new Mensaje("El curso no puede contener 0 horas u horas negativas"), HttpStatus.BAD_REQUEST);
         if(StringUtils.isBlank(cursoDto.getCapacitador()))
             return new ResponseEntity(new Mensaje("El capacitador es obligatorio"), HttpStatus.BAD_REQUEST);
         CursoEntity cursoEntity = cursoRepository.getOne(id);
         cursoEntity.setNombre(cursoDto.getNombre());
         cursoEntity.setDescripcion(cursoDto.getDescripcion());
         cursoEntity.setCapacitador(cursoDto.getCapacitador());
-        cursoEntity.setHoras(cursoDto.getHoras());
         cursoEntity.setPrecio(cursoDto.getPrecio());
         cursoEntity.setImagen(cursoDto.getImagen());
 

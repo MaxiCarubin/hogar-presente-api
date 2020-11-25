@@ -1,16 +1,15 @@
 package ar.com.travelpaq.hogarpresente.api.models.services.impl;
 
 import ar.com.travelpaq.hogarpresente.api.models.dto.Mensaje;
-import ar.com.travelpaq.hogarpresente.api.models.dto.TareaDto;
 import ar.com.travelpaq.hogarpresente.api.models.dto.UnidadDto;
 import ar.com.travelpaq.hogarpresente.api.models.entity.CursoEntity;
-import ar.com.travelpaq.hogarpresente.api.models.entity.TareaEntity;
+import ar.com.travelpaq.hogarpresente.api.models.entity.ContenidoEntity;
 import ar.com.travelpaq.hogarpresente.api.models.entity.UnidadEntity;
 import ar.com.travelpaq.hogarpresente.api.models.mapper.CursoMapper;
-import ar.com.travelpaq.hogarpresente.api.models.mapper.TareaMapper;
+import ar.com.travelpaq.hogarpresente.api.models.mapper.ContenidoMapper;
 import ar.com.travelpaq.hogarpresente.api.models.mapper.UnidadMapper;
 import ar.com.travelpaq.hogarpresente.api.models.repository.ICursoRepository;
-import ar.com.travelpaq.hogarpresente.api.models.repository.ITareaRepository;
+import ar.com.travelpaq.hogarpresente.api.models.repository.IContenidoRepository;
 import ar.com.travelpaq.hogarpresente.api.models.repository.IUnidadRepository;
 import ar.com.travelpaq.hogarpresente.api.models.services.IUnidadService;
 import org.apache.commons.lang.StringUtils;
@@ -37,10 +36,10 @@ public class UnidadServiceImpl implements IUnidadService {
     private UnidadMapper unidadMapper;
 
     @Autowired
-    private TareaMapper tareaMapper;
+    private ContenidoMapper contenidoMapper;
 
     @Autowired
-    private ITareaRepository tareaRepository;
+    private IContenidoRepository tareaRepository;
 
     @Override
     public ResponseEntity<List<UnidadDto>> findAll() {
@@ -51,8 +50,8 @@ public class UnidadServiceImpl implements IUnidadService {
     @Override
     public ResponseEntity<?> findById(Long id) {
         if (!unidadRepository.existsById(id))
-            return new ResponseEntity(new Mensaje("no existe"), HttpStatus.NOT_FOUND);
-        UnidadEntity unidadEntity = unidadRepository.getOne(id);
+            return new ResponseEntity(new Mensaje("No existe la unidad en la base de datos"), HttpStatus.NOT_FOUND);
+        UnidadEntity unidadEntity = unidadRepository.findById(id).get();
         return new ResponseEntity(unidadEntity, HttpStatus.OK);
     }
 
@@ -65,18 +64,18 @@ public class UnidadServiceImpl implements IUnidadService {
         if(!cursoRepository.existsById(unidadDto.getCursoId()))
             return new ResponseEntity(new Mensaje("El curso debe existir en la base de datos"), HttpStatus.NOT_FOUND);
         UnidadEntity unidadEntity = unidadMapper.mapUnidadToUnidadEntity(unidadDto);
-        if (!unidadDto.getTareasId().isEmpty()){
-            for (long tareaId : unidadDto.getTareasId()){
-                if (!tareaRepository.existsById(tareaId)){
-                    return new ResponseEntity(new Mensaje("La tarea ID: " + tareaId + " no existe en la base de datos"), HttpStatus.NOT_FOUND);
+        if (!unidadDto.getContenidosId().isEmpty()){
+            for (long contenidoId : unidadDto.getContenidosId()){
+                if (!tareaRepository.existsById(contenidoId)){
+                    return new ResponseEntity(new Mensaje("La tarea ID: " + contenidoId + " no existe en la base de datos"), HttpStatus.NOT_FOUND);
                 }
             }
-            List<TareaEntity> tareas = new ArrayList<>();
-            for(long tareaId : unidadDto.getTareasId()){
-                TareaEntity tareaEntity = tareaRepository.getOne(tareaId);
-                tareas.add(tareaEntity);
+            List<ContenidoEntity> tareas = new ArrayList<>();
+            for(long contenidoId : unidadDto.getContenidosId()){
+                ContenidoEntity contenidoEntity = tareaRepository.getOne(contenidoId);
+                tareas.add(contenidoEntity);
             }
-            unidadEntity.setTareas(tareas);
+            unidadEntity.setContenidos(tareas);
         }
         unidadRepository.save(unidadEntity);
         CursoEntity cursoEntity = cursoRepository.getOne(unidadDto.getCursoId());
@@ -99,18 +98,18 @@ public class UnidadServiceImpl implements IUnidadService {
         unidadEntity.setNombre(unidadDto.getNombre());
         unidadEntity.setDescripcion(unidadDto.getDescripcion());
 
-        if (!unidadDto.getTareasId().isEmpty()){
-            for (long tareaId : unidadDto.getTareasId()){
-                if (!tareaRepository.existsById(tareaId)){
-                    return new ResponseEntity(new Mensaje("La tarea ID: " + tareaId + " no existe en la base de datos"), HttpStatus.NOT_FOUND);
+        if (!unidadDto.getContenidosId().isEmpty()){
+            for (long contenidoId : unidadDto.getContenidosId()){
+                if (!tareaRepository.existsById(contenidoId)){
+                    return new ResponseEntity(new Mensaje("La tarea ID: " + contenidoId + " no existe en la base de datos"), HttpStatus.NOT_FOUND);
                 }
             }
-            List<TareaEntity> tareas = new ArrayList<>();
-            for(long tareaId : unidadDto.getTareasId()){
-                TareaEntity tareaEntity = tareaRepository.getOne(tareaId);
-                tareas.add(tareaEntity);
+            List<ContenidoEntity> contenidos = new ArrayList<>();
+            for(long contenidoId : unidadDto.getContenidosId()){
+                ContenidoEntity contenidoEntity = tareaRepository.getOne(contenidoId);
+                contenidos.add(contenidoEntity);
             }
-            unidadEntity.setTareas(tareas);
+            unidadEntity.setContenidos(contenidos);
         }
 
         unidadRepository.save(unidadEntity);

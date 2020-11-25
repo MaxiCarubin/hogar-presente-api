@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class TareaDto {
+public class ContenidoDto {
     private long id;
     private String nombre;
     private String descripcion;

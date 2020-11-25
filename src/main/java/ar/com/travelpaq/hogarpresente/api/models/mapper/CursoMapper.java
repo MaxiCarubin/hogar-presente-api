@@ -29,7 +29,6 @@ public class CursoMapper {
         cursoDto.setNombre(cursoEntity.getNombre());
         cursoDto.setDescripcion(cursoEntity.getDescripcion());
         cursoDto.setCapacitador(cursoEntity.getCapacitador());
-        cursoDto.setHoras(cursoEntity.getHoras());
         cursoDto.setPrecio(cursoEntity.getPrecio());
         cursoDto.setImagen(cursoEntity.getImagen());
 
@@ -55,7 +54,6 @@ public class CursoMapper {
         cursoEntity.setNombre(cursoDto.getNombre());
         cursoEntity.setDescripcion(cursoDto.getDescripcion());
         cursoEntity.setCapacitador(cursoDto.getCapacitador());
-        cursoEntity.setHoras(cursoDto.getHoras());
         cursoEntity.setPrecio(cursoDto.getPrecio());
         cursoEntity.setImagen(cursoDto.getImagen());
 

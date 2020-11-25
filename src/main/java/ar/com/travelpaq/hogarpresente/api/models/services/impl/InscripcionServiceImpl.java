@@ -49,8 +49,8 @@ public class InscripcionServiceImpl implements IInscripcionService {
     @Override
     public ResponseEntity<?> findById(Long id) {
         if (!inscripcionRepository.existsById(id))
-            return new ResponseEntity(new Mensaje("no existe"), HttpStatus.NOT_FOUND);
-        InscripcionEntity inscripcionEntity = inscripcionRepository.getOne(id);
+            return new ResponseEntity(new Mensaje("No existe la inscripcion en la base de datos"), HttpStatus.NOT_FOUND);
+        InscripcionEntity inscripcionEntity = inscripcionRepository.findById(id).get();
         return new ResponseEntity(inscripcionEntity, HttpStatus.OK);
     }
 

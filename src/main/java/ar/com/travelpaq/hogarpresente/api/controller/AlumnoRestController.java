@@ -17,7 +17,7 @@ public class AlumnoRestController {
     private IAlumnoService alumnoService;
 
     @GetMapping("/alumnos")
-    public ResponseEntity<List<AlumnoEntity>> findAll(){
+    public ResponseEntity<?> findAll(){
         return alumnoService.findAll();
     }
 

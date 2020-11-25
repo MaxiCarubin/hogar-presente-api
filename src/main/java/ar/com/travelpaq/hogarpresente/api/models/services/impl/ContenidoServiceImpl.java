@@ -1,32 +1,30 @@
 package ar.com.travelpaq.hogarpresente.api.models.services.impl;
 
 import ar.com.travelpaq.hogarpresente.api.models.dto.Mensaje;
-import ar.com.travelpaq.hogarpresente.api.models.dto.TareaDto;
-import ar.com.travelpaq.hogarpresente.api.models.entity.CursoEntity;
-import ar.com.travelpaq.hogarpresente.api.models.entity.TareaEntity;
+import ar.com.travelpaq.hogarpresente.api.models.dto.ContenidoDto;
+import ar.com.travelpaq.hogarpresente.api.models.entity.ContenidoEntity;
 import ar.com.travelpaq.hogarpresente.api.models.entity.UnidadEntity;
-import ar.com.travelpaq.hogarpresente.api.models.mapper.TareaMapper;
+import ar.com.travelpaq.hogarpresente.api.models.mapper.ContenidoMapper;
 import ar.com.travelpaq.hogarpresente.api.models.mapper.UnidadMapper;
-import ar.com.travelpaq.hogarpresente.api.models.repository.ITareaRepository;
+import ar.com.travelpaq.hogarpresente.api.models.repository.IContenidoRepository;
 import ar.com.travelpaq.hogarpresente.api.models.repository.IUnidadRepository;
-import ar.com.travelpaq.hogarpresente.api.models.services.ITareaService;
+import ar.com.travelpaq.hogarpresente.api.models.services.IContenidoService;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class TareaServiceImpl implements ITareaService {
+public class ContenidoServiceImpl implements IContenidoService {
 
     @Autowired
-    private ITareaRepository tareaRepository;
+    private IContenidoRepository tareaRepository;
 
     @Autowired
-    private TareaMapper tareaMapper;
+    private ContenidoMapper contenidoMapper;
 
     @Autowired
     private UnidadMapper unidadMapper;
@@ -35,46 +33,46 @@ public class TareaServiceImpl implements ITareaService {
     private IUnidadRepository unidadRepository;
 
     @Override
-    public ResponseEntity<List<TareaDto>> findAll() {
-        List<TareaEntity> tareaEntities = tareaRepository.findAll();
+    public ResponseEntity<List<ContenidoDto>> findAll() {
+        List<ContenidoEntity> tareaEntities = tareaRepository.findAll();
         return new ResponseEntity(tareaEntities, HttpStatus.OK);
     }
 
     @Override
     public ResponseEntity<?> findById(Long id) {
         if (!tareaRepository.existsById(id))
-            return new ResponseEntity(new Mensaje("no existe"), HttpStatus.NOT_FOUND);
-        TareaEntity tareaEntity = tareaRepository.getOne(id);
-        return new ResponseEntity(tareaEntity, HttpStatus.OK);
+            return new ResponseEntity(new Mensaje("No existe el contenido en la base de datos"), HttpStatus.NOT_FOUND);
+        ContenidoEntity contenidoEntity = tareaRepository.findById(id).get();
+        return new ResponseEntity(contenidoEntity, HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<?> create(TareaDto tareaDto) {
-        if(StringUtils.isBlank(tareaDto.getNombre()))
+    public ResponseEntity<?> create(ContenidoDto contenidoDto) {
+        if(StringUtils.isBlank(contenidoDto.getNombre()))
             return new ResponseEntity(new Mensaje("El nombre es obligatorio"), HttpStatus.BAD_REQUEST);
-        if(StringUtils.isBlank(tareaDto.getDescripcion()))
+        if(StringUtils.isBlank(contenidoDto.getDescripcion()))
             return new ResponseEntity(new Mensaje("La descripcion es obligatoria"), HttpStatus.BAD_REQUEST);
 //        if(!unidadRepository.existsById(tareaDto.getUnidadId()))
 //            return new ResponseEntity(new Mensaje("La unidad debe existir en la base de datos"), HttpStatus.BAD_REQUEST);
-        TareaEntity tareaEntity = tareaMapper.mapTareaEntityToTarea(tareaDto);
+        ContenidoEntity contenidoEntity = contenidoMapper.mapTareaEntityToTarea(contenidoDto);
 //        tareaEntity.setUnidad(unidadRepository.findById(tareaDto.getUnidadId()).orElse(null));
-        tareaRepository.save(tareaEntity);
-        UnidadEntity unidadEntity = unidadRepository.getOne(tareaDto.getUnidadId());
-        unidadEntity.getTareas().add(tareaEntity);
+        tareaRepository.save(contenidoEntity);
+        UnidadEntity unidadEntity = unidadRepository.getOne(contenidoDto.getUnidadId());
+        unidadEntity.getContenidos().add(contenidoEntity);
         unidadRepository.save(unidadEntity);
         return new ResponseEntity(new Mensaje("Tarea Creada!"), HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<?> update(TareaDto tareaDto, Long id) {
+    public ResponseEntity<?> update(ContenidoDto contenidoDto, Long id) {
         if (!tareaRepository.existsById(id))
             return new ResponseEntity(new Mensaje("no existe la tarea en la base de datos"), HttpStatus.NOT_FOUND);
-        TareaEntity tareaEntity = tareaRepository.getOne(id);
-        tareaEntity.setNombre(tareaDto.getNombre());
-        tareaEntity.setDescripcion(tareaDto.getDescripcion());
-        tareaEntity.setDocumento(tareaDto.getDocumento());
+        ContenidoEntity contenidoEntity = tareaRepository.getOne(id);
+        contenidoEntity.setNombre(contenidoDto.getNombre());
+        contenidoEntity.setDescripcion(contenidoDto.getDescripcion());
+        contenidoEntity.setDocumento(contenidoDto.getDocumento());
 //        tareaEntity.setUnidad(unidadRepository.findById(tareaDto.getUnidadId()).orElse(null));
-        tareaRepository.save(tareaEntity);
+        tareaRepository.save(contenidoEntity);
         return new ResponseEntity(new Mensaje("Unidad Actualizada!"), HttpStatus.OK);
     }
 

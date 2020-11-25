@@ -21,8 +21,6 @@ public class CursoDto {
 
     private float precio;
 
-    private int horas;
-
 //    private Boolean enabled;
 //
 //    private Boolean terminado;
