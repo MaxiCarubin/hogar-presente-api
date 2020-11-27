@@ -1,8 +1,5 @@
 package ar.com.travelpaq.hogarpresente.api.security.service;
 
-import ar.com.travelpaq.hogarpresente.api.models.dto.AlumnoDto;
-import ar.com.travelpaq.hogarpresente.api.models.entity.AlumnoEntity;
-import ar.com.travelpaq.hogarpresente.api.security.dto.RoleDto;
 import ar.com.travelpaq.hogarpresente.api.security.entity.RoleEntity;
 import ar.com.travelpaq.hogarpresente.api.security.enums.RoleNombre;
 import ar.com.travelpaq.hogarpresente.api.security.repository.IRoleRepository;
@@ -12,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,10 +24,12 @@ public class RoleService {
     }
 
     public ResponseEntity<List<RoleEntity>> findAll() {
-        RoleEntity roleEntityADMIN = new RoleEntity(1, RoleNombre.ROLE_ADMIN);
-        RoleEntity roleEntityUSER = new RoleEntity(2, RoleNombre.ROLE_ALUMNO);
-        roleRepository.save(roleEntityADMIN);
+        RoleEntity roleEntityUSER = new RoleEntity(1, RoleNombre.ROLE_ALUMNO);
+        RoleEntity roleEntityCAPACITADOR = new RoleEntity(2, RoleNombre.ROLE_CAPACITADOR);
+        RoleEntity roleEntityADMIN = new RoleEntity(3, RoleNombre.ROLE_ADMIN);
         roleRepository.save(roleEntityUSER);
+        roleRepository.save(roleEntityCAPACITADOR);
+        roleRepository.save(roleEntityADMIN);
         List<RoleEntity> roleEntities = roleRepository.findAll();
         return new ResponseEntity(roleEntities, HttpStatus.OK);
     }

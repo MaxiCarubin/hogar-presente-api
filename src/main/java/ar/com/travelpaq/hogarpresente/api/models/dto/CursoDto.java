@@ -21,11 +21,15 @@ public class CursoDto {
 
     private float precio;
 
+    private String categoria;
+
 //    private Boolean enabled;
 //
 //    private Boolean terminado;
 
     private String imagen;
+
+    private boolean habilitado;
 
 //    private Set<InscripcionDto> inscripciones;
 

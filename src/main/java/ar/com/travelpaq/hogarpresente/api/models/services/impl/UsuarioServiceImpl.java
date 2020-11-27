@@ -1,14 +1,12 @@
 package ar.com.travelpaq.hogarpresente.api.models.services.impl;
 
-import ar.com.travelpaq.hogarpresente.api.models.dto.AlumnoDto;
-import ar.com.travelpaq.hogarpresente.api.models.dto.InscripcionDto;
+import ar.com.travelpaq.hogarpresente.api.models.dto.UsuarioDto;
 import ar.com.travelpaq.hogarpresente.api.models.dto.Mensaje;
-import ar.com.travelpaq.hogarpresente.api.models.entity.AlumnoEntity;
-import ar.com.travelpaq.hogarpresente.api.models.entity.InscripcionEntity;
-import ar.com.travelpaq.hogarpresente.api.models.mapper.AlumnoMapper;
+import ar.com.travelpaq.hogarpresente.api.models.entity.UsuarioEntity;
+import ar.com.travelpaq.hogarpresente.api.models.mapper.UsuarioMapper;
 import ar.com.travelpaq.hogarpresente.api.models.mapper.InscripcionMapper;
-import ar.com.travelpaq.hogarpresente.api.models.repository.IAlumnoRepository;
-import ar.com.travelpaq.hogarpresente.api.models.services.IAlumnoService;
+import ar.com.travelpaq.hogarpresente.api.models.repository.IUsuarioRepository;
+import ar.com.travelpaq.hogarpresente.api.models.services.IUsuarioService;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,74 +20,74 @@ import java.util.*;
 
 @Service
 @Transactional
-public class AlumnoServiceImpl implements IAlumnoService {
+public class UsuarioServiceImpl implements IUsuarioService {
 
-    private Logger logger = LoggerFactory.getLogger(AlumnoServiceImpl.class);
-
-    @Autowired
-    private IAlumnoRepository alumnoRepository;
+    private Logger logger = LoggerFactory.getLogger(UsuarioServiceImpl.class);
 
     @Autowired
-    private AlumnoMapper alumnoMapper;
+    private IUsuarioRepository usuarioRepository;
+
+    @Autowired
+    private UsuarioMapper usuarioMapper;
 
     @Autowired
     private InscripcionMapper inscripcionMapper;
 
     @Override
-    public Optional<AlumnoEntity> getByCorreo(String correo) {
-        return alumnoRepository.findByCorreo(correo);
+    public Optional<UsuarioEntity> getByCorreo(String correo) {
+        return usuarioRepository.findByCorreo(correo);
     }
 
     public boolean existsByCorreo(String correo){
-        return alumnoRepository.existsByCorreo(correo);
+        return usuarioRepository.existsByCorreo(correo);
     }
 
-    public void save(AlumnoEntity alumnoEntity){
-        alumnoRepository.save(alumnoEntity);
+    public void save(UsuarioEntity usuarioEntity){
+        usuarioRepository.save(usuarioEntity);
     }
 
     @Override
     public ResponseEntity<?> findAll() {
-        List<AlumnoEntity> alumnoEntities = alumnoRepository.findAll();
-        return new ResponseEntity(alumnoEntities, HttpStatus.OK);
+        List<UsuarioEntity> usuarioEntities = usuarioRepository.findAll();
+        return new ResponseEntity(usuarioEntities, HttpStatus.OK);
     }
 
     @Override
     public ResponseEntity<?> findById(Long id) {
-        if (!alumnoRepository.existsById(id))
+        if (!usuarioRepository.existsById(id))
             return new ResponseEntity(new Mensaje("No existe el alumno en la base de datos"), HttpStatus.NOT_FOUND);
-        AlumnoEntity alumnoEntity = alumnoRepository.findById(id).get();
-        return new ResponseEntity(alumnoEntity, HttpStatus.OK);
+        UsuarioEntity usuarioEntity = usuarioRepository.findById(id).get();
+        return new ResponseEntity(usuarioEntity, HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<?> create(AlumnoDto alumnoDto) {
-        if(StringUtils.isBlank(alumnoDto.getNombre()))
+    public ResponseEntity<?> create(UsuarioDto usuarioDto) {
+        if(StringUtils.isBlank(usuarioDto.getNombre()))
             return new ResponseEntity(new Mensaje("El nombre es obligatorio"), HttpStatus.BAD_REQUEST);
-        if(StringUtils.isBlank(alumnoDto.getApellido()))
+        if(StringUtils.isBlank(usuarioDto.getApellido()))
             return new ResponseEntity(new Mensaje("El apellido es obligatorio"), HttpStatus.BAD_REQUEST);
-        if(StringUtils.isEmpty(alumnoDto.getClave()))
+        if(StringUtils.isEmpty(usuarioDto.getClave()))
             return new ResponseEntity(new Mensaje("La clave no puede estar vacia"), HttpStatus.BAD_REQUEST);
-        if(alumnoRepository.existsByCorreo(alumnoDto.getCorreo()))
+        if(usuarioRepository.existsByCorreo(usuarioDto.getCorreo()))
             return new ResponseEntity(new Mensaje("Ese correo ya existe"), HttpStatus.BAD_REQUEST);
-        AlumnoEntity alumnoEntity = alumnoMapper.mapAlumnoToAlumnoEntity(alumnoDto);
-        alumnoRepository.save(alumnoEntity);
+        UsuarioEntity usuarioEntity = usuarioMapper.mapAlumnoToAlumnoEntity(usuarioDto);
+        usuarioRepository.save(usuarioEntity);
         return new ResponseEntity(new Mensaje("Alumno creado"), HttpStatus.OK);
     }
 
     @Override
     @Transactional
-    public ResponseEntity<?> update(AlumnoDto alumnoDto, Long id) {
-        if (!alumnoRepository.existsById(id))
+    public ResponseEntity<?> update(UsuarioDto usuarioDto, Long id) {
+        if (!usuarioRepository.existsById(id))
             return new ResponseEntity(new Mensaje("no existe el alumno en la base de datos"), HttpStatus.NOT_FOUND);
-        AlumnoEntity alumnoEntity = alumnoRepository.getOne(id);
-        alumnoEntity.setNombre(alumnoDto.getNombre());
-        alumnoEntity.setApellido(alumnoDto.getApellido());
-        alumnoEntity.setCorreo(alumnoDto.getCorreo());
-        alumnoEntity.setClave(alumnoDto.getClave());
-        alumnoEntity.setFoto(alumnoDto.getFoto());
-        alumnoEntity.setEdad(alumnoDto.getEdad());
-        alumnoEntity.setEstudio(alumnoDto.getEstudio());
+        UsuarioEntity usuarioEntity = usuarioRepository.getOne(id);
+        usuarioEntity.setNombre(usuarioDto.getNombre());
+        usuarioEntity.setApellido(usuarioDto.getApellido());
+        usuarioEntity.setCorreo(usuarioDto.getCorreo());
+        usuarioEntity.setClave(usuarioDto.getClave());
+        usuarioEntity.setFoto(usuarioDto.getFoto());
+        usuarioEntity.setEdad(usuarioDto.getEdad());
+        usuarioEntity.setEstudio(usuarioDto.getEstudio());
 
 //        Set<InscripcionEntity> inscripcionesEntity = new HashSet<>();
 //        Set<InscripcionDto> inscripcionesDto = alumnoDto.getInscripciones();
@@ -98,16 +96,16 @@ public class AlumnoServiceImpl implements IAlumnoService {
 //        }
 //        alumnoEntity.setInscripciones(inscripcionesEntity);
 
-        alumnoRepository.save(alumnoEntity);
+        usuarioRepository.save(usuarioEntity);
         return new ResponseEntity(new Mensaje("Alumno Actualizado!"), HttpStatus.OK);
     }
 
     @Override
     @Transactional
     public ResponseEntity<?> delete(Long id) {
-        if (!alumnoRepository.existsById(id))
+        if (!usuarioRepository.existsById(id))
             return new ResponseEntity(new Mensaje("No existe"), HttpStatus.NOT_FOUND);
-        alumnoRepository.deleteById(id);
+        usuarioRepository.deleteById(id);
         return new ResponseEntity(new Mensaje("Alumno Eliminado!"), HttpStatus.OK);
     }
 }

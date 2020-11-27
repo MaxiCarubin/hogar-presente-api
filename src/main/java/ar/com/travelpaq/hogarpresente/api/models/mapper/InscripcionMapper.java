@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 public class InscripcionMapper {
 
     @Autowired
-    private AlumnoMapper alumnoMapper;
+    private UsuarioMapper usuarioMapper;
 
     @Autowired
     private CursoMapper cursoMapper;

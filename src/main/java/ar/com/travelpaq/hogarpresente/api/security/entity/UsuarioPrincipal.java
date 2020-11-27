@@ -1,6 +1,6 @@
 package ar.com.travelpaq.hogarpresente.api.security.entity;
 
-import ar.com.travelpaq.hogarpresente.api.models.entity.AlumnoEntity;
+import ar.com.travelpaq.hogarpresente.api.models.entity.UsuarioEntity;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -21,15 +21,15 @@ public class UsuarioPrincipal implements UserDetails {
     private String clave;
     private Collection<? extends GrantedAuthority> authorities;
 
-    public static UsuarioPrincipal build(AlumnoEntity alumnoEntity){
+    public static UsuarioPrincipal build(UsuarioEntity usuarioEntity){
         List<GrantedAuthority> authorities =
-                alumnoEntity.getRoles().stream().map(roleEntity -> new SimpleGrantedAuthority(roleEntity
+                usuarioEntity.getRoles().stream().map(roleEntity -> new SimpleGrantedAuthority(roleEntity
                 .getRoleNombre().name())).collect(Collectors.toList());
         return new UsuarioPrincipal(
-                alumnoEntity.getNombre(),
-                alumnoEntity.getApellido(),
-                alumnoEntity.getCorreo(),
-                alumnoEntity.getClave(),
+                usuarioEntity.getNombre(),
+                usuarioEntity.getApellido(),
+                usuarioEntity.getCorreo(),
+                usuarioEntity.getClave(),
                 authorities);
     }
 

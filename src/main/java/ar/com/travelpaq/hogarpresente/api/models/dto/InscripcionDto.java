@@ -14,7 +14,7 @@ public class InscripcionDto {
 
     private Date inscripcionAt;
 
-    private long alumnoId;
+    private long usuarioId;
 
     private long cursoId;
 

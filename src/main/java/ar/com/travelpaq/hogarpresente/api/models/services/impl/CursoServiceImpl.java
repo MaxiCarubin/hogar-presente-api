@@ -112,6 +112,8 @@ public class CursoServiceImpl implements ICursoService {
         cursoEntity.setCapacitador(cursoDto.getCapacitador());
         cursoEntity.setPrecio(cursoDto.getPrecio());
         cursoEntity.setImagen(cursoDto.getImagen());
+        cursoEntity.setCategoria(cursoDto.getCategoria());
+        cursoEntity.setHabilitado(cursoDto.isHabilitado());
 
         if (!cursoDto.getUnidadesId().isEmpty()){
             for(long unidadId : cursoDto.getUnidadesId()){

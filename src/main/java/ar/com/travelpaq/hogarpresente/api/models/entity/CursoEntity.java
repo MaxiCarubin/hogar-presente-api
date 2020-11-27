@@ -32,7 +32,11 @@ public class CursoEntity {
 
     private float precio;
 
+    private String categoria;
+
     private String imagen;
+
+    private boolean habilitado;
 
 //    private Boolean terminado;
 //

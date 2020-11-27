@@ -21,7 +21,7 @@ import java.util.List;
 public class ContenidoServiceImpl implements IContenidoService {
 
     @Autowired
-    private IContenidoRepository tareaRepository;
+    private IContenidoRepository contenidoRepository;
 
     @Autowired
     private ContenidoMapper contenidoMapper;
@@ -34,15 +34,15 @@ public class ContenidoServiceImpl implements IContenidoService {
 
     @Override
     public ResponseEntity<List<ContenidoDto>> findAll() {
-        List<ContenidoEntity> tareaEntities = tareaRepository.findAll();
+        List<ContenidoEntity> tareaEntities = contenidoRepository.findAll();
         return new ResponseEntity(tareaEntities, HttpStatus.OK);
     }
 
     @Override
     public ResponseEntity<?> findById(Long id) {
-        if (!tareaRepository.existsById(id))
+        if (!contenidoRepository.existsById(id))
             return new ResponseEntity(new Mensaje("No existe el contenido en la base de datos"), HttpStatus.NOT_FOUND);
-        ContenidoEntity contenidoEntity = tareaRepository.findById(id).get();
+        ContenidoEntity contenidoEntity = contenidoRepository.findById(id).get();
         return new ResponseEntity(contenidoEntity, HttpStatus.OK);
     }
 
@@ -56,7 +56,7 @@ public class ContenidoServiceImpl implements IContenidoService {
 //            return new ResponseEntity(new Mensaje("La unidad debe existir en la base de datos"), HttpStatus.BAD_REQUEST);
         ContenidoEntity contenidoEntity = contenidoMapper.mapTareaEntityToTarea(contenidoDto);
 //        tareaEntity.setUnidad(unidadRepository.findById(tareaDto.getUnidadId()).orElse(null));
-        tareaRepository.save(contenidoEntity);
+        contenidoRepository.save(contenidoEntity);
         UnidadEntity unidadEntity = unidadRepository.getOne(contenidoDto.getUnidadId());
         unidadEntity.getContenidos().add(contenidoEntity);
         unidadRepository.save(unidadEntity);
@@ -65,22 +65,22 @@ public class ContenidoServiceImpl implements IContenidoService {
 
     @Override
     public ResponseEntity<?> update(ContenidoDto contenidoDto, Long id) {
-        if (!tareaRepository.existsById(id))
+        if (!contenidoRepository.existsById(id))
             return new ResponseEntity(new Mensaje("no existe la tarea en la base de datos"), HttpStatus.NOT_FOUND);
-        ContenidoEntity contenidoEntity = tareaRepository.getOne(id);
+        ContenidoEntity contenidoEntity = contenidoRepository.getOne(id);
         contenidoEntity.setNombre(contenidoDto.getNombre());
         contenidoEntity.setDescripcion(contenidoDto.getDescripcion());
         contenidoEntity.setDocumento(contenidoDto.getDocumento());
 //        tareaEntity.setUnidad(unidadRepository.findById(tareaDto.getUnidadId()).orElse(null));
-        tareaRepository.save(contenidoEntity);
+        contenidoRepository.save(contenidoEntity);
         return new ResponseEntity(new Mensaje("Unidad Actualizada!"), HttpStatus.OK);
     }
 
     @Override
     public ResponseEntity<?> delete(Long id) {
-        if (!tareaRepository.existsById(id))
+        if (!contenidoRepository.existsById(id))
             return new ResponseEntity(new Mensaje("No existe"), HttpStatus.NOT_FOUND);
-        tareaRepository.deleteById(id);
+        contenidoRepository.deleteById(id);
         return new ResponseEntity(new Mensaje("Unidad Eliminada!"), HttpStatus.OK);
     }
 

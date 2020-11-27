@@ -9,7 +9,7 @@ import java.util.Set;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AlumnoDto {
+public class UsuarioDto {
 
     private long id;
 

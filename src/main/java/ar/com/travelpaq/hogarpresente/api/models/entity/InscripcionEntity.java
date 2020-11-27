@@ -1,5 +1,4 @@
 package ar.com.travelpaq.hogarpresente.api.models.entity;
-import ar.com.travelpaq.hogarpresente.api.models.dto.InscripcionDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,8 +20,8 @@ public class InscripcionEntity {
     private Date inscripcionAt;
 
     @ManyToOne
-    @JoinColumn(name = "alumno_id")
-    private AlumnoEntity alumno;
+    @JoinColumn(name = "usuario_id")
+    private UsuarioEntity alumno;
 
     @ManyToOne
     @JoinColumn(name = "curso_id")

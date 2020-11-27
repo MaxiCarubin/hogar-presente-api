@@ -31,6 +31,8 @@ public class CursoMapper {
         cursoDto.setCapacitador(cursoEntity.getCapacitador());
         cursoDto.setPrecio(cursoEntity.getPrecio());
         cursoDto.setImagen(cursoEntity.getImagen());
+        cursoDto.setCategoria(cursoEntity.getCategoria());
+        cursoDto.setHabilitado(cursoEntity.isHabilitado());
 
 //        Set<InscripcionDto> inscripcioesDominio = new HashSet<>();
 //        Set<InscripcionEntity> inscripcionesEntity = cursoEntity.getInscripciones();
@@ -56,6 +58,8 @@ public class CursoMapper {
         cursoEntity.setCapacitador(cursoDto.getCapacitador());
         cursoEntity.setPrecio(cursoDto.getPrecio());
         cursoEntity.setImagen(cursoDto.getImagen());
+        cursoEntity.setCategoria(cursoDto.getCategoria());
+        cursoEntity.setHabilitado(cursoDto.isHabilitado());
 
 //        Set<InscripcionEntity> inscripcionesEntity = new HashSet<>();
 //        Set<InscripcionDto> inscripcionesDto = cursoDto.getInscripciones();

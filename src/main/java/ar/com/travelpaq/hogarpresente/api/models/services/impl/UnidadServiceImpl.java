@@ -39,7 +39,7 @@ public class UnidadServiceImpl implements IUnidadService {
     private ContenidoMapper contenidoMapper;
 
     @Autowired
-    private IContenidoRepository tareaRepository;
+    private IContenidoRepository contenidoRepository;
 
     @Override
     public ResponseEntity<List<UnidadDto>> findAll() {
@@ -66,13 +66,13 @@ public class UnidadServiceImpl implements IUnidadService {
         UnidadEntity unidadEntity = unidadMapper.mapUnidadToUnidadEntity(unidadDto);
         if (!unidadDto.getContenidosId().isEmpty()){
             for (long contenidoId : unidadDto.getContenidosId()){
-                if (!tareaRepository.existsById(contenidoId)){
+                if (!contenidoRepository.existsById(contenidoId)){
                     return new ResponseEntity(new Mensaje("La tarea ID: " + contenidoId + " no existe en la base de datos"), HttpStatus.NOT_FOUND);
                 }
             }
             List<ContenidoEntity> tareas = new ArrayList<>();
             for(long contenidoId : unidadDto.getContenidosId()){
-                ContenidoEntity contenidoEntity = tareaRepository.getOne(contenidoId);
+                ContenidoEntity contenidoEntity = contenidoRepository.getOne(contenidoId);
                 tareas.add(contenidoEntity);
             }
             unidadEntity.setContenidos(tareas);
@@ -100,13 +100,13 @@ public class UnidadServiceImpl implements IUnidadService {
 
         if (!unidadDto.getContenidosId().isEmpty()){
             for (long contenidoId : unidadDto.getContenidosId()){
-                if (!tareaRepository.existsById(contenidoId)){
+                if (!contenidoRepository.existsById(contenidoId)){
                     return new ResponseEntity(new Mensaje("La tarea ID: " + contenidoId + " no existe en la base de datos"), HttpStatus.NOT_FOUND);
                 }
             }
             List<ContenidoEntity> contenidos = new ArrayList<>();
             for(long contenidoId : unidadDto.getContenidosId()){
-                ContenidoEntity contenidoEntity = tareaRepository.getOne(contenidoId);
+                ContenidoEntity contenidoEntity = contenidoRepository.getOne(contenidoId);
                 contenidos.add(contenidoEntity);
             }
             unidadEntity.setContenidos(contenidos);

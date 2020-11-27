@@ -2,13 +2,13 @@ package ar.com.travelpaq.hogarpresente.api.models.services.impl;
 
 import ar.com.travelpaq.hogarpresente.api.models.dto.InscripcionDto;
 import ar.com.travelpaq.hogarpresente.api.models.dto.Mensaje;
-import ar.com.travelpaq.hogarpresente.api.models.entity.AlumnoEntity;
+import ar.com.travelpaq.hogarpresente.api.models.entity.UsuarioEntity;
 import ar.com.travelpaq.hogarpresente.api.models.entity.CursoEntity;
 import ar.com.travelpaq.hogarpresente.api.models.entity.InscripcionEntity;
-import ar.com.travelpaq.hogarpresente.api.models.mapper.AlumnoMapper;
+import ar.com.travelpaq.hogarpresente.api.models.mapper.UsuarioMapper;
 import ar.com.travelpaq.hogarpresente.api.models.mapper.CursoMapper;
 import ar.com.travelpaq.hogarpresente.api.models.mapper.InscripcionMapper;
-import ar.com.travelpaq.hogarpresente.api.models.repository.IAlumnoRepository;
+import ar.com.travelpaq.hogarpresente.api.models.repository.IUsuarioRepository;
 import ar.com.travelpaq.hogarpresente.api.models.repository.ICursoRepository;
 import ar.com.travelpaq.hogarpresente.api.models.repository.IInscripcionRepository;
 import ar.com.travelpaq.hogarpresente.api.models.services.IInscripcionService;
@@ -26,13 +26,13 @@ public class InscripcionServiceImpl implements IInscripcionService {
     private IInscripcionRepository inscripcionRepository;
 
     @Autowired
-    private AlumnoMapper alumnoMapper;
+    private UsuarioMapper usuarioMapper;
 
     @Autowired
     private CursoMapper cursoMapper;
 
     @Autowired
-    private IAlumnoRepository alumnoRepository;
+    private IUsuarioRepository usuarioRepository;
 
     @Autowired
     private ICursoRepository cursoRepository;
@@ -58,12 +58,12 @@ public class InscripcionServiceImpl implements IInscripcionService {
     public ResponseEntity<?> create(InscripcionDto inscripcionDto) {
         if(inscripcionDto.getInscripcionAt() == null)
             return new ResponseEntity(new Mensaje("Debe contntener una fecha"), HttpStatus.BAD_REQUEST);
-        if(!alumnoRepository.existsById(inscripcionDto.getAlumnoId()))
+        if(!usuarioRepository.existsById(inscripcionDto.getUsuarioId()))
             return new ResponseEntity(new Mensaje("El alumno debe existir en la base de datos"), HttpStatus.BAD_REQUEST);
         if(!cursoRepository.existsById(inscripcionDto.getCursoId()))
             return new ResponseEntity(new Mensaje("El curso debe existir en la base de datos"), HttpStatus.BAD_REQUEST);
         InscripcionEntity inscripcionEntity = inscripcionMapper.mapInscripcionToInscripcionEntity(inscripcionDto);
-        inscripcionEntity.setAlumno(alumnoRepository.findById(inscripcionDto.getAlumnoId()).orElse(null));
+        inscripcionEntity.setAlumno(usuarioRepository.findById(inscripcionDto.getUsuarioId()).orElse(null));
         inscripcionEntity.setCurso(cursoRepository.findById(inscripcionDto.getCursoId()).orElse(null));
         inscripcionRepository.save(inscripcionEntity);
         return new ResponseEntity(new Mensaje("Inscripción creada!"), HttpStatus.OK);
@@ -75,7 +75,7 @@ public class InscripcionServiceImpl implements IInscripcionService {
             return new ResponseEntity(new Mensaje("no existe la inscripción en la base de datos"), HttpStatus.NOT_FOUND);
         InscripcionEntity inscripcionEntity = inscripcionRepository.getOne(id);
         inscripcionEntity.setInscripcionAt(inscripcionDto.getInscripcionAt());
-        inscripcionEntity.setAlumno(alumnoRepository.findById(inscripcionDto.getAlumnoId()).orElse(null));
+        inscripcionEntity.setAlumno(usuarioRepository.findById(inscripcionDto.getUsuarioId()).orElse(null));
         inscripcionEntity.setCurso(cursoRepository.findById(inscripcionDto.getCursoId()).orElse(null));
         inscripcionRepository.save(inscripcionEntity);
         return new ResponseEntity(new Mensaje("Inscripción Actualizada!"), HttpStatus.OK);
@@ -91,10 +91,10 @@ public class InscripcionServiceImpl implements IInscripcionService {
 
     @Override
     public ResponseEntity<?> findByAlumnoId(Long id) {
-        if(!alumnoRepository.existsById(id))
+        if(!usuarioRepository.existsById(id))
             return new ResponseEntity(new Mensaje("El alumno debe existir en la base de datos"), HttpStatus.NOT_FOUND);
-        AlumnoEntity alumnoEntity = alumnoRepository.findById(id).orElse(null);
-        List<InscripcionEntity> inscripcionEntities = inscripcionRepository.findAllByAlumno(alumnoEntity);
+        UsuarioEntity usuarioEntity = usuarioRepository.findById(id).orElse(null);
+        List<InscripcionEntity> inscripcionEntities = inscripcionRepository.findAllByAlumno(usuarioEntity);
         return new ResponseEntity(inscripcionEntities, HttpStatus.OK);
     }
 

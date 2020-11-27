@@ -14,31 +14,31 @@ import java.util.List;
 public class ContenidoRestController {
 
     @Autowired
-    private IContenidoService tareaService;
+    private IContenidoService contenidoService;
 
     @GetMapping("/contenidos")
     public ResponseEntity<List<ContenidoDto>> index(){
-        return tareaService.findAll();
+        return contenidoService.findAll();
     }
 
     @GetMapping("/contenidos/{id}")
     public ResponseEntity<?> show(@PathVariable Long id){
-        return tareaService.findById(id);
+        return contenidoService.findById(id);
     }
 
     @PostMapping("/contenidos")
     public ResponseEntity<?> create(@RequestBody ContenidoDto contenidoDto){
-        return tareaService.create(contenidoDto);
+        return contenidoService.create(contenidoDto);
     }
 
     @PutMapping("/contenidos/{id}")
     public ResponseEntity<?> update(@RequestBody ContenidoDto contenidoDto, @PathVariable Long id){
-        return tareaService.update(contenidoDto, id);
+        return contenidoService.update(contenidoDto, id);
     }
 
     @DeleteMapping("/contenidos/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
-        return tareaService.delete(id);
+        return contenidoService.delete(id);
     }
 
 //    @GetMapping("/tareas/unidad/{id}")

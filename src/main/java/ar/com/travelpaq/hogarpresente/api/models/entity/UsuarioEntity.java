@@ -15,8 +15,8 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "alumnos")
-public class AlumnoEntity implements Serializable {
+@Table(name = "usuarios")
+public class UsuarioEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -47,12 +47,12 @@ public class AlumnoEntity implements Serializable {
 
     @NotNull
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "alumnos_roles", joinColumns = @JoinColumn(name = "alumno_id"),
+    @JoinTable(name = "usuarios_roles", joinColumns = @JoinColumn(name = "usuario_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"),
-            uniqueConstraints = {@UniqueConstraint(columnNames = {"alumno_id","role_id"})})
+            uniqueConstraints = {@UniqueConstraint(columnNames = {"usuario_id","role_id"})})
     private Set<RoleEntity> roles;
 
-    public AlumnoEntity(String nombre, String apellido, String correo, String clave, int edad, String foto, String estudio) {
+    public UsuarioEntity(String nombre, String apellido, String correo, String clave, int edad, String foto, String estudio) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.correo = correo;

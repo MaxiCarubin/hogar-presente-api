@@ -1,8 +1,8 @@
 package ar.com.travelpaq.hogarpresente.api.security.controller;
 
 import ar.com.travelpaq.hogarpresente.api.models.dto.Mensaje;
-import ar.com.travelpaq.hogarpresente.api.models.entity.AlumnoEntity;
-import ar.com.travelpaq.hogarpresente.api.models.services.IAlumnoService;
+import ar.com.travelpaq.hogarpresente.api.models.entity.UsuarioEntity;
+import ar.com.travelpaq.hogarpresente.api.models.services.IUsuarioService;
 import ar.com.travelpaq.hogarpresente.api.security.dto.JwtDto;
 import ar.com.travelpaq.hogarpresente.api.security.dto.LoginUsuario;
 import ar.com.travelpaq.hogarpresente.api.security.dto.NuevoUsuario;
@@ -38,7 +38,7 @@ public class AuthController {
     AuthenticationManager authenticationManager;
 
     @Autowired
-    IAlumnoService alumnoService;
+    IUsuarioService alumnoService;
 
     @Autowired
     RoleService rolService;
@@ -59,8 +59,8 @@ public class AuthController {
             return new ResponseEntity(new Mensaje("campos mal puestos o email inválido"), HttpStatus.BAD_REQUEST);
         if(alumnoService.existsByCorreo(nuevoUsuario.getCorreo()))
             return new ResponseEntity(new Mensaje("ese email ya existe"), HttpStatus.BAD_REQUEST);
-        AlumnoEntity alumnoEntity =
-                new AlumnoEntity
+        UsuarioEntity usuarioEntity =
+                new UsuarioEntity
                     (
                         nuevoUsuario.getNombre(),
                         nuevoUsuario.getApellido(),
@@ -72,10 +72,13 @@ public class AuthController {
                     );
         Set<RoleEntity> roles = new HashSet<>();
         roles.add(rolService.getByRoleNombre(RoleNombre.ROLE_ALUMNO).get());
+        if(nuevoUsuario.getRoles().contains("capacitador"))
+            roles.add(rolService.getByRoleNombre(RoleNombre.ROLE_CAPACITADOR).get());
         if(nuevoUsuario.getRoles().contains("admin"))
+            roles.add(rolService.getByRoleNombre(RoleNombre.ROLE_CAPACITADOR).get());
             roles.add(rolService.getByRoleNombre(RoleNombre.ROLE_ADMIN).get());
-        alumnoEntity.setRoles(roles);
-        alumnoService.save(alumnoEntity);
+        usuarioEntity.setRoles(roles);
+        alumnoService.save(usuarioEntity);
         return new ResponseEntity(new Mensaje("usuario guardado"), HttpStatus.CREATED);
     }
 
@@ -95,16 +98,16 @@ public class AuthController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = jwtProvider.generateToken(authentication);
         UserDetails userDetails = (UserDetails)authentication.getPrincipal();
-        AlumnoEntity alumnoEntity = alumnoService.getByCorreo(userDetails.getUsername()).orElse(null);
+        UsuarioEntity usuarioEntity = alumnoService.getByCorreo(userDetails.getUsername()).orElse(null);
         JwtDto jwtDto =
                 new JwtDto
                         (
                                 jwt,
                                 userDetails.getUsername(),
                                 userDetails.getAuthorities(),
-                                alumnoEntity.getNombre(),
-                                alumnoEntity.getApellido(),
-                                alumnoEntity.getFoto()
+                                usuarioEntity.getNombre(),
+                                usuarioEntity.getApellido(),
+                                usuarioEntity.getFoto()
                         );
         return new ResponseEntity(jwtDto, HttpStatus.OK);
     }

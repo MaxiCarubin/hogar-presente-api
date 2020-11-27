@@ -1,42 +1,39 @@
 package ar.com.travelpaq.hogarpresente.api.controller;
-import ar.com.travelpaq.hogarpresente.api.models.dto.AlumnoDto;
-import ar.com.travelpaq.hogarpresente.api.models.entity.AlumnoEntity;
-import ar.com.travelpaq.hogarpresente.api.models.services.IAlumnoService;
+import ar.com.travelpaq.hogarpresente.api.models.dto.UsuarioDto;
+import ar.com.travelpaq.hogarpresente.api.models.services.IUsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @CrossOrigin
 @RestController
 @RequestMapping("/api")
-public class AlumnoRestController {
+public class UsuarioRestController {
 
     @Autowired
-    private IAlumnoService alumnoService;
+    private IUsuarioService alumnoService;
 
-    @GetMapping("/alumnos")
+    @GetMapping("/usuarios")
     public ResponseEntity<?> findAll(){
         return alumnoService.findAll();
     }
 
-    @GetMapping("/alumnos/{id}")
+    @GetMapping("/usuarios/{id}")
     public ResponseEntity<?> findOne(@PathVariable Long id){
         return alumnoService.findById(id);
     }
 
-    @PostMapping("/alumnos")
-    public ResponseEntity<?> create(@RequestBody AlumnoDto alumnoDto){
-        return alumnoService.create(alumnoDto);
+    @PostMapping("/usuarios")
+    public ResponseEntity<?> create(@RequestBody UsuarioDto usuarioDto){
+        return alumnoService.create(usuarioDto);
     }
 
-    @PutMapping("/alumnos/{id}")
-    public ResponseEntity<?> update(@RequestBody AlumnoDto alumnoDto, @PathVariable Long id){
-        return alumnoService.update(alumnoDto, id);
+    @PutMapping("/usuarios/{id}")
+    public ResponseEntity<?> update(@RequestBody UsuarioDto usuarioDto, @PathVariable Long id){
+        return alumnoService.update(usuarioDto, id);
     }
 
-    @DeleteMapping("/alumnos/{id}")
+    @DeleteMapping("/usuarios/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
         return alumnoService.delete(id);
     }
