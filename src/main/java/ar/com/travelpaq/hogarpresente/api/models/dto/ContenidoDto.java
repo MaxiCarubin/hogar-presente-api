@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 public class ContenidoDto {
     private long id;
     private String nombre;
+    private String denominacion;
     private String descripcion;
     private String documento;
     private long unidadId;

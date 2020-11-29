@@ -50,38 +50,41 @@ public class ContenidoServiceImpl implements IContenidoService {
     public ResponseEntity<?> create(ContenidoDto contenidoDto) {
         if(StringUtils.isBlank(contenidoDto.getNombre()))
             return new ResponseEntity(new Mensaje("El nombre es obligatorio"), HttpStatus.BAD_REQUEST);
+        if(StringUtils.isBlank(contenidoDto.getDenominacion()))
+            return new ResponseEntity(new Mensaje("La denominacion es obligatorio"), HttpStatus.BAD_REQUEST);
         if(StringUtils.isBlank(contenidoDto.getDescripcion()))
             return new ResponseEntity(new Mensaje("La descripcion es obligatoria"), HttpStatus.BAD_REQUEST);
-//        if(!unidadRepository.existsById(tareaDto.getUnidadId()))
-//            return new ResponseEntity(new Mensaje("La unidad debe existir en la base de datos"), HttpStatus.BAD_REQUEST);
+        if(StringUtils.isBlank(contenidoDto.getDocumento()))
+            return new ResponseEntity(new Mensaje("Documentacion vacia!"), HttpStatus.BAD_REQUEST);
+        if(!unidadRepository.existsById(contenidoDto.getUnidadId()))
+            return new ResponseEntity(new Mensaje("La unidad debe existir en la base de datos"), HttpStatus.BAD_REQUEST);
         ContenidoEntity contenidoEntity = contenidoMapper.mapTareaEntityToTarea(contenidoDto);
-//        tareaEntity.setUnidad(unidadRepository.findById(tareaDto.getUnidadId()).orElse(null));
         contenidoRepository.save(contenidoEntity);
         UnidadEntity unidadEntity = unidadRepository.getOne(contenidoDto.getUnidadId());
         unidadEntity.getContenidos().add(contenidoEntity);
         unidadRepository.save(unidadEntity);
-        return new ResponseEntity(new Mensaje("Tarea Creada!"), HttpStatus.OK);
+        return new ResponseEntity(new Mensaje("Contenido creado para la unidad ID: " + contenidoDto.getUnidadId() + "  !"), HttpStatus.OK);
     }
 
     @Override
     public ResponseEntity<?> update(ContenidoDto contenidoDto, Long id) {
         if (!contenidoRepository.existsById(id))
-            return new ResponseEntity(new Mensaje("no existe la tarea en la base de datos"), HttpStatus.NOT_FOUND);
+            return new ResponseEntity(new Mensaje("No existe el contenido en la base de datos"), HttpStatus.NOT_FOUND);
         ContenidoEntity contenidoEntity = contenidoRepository.getOne(id);
         contenidoEntity.setNombre(contenidoDto.getNombre());
+        contenidoEntity.setDenominacion(contenidoDto.getDenominacion());
         contenidoEntity.setDescripcion(contenidoDto.getDescripcion());
         contenidoEntity.setDocumento(contenidoDto.getDocumento());
-//        tareaEntity.setUnidad(unidadRepository.findById(tareaDto.getUnidadId()).orElse(null));
         contenidoRepository.save(contenidoEntity);
-        return new ResponseEntity(new Mensaje("Unidad Actualizada!"), HttpStatus.OK);
+        return new ResponseEntity(new Mensaje("Contenido Actualizado!"), HttpStatus.OK);
     }
 
     @Override
     public ResponseEntity<?> delete(Long id) {
         if (!contenidoRepository.existsById(id))
-            return new ResponseEntity(new Mensaje("No existe"), HttpStatus.NOT_FOUND);
+            return new ResponseEntity(new Mensaje("No existe el contenido en la base de datos"), HttpStatus.NOT_FOUND);
         contenidoRepository.deleteById(id);
-        return new ResponseEntity(new Mensaje("Unidad Eliminada!"), HttpStatus.OK);
+        return new ResponseEntity(new Mensaje("Contenido Eliminado!"), HttpStatus.OK);
     }
 
 //    @Override

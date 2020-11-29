@@ -20,7 +20,10 @@ public class ContenidoEntity {
     @Column(nullable = false, length = 60)
     private String nombre;
 
-    @Column(nullable = false, length = 70)
+    @Column(nullable = false)
+    private String denominacion;
+
+    @Column(nullable = false)
     private String descripcion;
 
     private String documento;
