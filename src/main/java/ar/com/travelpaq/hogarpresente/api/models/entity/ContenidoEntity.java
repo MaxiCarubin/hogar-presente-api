@@ -23,7 +23,6 @@ public class ContenidoEntity {
     @Column(nullable = false, length = 70)
     private String descripcion;
 
-    @Column(nullable = false, length = 60)
     private String documento;
 
 //    @ManyToOne
