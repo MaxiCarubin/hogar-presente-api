@@ -14,6 +14,4 @@ public class ContenidoDto {
     private String descripcion;
     private String documento;
     private long unidadId;
-//    private Boolean terminada;
-
 }

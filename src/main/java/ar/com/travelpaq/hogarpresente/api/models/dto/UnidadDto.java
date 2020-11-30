@@ -12,15 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 public class UnidadDto {
     private long id;
-
     private String nombre;
-
     private String descripcion;
-
-//    private Boolean terminada;
-
-    private List<Long> ContenidosId;
-
     private long cursoId;
-
 }

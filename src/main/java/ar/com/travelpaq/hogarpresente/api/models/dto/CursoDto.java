@@ -10,31 +10,12 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CursoDto {
-
     private long id;
-
     private String nombre;
-
     private String descripcion;
-
     private String capacitador;
-
     private float precio;
-
     private String categoria;
-
-//    private Boolean enabled;
-//
-//    private Boolean terminado;
-
     private String imagen;
-
     private boolean habilitado;
-
-//    private Set<InscripcionDto> inscripciones;
-
-    private List<Long> unidadesId;
-
-
-
 }

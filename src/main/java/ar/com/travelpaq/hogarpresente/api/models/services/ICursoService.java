@@ -2,8 +2,6 @@ package ar.com.travelpaq.hogarpresente.api.models.services;
 import ar.com.travelpaq.hogarpresente.api.models.dto.CursoDto;
 import org.springframework.http.ResponseEntity;
 
-import java.util.List;
-
 public interface ICursoService {
 
     public ResponseEntity<?> findAll();

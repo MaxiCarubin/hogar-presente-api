@@ -70,6 +70,16 @@ public class ContenidoServiceImpl implements IContenidoService {
     public ResponseEntity<?> update(ContenidoDto contenidoDto, Long id) {
         if (!contenidoRepository.existsById(id))
             return new ResponseEntity(new Mensaje("No existe el contenido en la base de datos"), HttpStatus.NOT_FOUND);
+        if(StringUtils.isBlank(contenidoDto.getNombre()))
+            return new ResponseEntity(new Mensaje("El nombre es obligatorio"), HttpStatus.BAD_REQUEST);
+        if(StringUtils.isBlank(contenidoDto.getDenominacion()))
+            return new ResponseEntity(new Mensaje("La denominacion es obligatorio"), HttpStatus.BAD_REQUEST);
+        if(StringUtils.isBlank(contenidoDto.getDescripcion()))
+            return new ResponseEntity(new Mensaje("La descripcion es obligatoria"), HttpStatus.BAD_REQUEST);
+        if(StringUtils.isBlank(contenidoDto.getDocumento()))
+            return new ResponseEntity(new Mensaje("Documentacion vacia!"), HttpStatus.BAD_REQUEST);
+        if(!unidadRepository.existsById(contenidoDto.getUnidadId()))
+            return new ResponseEntity(new Mensaje("No existe unidad asociado al contenido en la base de datos"), HttpStatus.BAD_REQUEST);
         ContenidoEntity contenidoEntity = contenidoRepository.getOne(id);
         contenidoEntity.setNombre(contenidoDto.getNombre());
         contenidoEntity.setDenominacion(contenidoDto.getDenominacion());

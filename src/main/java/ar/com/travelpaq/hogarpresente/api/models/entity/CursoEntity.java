@@ -1,15 +1,10 @@
 package ar.com.travelpaq.hogarpresente.api.models.entity;
 
-import ar.com.travelpaq.hogarpresente.api.models.dto.CursoDto;
-import ar.com.travelpaq.hogarpresente.api.models.dto.UnidadDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import javax.persistence.*;
-import java.sql.Time;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -38,13 +33,6 @@ public class CursoEntity {
 
     private boolean habilitado;
 
-//    private Boolean terminado;
-//
-//    private float progreso;
-
-//    @OneToMany(mappedBy = "curso_entity",fetch = FetchType.EAGER)
-//    private Set<InscripcionEntity> inscripciones;
-//
     @OneToMany(targetEntity = UnidadEntity.class,cascade = CascadeType.ALL)
     private List<UnidadEntity> unidades;
 

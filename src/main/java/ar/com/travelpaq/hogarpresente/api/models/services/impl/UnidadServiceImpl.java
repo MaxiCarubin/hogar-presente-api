@@ -64,24 +64,10 @@ public class UnidadServiceImpl implements IUnidadService {
         if(!cursoRepository.existsById(unidadDto.getCursoId()))
             return new ResponseEntity(new Mensaje("El curso debe existir en la base de datos"), HttpStatus.NOT_FOUND);
         UnidadEntity unidadEntity = unidadMapper.mapUnidadToUnidadEntity(unidadDto);
-        if (!unidadDto.getContenidosId().isEmpty()){
-            for (long contenidoId : unidadDto.getContenidosId()){
-                if (!contenidoRepository.existsById(contenidoId)){
-                    return new ResponseEntity(new Mensaje("La tarea ID: " + contenidoId + " no existe en la base de datos"), HttpStatus.NOT_FOUND);
-                }
-            }
-            List<ContenidoEntity> tareas = new ArrayList<>();
-            for(long contenidoId : unidadDto.getContenidosId()){
-                ContenidoEntity contenidoEntity = contenidoRepository.getOne(contenidoId);
-                tareas.add(contenidoEntity);
-            }
-            unidadEntity.setContenidos(tareas);
-        }
         unidadRepository.save(unidadEntity);
         CursoEntity cursoEntity = cursoRepository.getOne(unidadDto.getCursoId());
         cursoEntity.getUnidades().add(unidadEntity);
         cursoRepository.save(cursoEntity);
-//      unidadEntity.setCurso(cursoRepository.findById(unidadDto.getCursoId()).orElse(null));
         return new ResponseEntity(new Mensaje("Unidad creada!"), HttpStatus.OK);
     }
 
@@ -93,35 +79,13 @@ public class UnidadServiceImpl implements IUnidadService {
             return new ResponseEntity(new Mensaje("El nombre es obligatorio"), HttpStatus.BAD_REQUEST);
         if(StringUtils.isBlank(unidadDto.getDescripcion()))
             return new ResponseEntity(new Mensaje("La descripcion es obligatoria"), HttpStatus.BAD_REQUEST);
-
+        if(!cursoRepository.existsById(unidadDto.getCursoId()))
+            return new ResponseEntity(new Mensaje("No existe curso asociado a la unidad en la base de datos"), HttpStatus.NOT_FOUND);
         UnidadEntity unidadEntity = unidadRepository.getOne(id);
         unidadEntity.setNombre(unidadDto.getNombre());
         unidadEntity.setDescripcion(unidadDto.getDescripcion());
-
-        if (!unidadDto.getContenidosId().isEmpty()){
-            for (long contenidoId : unidadDto.getContenidosId()){
-                if (!contenidoRepository.existsById(contenidoId)){
-                    return new ResponseEntity(new Mensaje("La tarea ID: " + contenidoId + " no existe en la base de datos"), HttpStatus.NOT_FOUND);
-                }
-            }
-            List<ContenidoEntity> contenidos = new ArrayList<>();
-            for(long contenidoId : unidadDto.getContenidosId()){
-                ContenidoEntity contenidoEntity = contenidoRepository.getOne(contenidoId);
-                contenidos.add(contenidoEntity);
-            }
-            unidadEntity.setContenidos(contenidos);
-        }
-
         unidadRepository.save(unidadEntity);
         return new ResponseEntity(new Mensaje("Unidad Actualizada!"), HttpStatus.OK);
-
-//        unidadEntity.setCurso(cursoRepository.findById(unidadDto.getCursoId()).orElse(null));
-//        List<TareaEntity> tareasEntity = new ArrayList<>();
-//        List<TareaDto> tareasDto = unidadDto.getTareas();
-//        for (TareaDto tareaDto : tareasDto) {
-//            tareasEntity.add(tareaMapper.mapTareaEntityToTarea(tareaDto));
-//        }
-//        unidadEntity.setTareas(tareasEntity);
     }
 
     @Override
