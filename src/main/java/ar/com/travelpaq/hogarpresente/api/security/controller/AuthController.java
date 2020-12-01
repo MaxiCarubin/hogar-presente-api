@@ -38,7 +38,7 @@ public class AuthController {
     AuthenticationManager authenticationManager;
 
     @Autowired
-    IUsuarioService alumnoService;
+    IUsuarioService usuarioService;
 
     @Autowired
     RoleService rolService;
@@ -57,7 +57,7 @@ public class AuthController {
     public ResponseEntity<?> nuevo(@Valid @RequestBody NuevoUsuario nuevoUsuario, BindingResult bindingResult){
         if(bindingResult.hasErrors())
             return new ResponseEntity(new Mensaje("campos mal puestos o email inválido"), HttpStatus.BAD_REQUEST);
-        if(alumnoService.existsByCorreo(nuevoUsuario.getCorreo()))
+        if(usuarioService.existsByCorreo(nuevoUsuario.getCorreo()))
             return new ResponseEntity(new Mensaje("ese email ya existe"), HttpStatus.BAD_REQUEST);
         UsuarioEntity usuarioEntity =
                 new UsuarioEntity
@@ -74,11 +74,12 @@ public class AuthController {
         roles.add(rolService.getByRoleNombre(RoleNombre.ROLE_ALUMNO).get());
         if(nuevoUsuario.getRoles().contains("capacitador"))
             roles.add(rolService.getByRoleNombre(RoleNombre.ROLE_CAPACITADOR).get());
-        if(nuevoUsuario.getRoles().contains("admin"))
+        if(nuevoUsuario.getRoles().contains("admin")){
             roles.add(rolService.getByRoleNombre(RoleNombre.ROLE_CAPACITADOR).get());
             roles.add(rolService.getByRoleNombre(RoleNombre.ROLE_ADMIN).get());
+        }
         usuarioEntity.setRoles(roles);
-        alumnoService.save(usuarioEntity);
+        usuarioService.save(usuarioEntity);
         return new ResponseEntity(new Mensaje("usuario guardado"), HttpStatus.CREATED);
     }
 
@@ -98,7 +99,7 @@ public class AuthController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = jwtProvider.generateToken(authentication);
         UserDetails userDetails = (UserDetails)authentication.getPrincipal();
-        UsuarioEntity usuarioEntity = alumnoService.getByCorreo(userDetails.getUsername()).orElse(null);
+        UsuarioEntity usuarioEntity = usuarioService.getByCorreo(userDetails.getUsername()).orElse(null);
         JwtDto jwtDto =
                 new JwtDto
                         (
