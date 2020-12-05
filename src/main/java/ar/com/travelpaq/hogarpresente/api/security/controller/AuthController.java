@@ -71,13 +71,12 @@ public class AuthController {
                         nuevoUsuario.getEstudios()
                     );
         Set<RoleEntity> roles = new HashSet<>();
-        roles.add(rolService.getByRoleNombre(RoleNombre.ROLE_ALUMNO).get());
+        if(nuevoUsuario.getRoles().contains("alumno"))
+            roles.add(rolService.getByRoleNombre(RoleNombre.ROLE_ALUMNO).get());
         if(nuevoUsuario.getRoles().contains("capacitador"))
             roles.add(rolService.getByRoleNombre(RoleNombre.ROLE_CAPACITADOR).get());
-        if(nuevoUsuario.getRoles().contains("admin")){
-            roles.add(rolService.getByRoleNombre(RoleNombre.ROLE_CAPACITADOR).get());
+        if(nuevoUsuario.getRoles().contains("admin"))
             roles.add(rolService.getByRoleNombre(RoleNombre.ROLE_ADMIN).get());
-        }
         usuarioEntity.setRoles(roles);
         usuarioService.save(usuarioEntity);
         return new ResponseEntity(new Mensaje("usuario guardado"), HttpStatus.CREATED);

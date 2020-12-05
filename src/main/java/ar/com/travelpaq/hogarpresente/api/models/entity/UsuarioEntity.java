@@ -9,6 +9,7 @@ import org.hibernate.validator.constraints.Email;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -41,6 +42,9 @@ public class UsuarioEntity implements Serializable {
     private String foto;
 
     private String estudio;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario")
+    private List<CursoEntity> cursos;
 
 //    @OneToMany(mappedBy = "alumno_entity", fetch = FetchType.EAGER)
 //    private Set<InscripcionEntity> inscripciones;

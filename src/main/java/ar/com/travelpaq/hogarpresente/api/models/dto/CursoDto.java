@@ -18,4 +18,5 @@ public class CursoDto {
     private String categoria;
     private String imagen;
     private boolean habilitado;
+    private long usuarioId;
 }

@@ -23,20 +23,6 @@ public class CursoMapper {
         cursoDto.setPrecio(cursoEntity.getPrecio());
         cursoDto.setImagen(cursoEntity.getImagen());
         cursoDto.setCategoria(cursoEntity.getCategoria());
-//        Set<InscripcionDto> inscripcioesDominio = new HashSet<>();
-//        Set<InscripcionEntity> inscripcionesEntity = cursoEntity.getInscripciones();
-//        for (InscripcionEntity inscripcionEntity : inscripcionesEntity) {
-//            inscripcioesDominio.add(inscripcionMapper.mapInscripcionEntityToInscripcion(inscripcionEntity));
-//        }
-//        cursoDto.setInscripciones(inscripcioesDominio);
-//
-//        List<UnidadDto> unidadesDominio = new ArrayList<>();
-//        List<UnidadEntity> undadesEntity = cursoEntity.getUnidades();
-//        for (UnidadEntity unidadEntity : undadesEntity) {
-//            unidadesDominio.add(unidadMapper.mapUnidadEntityToUnidad(unidadEntity));
-//        }
-//        cursoDto.setUnidades(unidadesDominio);
-
         return cursoDto;
     }
     public CursoEntity mapCursoToCursoEntity(CursoDto cursoDto){
@@ -49,7 +35,6 @@ public class CursoMapper {
         cursoEntity.setImagen(cursoDto.getImagen());
         cursoEntity.setCategoria(cursoDto.getCategoria());
         cursoEntity.setHabilitado(cursoDto.isHabilitado());
-
         return cursoEntity;
     }
 }
