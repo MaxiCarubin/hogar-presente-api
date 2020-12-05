@@ -122,10 +122,11 @@ public class CursoServiceImpl implements ICursoService {
             if(usuarioEntity.getRoles().contains(roleAlumno))
                 return new ResponseEntity(new Mensaje("El usuario debe ser un capacitador o admin para editar el curso"), HttpStatus.BAD_REQUEST);
             CursoEntity cursoEntity = cursoRepository.getOne(id);
-            if (cursoDto.getUsuarioId() != cursoEntity.getUsuario().getId() || !cursoEntity.getUsuario().getRoles().contains(roleAdmin))
+            CursoEntity cursoEntityIf = cursoRepository.findById(id).get();
+            if (cursoDto.getUsuarioId() != cursoEntityIf.getUsuario().getId() || !cursoEntityIf.getUsuario().getRoles().contains(roleAdmin))
                 return new ResponseEntity
                         (
-                                cursoEntity
+                                cursoEntityIf
 //                                ,new Mensaje
 //                                        (
 //                                                "El ID del creador del curso que se quiere modificar debe coincidir con el ID del usuario que esta modificando el curso o ese usuario debe ser ADMIN."
