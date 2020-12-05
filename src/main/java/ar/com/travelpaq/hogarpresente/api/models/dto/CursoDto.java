@@ -13,7 +13,6 @@ public class CursoDto {
     private long id;
     private String nombre;
     private String descripcion;
-    private String capacitador;
     private float precio;
     private String categoria;
     private String imagen;

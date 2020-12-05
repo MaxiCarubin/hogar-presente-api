@@ -23,8 +23,8 @@ public class CursoEntity {
     @Column(nullable = false, length = 70)
     private String descripcion;
 
-    @Column(nullable = false, length = 45)
-    private String capacitador;
+//    @Column(nullable = false, length = 45)
+//    private String capacitador;
 
     private float precio;
 

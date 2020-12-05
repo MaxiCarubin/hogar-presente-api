@@ -89,8 +89,6 @@ public class CursoServiceImpl implements ICursoService {
             return new ResponseEntity(new Mensaje("La descripcion es obligatoria"), HttpStatus.BAD_REQUEST);
         if(newCurso.getPrecio() < 0)
             return new ResponseEntity(new Mensaje("El precio no puede ser negativo"), HttpStatus.BAD_REQUEST);
-        if(StringUtils.isBlank(newCurso.getCapacitador()))
-            return new ResponseEntity(new Mensaje("El capacitador es obligatorio"), HttpStatus.BAD_REQUEST);
         if(!usuarioRepository.existsById(newCurso.getUsuarioId()))
             return new ResponseEntity(new Mensaje("El usuario no esta en la base de datos"), HttpStatus.BAD_REQUEST);
         UsuarioEntity usuarioEntity = usuarioRepository.findById(newCurso.getUsuarioId()).get();
@@ -119,8 +117,6 @@ public class CursoServiceImpl implements ICursoService {
                 return new ResponseEntity(new Mensaje("La descripcion es obligatoria"), HttpStatus.BAD_REQUEST);
             if (cursoDto.getPrecio() < 0)
                 return new ResponseEntity(new Mensaje("El precio no puede ser negativo"), HttpStatus.BAD_REQUEST);
-            if (StringUtils.isBlank(cursoDto.getCapacitador()))
-                return new ResponseEntity(new Mensaje("El capacitador es obligatorio"), HttpStatus.BAD_REQUEST);
             if(!usuarioRepository.existsById(cursoDto.getUsuarioId()))
                 return new ResponseEntity(new Mensaje("El usuario no esta en la base de datos"), HttpStatus.BAD_REQUEST);
             UsuarioEntity usuarioEntity = usuarioRepository.getOne(cursoDto.getUsuarioId());
@@ -138,7 +134,6 @@ public class CursoServiceImpl implements ICursoService {
                         );
             cursoEntity.setNombre(cursoDto.getNombre());
             cursoEntity.setDescripcion(cursoDto.getDescripcion());
-            cursoEntity.setCapacitador(cursoDto.getCapacitador());
             cursoEntity.setPrecio(cursoDto.getPrecio());
             cursoEntity.setImagen(cursoDto.getImagen());
             cursoEntity.setCategoria(cursoDto.getCategoria());
