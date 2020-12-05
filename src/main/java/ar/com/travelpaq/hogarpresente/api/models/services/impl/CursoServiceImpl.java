@@ -126,10 +126,11 @@ public class CursoServiceImpl implements ICursoService {
             if (usuarioNuevo.getId() != usuarioViejo.getId() || !usuarioViejo.getRoles().contains(roleAdmin))
                 return new ResponseEntity
                         (
-                                new Mensaje
-                                        (
-                                                "El ID del creador del curso que se quiere modificar debe coincidir con el ID del usuario que esta modificando el curso o ese usuario debe ser ADMIN."
-                                        )
+                                usuarioViejo
+//                                new Mensaje
+//                                        (
+//                                                "El ID del creador del curso que se quiere modificar debe coincidir con el ID del usuario que esta modificando el curso o ese usuario debe ser ADMIN."
+//                                        )
                                 , HttpStatus.BAD_REQUEST
                         );
             cursoEntity.setNombre(cursoDto.getNombre());
