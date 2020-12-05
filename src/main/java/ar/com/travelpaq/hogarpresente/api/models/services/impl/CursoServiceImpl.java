@@ -93,8 +93,7 @@ public class CursoServiceImpl implements ICursoService {
             return new ResponseEntity(new Mensaje("El usuario no esta en la base de datos"), HttpStatus.BAD_REQUEST);
         UsuarioEntity usuarioEntity = usuarioRepository.findById(newCurso.getUsuarioId()).get();
         if(usuarioEntity.getRoles().contains(roleAlumno))
-//            return new ResponseEntity(new Mensaje("El usuario debe ser un capacitador o admin para crear cursos"), HttpStatus.BAD_REQUEST);
-            return new ResponseEntity(usuarioEntity, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(new Mensaje("El usuario debe ser un capacitador o admin para crear cursos"), HttpStatus.BAD_REQUEST);
         CursoEntity cursoEntity = cursoMapper.mapCursoToCursoEntity(newCurso);
         cursoEntity.setHabilitado(false);
         cursoEntity.setUsuario(usuarioEntity);
@@ -119,17 +118,18 @@ public class CursoServiceImpl implements ICursoService {
                 return new ResponseEntity(new Mensaje("El precio no puede ser negativo"), HttpStatus.BAD_REQUEST);
             if(!usuarioRepository.existsById(cursoDto.getUsuarioId()))
                 return new ResponseEntity(new Mensaje("El usuario no esta en la base de datos"), HttpStatus.BAD_REQUEST);
-            UsuarioEntity usuarioEntity = usuarioRepository.getOne(cursoDto.getUsuarioId());
+            UsuarioEntity usuarioEntity = usuarioRepository.findById(cursoDto.getUsuarioId()).get();
             if(usuarioEntity.getRoles().contains(roleAlumno))
                 return new ResponseEntity(new Mensaje("El usuario debe ser un capacitador o admin para editar el curso"), HttpStatus.BAD_REQUEST);
             CursoEntity cursoEntity = cursoRepository.getOne(id);
             if (cursoDto.getUsuarioId() != cursoEntity.getUsuario().getId() || !cursoEntity.getUsuario().getRoles().contains(roleAdmin))
                 return new ResponseEntity
                         (
-                                new Mensaje
-                                        (
-                                                "El ID del creador del curso que se quiere modificar debe coincidir con el ID del usuario que esta modificando el curso o ese usuario debe ser ADMIN."
-                                        )
+                                cursoEntity
+//                                ,new Mensaje
+//                                        (
+//                                                "El ID del creador del curso que se quiere modificar debe coincidir con el ID del usuario que esta modificando el curso o ese usuario debe ser ADMIN."
+//                                        )
                                 , HttpStatus.BAD_REQUEST
                         );
             cursoEntity.setNombre(cursoDto.getNombre());
