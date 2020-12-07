@@ -158,4 +158,13 @@ public class CursoServiceImpl implements ICursoService {
         cursoRepository.deleteById(id);
         return new ResponseEntity(new Mensaje("Curso Eliminado!"), HttpStatus.OK);
     }
+
+    @Override
+    public ResponseEntity<?> habilitarCurso(Long id) {
+        if (!cursoRepository.existsById(id))
+            return new ResponseEntity(new Mensaje("No existe"), HttpStatus.NOT_FOUND);
+        CursoEntity cursoEntity = cursoRepository.getOne(id);
+        cursoEntity.setHabilitado(true);
+        return new ResponseEntity(new Mensaje("Curso Habilitado!"), HttpStatus.OK);
+    }
 }

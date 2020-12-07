@@ -15,4 +15,6 @@ public interface ICursoService {
     public ResponseEntity<?> update(CursoDto cursoDto, Long id);
 
     public ResponseEntity<?> delete(Long id);
+
+    public ResponseEntity<?> habilitarCurso(Long id);
 }

@@ -33,6 +33,11 @@ public class CursoRestController {
         return cursoService.update(cursoDto, id);
     }
 
+    @PutMapping("/usuarios/{id}")
+    public ResponseEntity<?> habilitadoOn(@PathVariable Long id){
+        return cursoService.habilitarCurso(id);
+    }
+
     @DeleteMapping("/cursos/{id}")
     public ResponseEntity<?> delente(@PathVariable Long id) {
         return cursoService.delete(id);
