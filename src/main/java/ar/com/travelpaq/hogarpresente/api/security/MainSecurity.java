@@ -6,6 +6,7 @@ import ar.com.travelpaq.hogarpresente.api.security.service.UserDetailsServiceImp
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -61,6 +62,11 @@ public class MainSecurity extends WebSecurityConfigurerAdapter {
 //             .antMatchers("/auth/**").permitAll()
 ////                .antMatchers("/roles/**").permitAll()
 ////                .antMatchers("/api/**").permitAll()
+//                .antMatchers(HttpMethod.POST, "/auth/nuevo").permitAll()
+//                .antMatchers(HttpMethod.POST, "/auth/login").permitAll()
+//                .antMatchers(HttpMethod.GET, "/api/cursos").permitAll()
+//                .antMatchers(HttpMethod.GET, "/api/cursos/**").permitAll()
+//                .antMatchers(HttpMethod.POST, "/api/cursos").hasAnyRole("ROLE_ADMIN", "ROLE_CAPACITADOR")
                 .antMatchers("/**").permitAll()
                 .anyRequest().authenticated()
                 .and()

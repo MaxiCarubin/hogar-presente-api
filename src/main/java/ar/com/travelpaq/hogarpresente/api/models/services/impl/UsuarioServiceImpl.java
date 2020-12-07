@@ -1,7 +1,9 @@
 package ar.com.travelpaq.hogarpresente.api.models.services.impl;
 
+import ar.com.travelpaq.hogarpresente.api.models.dto.CompletoUsuarioDto;
 import ar.com.travelpaq.hogarpresente.api.models.dto.UsuarioDto;
 import ar.com.travelpaq.hogarpresente.api.models.dto.Mensaje;
+import ar.com.travelpaq.hogarpresente.api.models.entity.CursoEntity;
 import ar.com.travelpaq.hogarpresente.api.models.entity.UsuarioEntity;
 import ar.com.travelpaq.hogarpresente.api.models.mapper.UsuarioMapper;
 import ar.com.travelpaq.hogarpresente.api.models.mapper.InscripcionMapper;
@@ -49,7 +51,12 @@ public class UsuarioServiceImpl implements IUsuarioService {
     @Override
     public ResponseEntity<?> findAll() {
         List<UsuarioEntity> usuarioEntities = usuarioRepository.findAll();
-        return new ResponseEntity(usuarioEntities, HttpStatus.OK);
+        List<CompletoUsuarioDto> usuarioDtos = new ArrayList<>();
+        for (UsuarioEntity usuarioEntity : usuarioEntities){
+            CompletoUsuarioDto usuarioDto = usuarioMapper.mapUsuarioEntityToUsuarioDto(usuarioEntity);
+            usuarioDtos.add(usuarioDto);
+        }
+        return new ResponseEntity(usuarioDtos, HttpStatus.OK);
     }
 
     @Override
@@ -57,7 +64,8 @@ public class UsuarioServiceImpl implements IUsuarioService {
         if (!usuarioRepository.existsById(id))
             return new ResponseEntity(new Mensaje("No existe el alumno en la base de datos"), HttpStatus.NOT_FOUND);
         UsuarioEntity usuarioEntity = usuarioRepository.findById(id).get();
-        return new ResponseEntity(usuarioEntity, HttpStatus.OK);
+        CompletoUsuarioDto usuarioDto = usuarioMapper.mapUsuarioEntityToUsuarioDto(usuarioEntity);
+        return new ResponseEntity(usuarioDto, HttpStatus.OK);
     }
 
     @Override

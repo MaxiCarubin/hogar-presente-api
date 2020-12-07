@@ -22,6 +22,7 @@ public class CursoMapper {
         cursoDto.setPrecio(cursoEntity.getPrecio());
         cursoDto.setImagen(cursoEntity.getImagen());
         cursoDto.setCategoria(cursoEntity.getCategoria());
+        cursoDto.setHabilitado(cursoEntity.isHabilitado());
         return cursoDto;
     }
     public CursoEntity mapCursoToCursoEntity(CursoDto cursoDto){
@@ -34,5 +35,18 @@ public class CursoMapper {
         cursoEntity.setCategoria(cursoDto.getCategoria());
         cursoEntity.setHabilitado(cursoDto.isHabilitado());
         return cursoEntity;
+    }
+
+    public CompletoCursoDto mapCursoDtoToCursoEntity(CursoEntity cursoEntity){
+        CompletoCursoDto cursoDto = new CompletoCursoDto();
+        cursoDto.setId(cursoEntity.getId());
+        cursoDto.setNombre(cursoEntity.getNombre());
+        cursoDto.setDescripcion(cursoEntity.getDescripcion());
+        cursoDto.setCategoria(cursoEntity.getCategoria());
+        cursoDto.setImagen(cursoEntity.getImagen());
+        cursoDto.setPrecio(cursoEntity.getPrecio());
+        cursoDto.setId_usuario_creador(cursoEntity.getUsuario().getId());
+        cursoDto.setUnidades(cursoEntity.getUnidades());
+        return cursoDto;
     }
 }

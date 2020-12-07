@@ -1,12 +1,17 @@
 package ar.com.travelpaq.hogarpresente.api.models.mapper;
 
+import ar.com.travelpaq.hogarpresente.api.models.dto.CompletoUsuarioDto;
 import ar.com.travelpaq.hogarpresente.api.models.dto.UsuarioDto;
+import ar.com.travelpaq.hogarpresente.api.models.entity.CursoEntity;
 import ar.com.travelpaq.hogarpresente.api.security.dto.RoleDto;
 import ar.com.travelpaq.hogarpresente.api.models.entity.UsuarioEntity;
 import ar.com.travelpaq.hogarpresente.api.security.entity.RoleEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Component
@@ -71,5 +76,21 @@ public class UsuarioMapper {
         */
 
         return usuarioEntity;
+    }
+
+    public CompletoUsuarioDto mapUsuarioEntityToUsuarioDto(UsuarioEntity usuarioEntity){
+        CompletoUsuarioDto usuarioDto = new CompletoUsuarioDto();
+        usuarioDto.setId(usuarioEntity.getId());
+        usuarioDto.setNombre(usuarioEntity.getNombre());
+        usuarioDto.setApellido(usuarioEntity.getApellido());
+        usuarioDto.setCorreo(usuarioEntity.getCorreo());
+        usuarioDto.setEdad(usuarioEntity.getEdad());
+        usuarioDto.setEstudio(usuarioEntity.getEstudio());
+        List<Long> cursosCreados = new ArrayList<>();
+        for (CursoEntity cursoEntity : usuarioEntity.getCursos()){
+            cursosCreados.add(cursoEntity.getId());
+        }
+        usuarioDto.setId_cursos_creados(cursosCreados);
+        return usuarioDto;
     }
 }

@@ -1,6 +1,7 @@
 package ar.com.travelpaq.hogarpresente.api.models.entity;
 
 import ar.com.travelpaq.hogarpresente.api.security.entity.RoleEntity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -43,7 +44,7 @@ public class UsuarioEntity implements Serializable {
 
     private String estudio;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario", fetch = FetchType.EAGER)
     private List<CursoEntity> cursos;
 
 //    @OneToMany(mappedBy = "alumno_entity", fetch = FetchType.EAGER)
