@@ -6,6 +6,7 @@ import ar.com.travelpaq.hogarpresente.api.models.entity.CursoEntity;
 import ar.com.travelpaq.hogarpresente.api.security.dto.RoleDto;
 import ar.com.travelpaq.hogarpresente.api.models.entity.UsuarioEntity;
 import ar.com.travelpaq.hogarpresente.api.security.entity.RoleEntity;
+import ar.com.travelpaq.hogarpresente.api.security.mapper.RoleMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -19,6 +20,9 @@ public class UsuarioMapper {
 
     @Autowired
     private InscripcionMapper inscripcionMapper;
+
+    @Autowired
+    private RoleMapper roleMapper;
 
     public UsuarioDto mapAlumnoEntityToAlumno(UsuarioEntity usuarioEntity) {
 
@@ -86,6 +90,14 @@ public class UsuarioMapper {
         usuarioDto.setCorreo(usuarioEntity.getCorreo());
         usuarioDto.setEdad(usuarioEntity.getEdad());
         usuarioDto.setEstudio(usuarioEntity.getEstudio());
+        usuarioDto.setFoto(usuarioEntity.getFoto());
+        usuarioDto.setClave(usuarioEntity.getClave());
+        Set<RoleDto> roleDtos = new HashSet<>();
+        for (RoleEntity roleEntity : usuarioEntity.getRoles()){
+            RoleDto roleDto = roleMapper.mapRoleDtoToRoleEntity(roleEntity);
+            roleDtos.add(roleDto);
+        }
+        usuarioDto.setRol(roleDtos);
         List<Long> cursosCreados = new ArrayList<>();
         for (CursoEntity cursoEntity : usuarioEntity.getCursos()){
             cursosCreados.add(cursoEntity.getId());
