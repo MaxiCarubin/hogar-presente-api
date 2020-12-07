@@ -47,6 +47,7 @@ public class CursoMapper {
         cursoDto.setPrecio(cursoEntity.getPrecio());
         cursoDto.setId_usuario_creador(cursoEntity.getUsuario().getId());
         cursoDto.setUnidades(cursoEntity.getUnidades());
+        cursoDto.setHabilitado(cursoEntity.isHabilitado());
         return cursoDto;
     }
 }

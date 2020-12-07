@@ -17,6 +17,7 @@ public class CompletoCursoDto {
     private float precio;
     private String categoria;
     private String imagen;
+    private boolean habilitado;
     private long id_usuario_creador;
     private List<UnidadEntity> unidades;
 }
