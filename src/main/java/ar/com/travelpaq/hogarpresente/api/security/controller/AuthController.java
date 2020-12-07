@@ -107,7 +107,8 @@ public class AuthController {
                                 userDetails.getAuthorities(),
                                 usuarioEntity.getNombre(),
                                 usuarioEntity.getApellido(),
-                                usuarioEntity.getFoto()
+                                usuarioEntity.getFoto(),
+                                usuarioEntity.getId()
                         );
         return new ResponseEntity(jwtDto, HttpStatus.OK);
     }
