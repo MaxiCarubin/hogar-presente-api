@@ -28,12 +28,12 @@ public class CursoRestController {
         return cursoService.create(cursoDto);
     }
 
-    @PutMapping("/cursos/{id}")
+    @PutMapping("/cursos{id}")
     public ResponseEntity<?> update(@RequestBody CursoDto cursoDto, @PathVariable Long id){
         return cursoService.update(cursoDto, id);
     }
 
-    @PutMapping("/usuarios/{id}")
+    @PutMapping("/cursos/habilitar/{id}")
     public ResponseEntity<?> habilitadoOn(@PathVariable Long id){
         return cursoService.habilitarCurso(id);
     }
