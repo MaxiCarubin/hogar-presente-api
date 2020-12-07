@@ -165,6 +165,7 @@ public class CursoServiceImpl implements ICursoService {
             return new ResponseEntity(new Mensaje("No existe"), HttpStatus.NOT_FOUND);
         CursoEntity cursoEntity = cursoRepository.getOne(id);
         cursoEntity.setHabilitado(true);
+        cursoRepository.save(cursoEntity);
         return new ResponseEntity(new Mensaje("Curso Habilitado!"), HttpStatus.OK);
     }
 }
