@@ -19,9 +19,12 @@ public class CursoEntity implements Serializable {
     private long id;
 
     @Column(nullable = false, length = 45)
-    private String nombre;
+    private String titulo;
 
-    @Column(nullable = false, length = 70)
+    @Column(nullable = false, length = 45)
+    private String subtitulo;
+
+    @Column(nullable = false)
     private String descripcion;
 
 //    @Column(nullable = false, length = 45)

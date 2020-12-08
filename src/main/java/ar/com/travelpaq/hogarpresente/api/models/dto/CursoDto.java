@@ -11,8 +11,9 @@ import java.util.List;
 @NoArgsConstructor
 public class CursoDto {
     private long id;
-    private String nombre;
+    private String titulo;
     private String descripcion;
+    private String subtitulo;
     private float precio;
     private String categoria;
     private String imagen;

@@ -89,7 +89,9 @@ public class CursoServiceImpl implements ICursoService {
 
     @Override
     public ResponseEntity<?> create(CursoDto newCurso) {
-        if(StringUtils.isBlank(newCurso.getNombre()))
+        if(StringUtils.isBlank(newCurso.getTitulo()))
+            return new ResponseEntity(new Mensaje("El nombre es obligatorio"), HttpStatus.BAD_REQUEST);
+        if(StringUtils.isBlank(newCurso.getSubtitulo()))
             return new ResponseEntity(new Mensaje("El nombre es obligatorio"), HttpStatus.BAD_REQUEST);
         if(StringUtils.isBlank(newCurso.getDescripcion()))
             return new ResponseEntity(new Mensaje("La descripcion es obligatoria"), HttpStatus.BAD_REQUEST);
@@ -116,14 +118,14 @@ public class CursoServiceImpl implements ICursoService {
             return new ResponseEntity(new Mensaje("No existe el curso en la base de datos"), HttpStatus.NOT_FOUND);
         }
         else {
-            if (StringUtils.isBlank(cursoDto.getNombre()))
-                return new ResponseEntity(new Mensaje("El nombre es obligatorio"), HttpStatus.BAD_REQUEST);
-            if (StringUtils.isBlank(cursoDto.getDescripcion()))
-                return new ResponseEntity(new Mensaje("La descripcion es obligatoria"), HttpStatus.BAD_REQUEST);
-            if (cursoDto.getPrecio() < 0)
-                return new ResponseEntity(new Mensaje("El precio no puede ser negativo"), HttpStatus.BAD_REQUEST);
-            if(!usuarioRepository.existsById(cursoDto.getUsuarioId()))
-                return new ResponseEntity(new Mensaje("El usuario no esta en la base de datos"), HttpStatus.BAD_REQUEST);
+//            if (StringUtils.isBlank(cursoDto.getNombre()))
+//                return new ResponseEntity(new Mensaje("El nombre es obligatorio"), HttpStatus.BAD_REQUEST);
+//            if (StringUtils.isBlank(cursoDto.getDescripcion()))
+//                return new ResponseEntity(new Mensaje("La descripcion es obligatoria"), HttpStatus.BAD_REQUEST);
+//            if (cursoDto.getPrecio() < 0)
+//                return new ResponseEntity(new Mensaje("El precio no puede ser negativo"), HttpStatus.BAD_REQUEST);
+//            if(!usuarioRepository.existsById(cursoDto.getUsuarioId()))
+//                return new ResponseEntity(new Mensaje("El usuario no esta en la base de datos"), HttpStatus.BAD_REQUEST);
             UsuarioEntity usuarioNuevo = usuarioRepository.findById(cursoDto.getUsuarioId()).get();
             if(usuarioNuevo.getRoles().contains(roleAlumno))
                 return new ResponseEntity(new Mensaje("El usuario debe ser un capacitador o admin para editar el curso"), HttpStatus.BAD_REQUEST);
@@ -139,7 +141,8 @@ public class CursoServiceImpl implements ICursoService {
                                 , HttpStatus.BAD_REQUEST
                         );
 
-            cursoEntity.setNombre(cursoDto.getNombre());
+            cursoEntity.setTitulo(cursoDto.getTitulo());
+            cursoEntity.setSubtitulo(cursoDto.getSubtitulo());
             cursoEntity.setDescripcion(cursoDto.getDescripcion());
             cursoEntity.setPrecio(cursoDto.getPrecio());
             cursoEntity.setImagen(cursoDto.getImagen());

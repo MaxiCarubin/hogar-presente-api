@@ -13,10 +13,22 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 
 
@@ -40,11 +52,11 @@ public class UsuarioServiceImpl implements IUsuarioService {
         return usuarioRepository.findByCorreo(correo);
     }
 
-    public boolean existsByCorreo(String correo){
+    public boolean existsByCorreo(String correo) {
         return usuarioRepository.existsByCorreo(correo);
     }
 
-    public void save(UsuarioEntity usuarioEntity){
+    public void save(UsuarioEntity usuarioEntity) {
         usuarioRepository.save(usuarioEntity);
     }
 
@@ -52,7 +64,7 @@ public class UsuarioServiceImpl implements IUsuarioService {
     public ResponseEntity<?> findAll() {
         List<UsuarioEntity> usuarioEntities = usuarioRepository.findAll();
         List<CompletoUsuarioDto> usuarioDtos = new ArrayList<>();
-        for (UsuarioEntity usuarioEntity : usuarioEntities){
+        for (UsuarioEntity usuarioEntity : usuarioEntities) {
             CompletoUsuarioDto usuarioDto = usuarioMapper.mapUsuarioEntityToUsuarioDto(usuarioEntity);
             usuarioDtos.add(usuarioDto);
         }
@@ -70,13 +82,13 @@ public class UsuarioServiceImpl implements IUsuarioService {
 
     @Override
     public ResponseEntity<?> create(UsuarioDto usuarioDto) {
-        if(StringUtils.isBlank(usuarioDto.getNombre()))
+        if (StringUtils.isBlank(usuarioDto.getNombre()))
             return new ResponseEntity(new Mensaje("El nombre es obligatorio"), HttpStatus.BAD_REQUEST);
-        if(StringUtils.isBlank(usuarioDto.getApellido()))
+        if (StringUtils.isBlank(usuarioDto.getApellido()))
             return new ResponseEntity(new Mensaje("El apellido es obligatorio"), HttpStatus.BAD_REQUEST);
-        if(StringUtils.isEmpty(usuarioDto.getClave()))
+        if (StringUtils.isEmpty(usuarioDto.getClave()))
             return new ResponseEntity(new Mensaje("La clave no puede estar vacia"), HttpStatus.BAD_REQUEST);
-        if(usuarioRepository.existsByCorreo(usuarioDto.getCorreo()))
+        if (usuarioRepository.existsByCorreo(usuarioDto.getCorreo()))
             return new ResponseEntity(new Mensaje("Ese correo ya existe"), HttpStatus.BAD_REQUEST);
         UsuarioEntity usuarioEntity = usuarioMapper.mapAlumnoToAlumnoEntity(usuarioDto);
         usuarioRepository.save(usuarioEntity);
@@ -116,4 +128,67 @@ public class UsuarioServiceImpl implements IUsuarioService {
         usuarioRepository.deleteById(id);
         return new ResponseEntity(new Mensaje("Alumno Eliminado!"), HttpStatus.OK);
     }
+
+//    @Override
+//    public ResponseEntity<?> upload(MultipartFile archivo, Long id) {
+//        UsuarioEntity usuarioEntity = usuarioRepository.getOne(id);
+//        if (!archivo.isEmpty()) {
+//            String nombreArchivo = UUID.randomUUID().toString() + "_" + archivo.getOriginalFilename().replace(" ", "");
+//            Path rutaArchivo = Paths.get("uploads").resolve(nombreArchivo).toAbsolutePath();
+//            try {
+//                Files.copy(archivo.getInputStream(), rutaArchivo);
+//            } catch (IOException e) {
+//                return new ResponseEntity(new Mensaje("Error al subir la imagen del alumno. " + nombreArchivo + "\n Error: " + e.getMessage().concat(": ").concat(e.getCause().getMessage())), HttpStatus.BAD_REQUEST);
+//            }
+//            String nombreFotoAnterior = usuarioEntity.getFoto();
+//            if (nombreFotoAnterior != null && nombreFotoAnterior.length() > 0) {
+//                Path rutaFotoAnterior = Paths.get("uploads").toAbsolutePath();
+//                File archivoFotoAnterior = rutaFotoAnterior.toFile();
+//                if (archivoFotoAnterior.exists() && archivoFotoAnterior.canRead()) {
+//                    archivoFotoAnterior.delete();
+//                }
+//            }
+//            usuarioEntity.setFoto(nombreArchivo);
+//            usuarioRepository.save(usuarioEntity);
+//            return new ResponseEntity(new Mensaje("Has subido correctamente la imagen: " + nombreArchivo), HttpStatus.CREATED);
+//        }
+//        return new ResponseEntity(new Mensaje("El archivo se encuentra vacio!"), HttpStatus.BAD_REQUEST);
+//    }
+//
+//    @Override
+//    public ResponseEntity<?> verFoto(String nombreFoto) {
+//        Path rutaArchivo = Paths.get("uploads").resolve(nombreFoto).toAbsolutePath();
+//        Resource resource = null;
+//        try{
+//            resource = new UrlResource(rutaArchivo.toUri());
+//        }catch (MalformedURLException e){
+//            e.printStackTrace();
+//        }
+//        if (!resource.exists() && !resource.isReadable()){
+//            throw new RuntimeException("Error no se pudo cargar la imagen: " +nombreFoto);
+//        }
+//        HttpHeaders cabecera = new HttpHeaders();
+//        cabecera.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename\"" + resource.getFilename() +  "\"");
+//        return new ResponseEntity(resource, cabecera, HttpStatus.OK);
+//    }
+
+
+    //    @GetMapping("/uploads/img/{nombreFoto:.+}")
+//    public ResponseEntity<Resource> verFoto(@PathVariable String nombreFoto){
+//        Path rutaArchivo = Paths.get("uploads").resolve(nombreFoto).toAbsolutePath();
+//        Resource recurso = null;
+//        try{
+//            recurso = new UrlResource(rutaArchivo.toUri());
+//        }catch (MalformedURLException e)
+//        {
+//            e.printStackTrace();
+//        }
+//        if(!recurso.exists() && !recurso.isReadable()){
+//            throw new RuntimeException("Error no se pudo cargar la imagen: " + nombreFoto);
+//        }
+//        HttpHeaders cabecera = new HttpHeaders();
+//        cabecera.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename\"" + recurso.getFilename() + "\"");
+//        return new ResponseEntity<Resource>(recurso, cabecera, HttpStatus.OK);
+//    }
+
 }

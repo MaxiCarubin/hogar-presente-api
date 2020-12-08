@@ -4,6 +4,7 @@ import ar.com.travelpaq.hogarpresente.api.models.services.IUsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @CrossOrigin
 @RestController
@@ -11,33 +12,41 @@ import org.springframework.web.bind.annotation.*;
 public class UsuarioRestController {
 
     @Autowired
-    private IUsuarioService alumnoService;
+    private IUsuarioService usuarioService;
 
     @GetMapping("/usuarios")
     public ResponseEntity<?> findAll(){
-        return alumnoService.findAll();
+        return usuarioService.findAll();
     }
 
     @GetMapping("/usuarios/{id}")
     public ResponseEntity<?> findOne(@PathVariable Long id){
-        return alumnoService.findById(id);
+        return usuarioService.findById(id);
     }
 
     @PostMapping("/usuarios")
     public ResponseEntity<?> create(@RequestBody UsuarioDto usuarioDto){
-        return alumnoService.create(usuarioDto);
+        return usuarioService.create(usuarioDto);
     }
 
     @PutMapping("/usuarios/{id}")
     public ResponseEntity<?> update(@RequestBody UsuarioDto usuarioDto, @PathVariable Long id){
-        return alumnoService.update(usuarioDto, id);
+        return usuarioService.update(usuarioDto, id);
     }
 
     @DeleteMapping("/usuarios/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
-        return alumnoService.delete(id);
+        return usuarioService.delete(id);
     }
 
+//    @PostMapping("/usuarios/upload")
+//    public ResponseEntity<?> upload(@RequestParam("archivo")MultipartFile archivo, @RequestParam("id") Long id){
+//        return usuarioService.upload(archivo, id);
+//    }
+//    @GetMapping("/uploads/img/{nombreFoto:.+}")
+//    public ResponseEntity<?> verFoto(@PathVariable String nombreFoto){
+//        return usuarioService.verFoto(nombreFoto);
+//    }
     /*
     @PostMapping("/alumnos/upload")
     public ResponseEntity<?> upload(@RequestParam("archivo")MultipartFile archivo, @RequestParam("id") Long id){
@@ -78,23 +87,23 @@ public class UsuarioRestController {
         return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
     }
 
-    @GetMapping("/uploads/img/{nombreFoto:.+}")
-    public ResponseEntity<Resource> verFoto(@PathVariable String nombreFoto){
-        Path rutaArchivo = Paths.get("uploads").resolve(nombreFoto).toAbsolutePath();
-        Resource recurso = null;
-        try{
-            recurso = new UrlResource(rutaArchivo.toUri());
-        }catch (MalformedURLException e)
-        {
-            e.printStackTrace();
-        }
-        if(!recurso.exists() && !recurso.isReadable()){
-            throw new RuntimeException("Error no se pudo cargar la imagen: " + nombreFoto);
-        }
-        HttpHeaders cabecera = new HttpHeaders();
-        cabecera.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename\"" + recurso.getFilename() + "\"");
-        return new ResponseEntity<Resource>(recurso, cabecera, HttpStatus.OK);
-    }
+//    @GetMapping("/uploads/img/{nombreFoto:.+}")
+//    public ResponseEntity<Resource> verFoto(@PathVariable String nombreFoto){
+//        Path rutaArchivo = Paths.get("uploads").resolve(nombreFoto).toAbsolutePath();
+//        Resource recurso = null;
+//        try{
+//            recurso = new UrlResource(rutaArchivo.toUri());
+//        }catch (MalformedURLException e)
+//        {
+//            e.printStackTrace();
+//        }
+//        if(!recurso.exists() && !recurso.isReadable()){
+//            throw new RuntimeException("Error no se pudo cargar la imagen: " + nombreFoto);
+//        }
+//        HttpHeaders cabecera = new HttpHeaders();
+//        cabecera.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename\"" + recurso.getFilename() + "\"");
+//        return new ResponseEntity<Resource>(recurso, cabecera, HttpStatus.OK);
+//    }
 
      */
 

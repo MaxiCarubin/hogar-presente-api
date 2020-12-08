@@ -3,6 +3,7 @@ package ar.com.travelpaq.hogarpresente.api.models.services;
 import ar.com.travelpaq.hogarpresente.api.models.dto.UsuarioDto;
 import ar.com.travelpaq.hogarpresente.api.models.entity.UsuarioEntity;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Optional;
 
@@ -24,4 +25,7 @@ public interface IUsuarioService {
 
     public ResponseEntity<?> delete(Long id);
 
+//    public ResponseEntity<?> upload(MultipartFile archivo, Long id);
+//
+//    public ResponseEntity<?> verFoto(String nombreFoto);
 }
