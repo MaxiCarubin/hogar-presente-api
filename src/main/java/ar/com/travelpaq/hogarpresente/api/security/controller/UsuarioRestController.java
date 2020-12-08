@@ -1,6 +1,6 @@
-package ar.com.travelpaq.hogarpresente.api.controller;
-import ar.com.travelpaq.hogarpresente.api.models.dto.UsuarioDto;
-import ar.com.travelpaq.hogarpresente.api.models.services.IUsuarioService;
+package ar.com.travelpaq.hogarpresente.api.security.controller;
+import ar.com.travelpaq.hogarpresente.api.security.dto.UsuarioDto;
+import ar.com.travelpaq.hogarpresente.api.security.service.IUsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

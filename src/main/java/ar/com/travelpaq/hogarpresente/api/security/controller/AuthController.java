@@ -1,15 +1,15 @@
 package ar.com.travelpaq.hogarpresente.api.security.controller;
 
 import ar.com.travelpaq.hogarpresente.api.models.dto.Mensaje;
-import ar.com.travelpaq.hogarpresente.api.models.entity.UsuarioEntity;
-import ar.com.travelpaq.hogarpresente.api.models.services.IUsuarioService;
+import ar.com.travelpaq.hogarpresente.api.security.entity.UsuarioEntity;
+import ar.com.travelpaq.hogarpresente.api.security.service.IUsuarioService;
 import ar.com.travelpaq.hogarpresente.api.security.dto.JwtDto;
 import ar.com.travelpaq.hogarpresente.api.security.dto.LoginUsuario;
 import ar.com.travelpaq.hogarpresente.api.security.dto.NuevoUsuario;
 import ar.com.travelpaq.hogarpresente.api.security.entity.RoleEntity;
 import ar.com.travelpaq.hogarpresente.api.security.enums.RoleNombre;
 import ar.com.travelpaq.hogarpresente.api.security.jwt.JwtProvider;
-import ar.com.travelpaq.hogarpresente.api.security.service.RoleService;
+import ar.com.travelpaq.hogarpresente.api.security.service.impl.RoleServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,7 +41,7 @@ public class AuthController {
     IUsuarioService usuarioService;
 
     @Autowired
-    RoleService rolService;
+    RoleServiceImpl rolService;
 
     @Autowired
     JwtProvider jwtProvider;
@@ -85,7 +85,7 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<JwtDto> login(@Valid @RequestBody LoginUsuario loginUsuario, BindingResult bindingResult){
         if(bindingResult.hasErrors())
-            return new ResponseEntity(new Mensaje("campos mal puestos"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(new Mensaje("Email y/o contraseña incorrecta"), HttpStatus.BAD_REQUEST);
         Authentication authentication =
                 authenticationManager.authenticate
                         (

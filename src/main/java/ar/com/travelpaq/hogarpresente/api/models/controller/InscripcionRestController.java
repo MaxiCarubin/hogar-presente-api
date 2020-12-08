@@ -1,4 +1,4 @@
-package ar.com.travelpaq.hogarpresente.api.controller;
+package ar.com.travelpaq.hogarpresente.api.models.controller;
 
 import ar.com.travelpaq.hogarpresente.api.models.dto.InscripcionDto;
 import ar.com.travelpaq.hogarpresente.api.models.services.IInscripcionService;

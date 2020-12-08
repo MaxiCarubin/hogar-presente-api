@@ -1,8 +1,8 @@
-package ar.com.travelpaq.hogarpresente.api.security.service;
+package ar.com.travelpaq.hogarpresente.api.security.service.impl;
 
-import ar.com.travelpaq.hogarpresente.api.models.entity.UsuarioEntity;
-import ar.com.travelpaq.hogarpresente.api.models.services.IUsuarioService;
+import ar.com.travelpaq.hogarpresente.api.security.entity.UsuarioEntity;
 import ar.com.travelpaq.hogarpresente.api.security.entity.UsuarioPrincipal;
+import ar.com.travelpaq.hogarpresente.api.security.service.IUsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

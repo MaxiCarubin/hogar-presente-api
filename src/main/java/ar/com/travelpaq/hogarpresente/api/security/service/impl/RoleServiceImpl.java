@@ -1,8 +1,9 @@
-package ar.com.travelpaq.hogarpresente.api.security.service;
+package ar.com.travelpaq.hogarpresente.api.security.service.impl;
 
 import ar.com.travelpaq.hogarpresente.api.security.entity.RoleEntity;
 import ar.com.travelpaq.hogarpresente.api.security.enums.RoleNombre;
 import ar.com.travelpaq.hogarpresente.api.security.repository.IRoleRepository;
+import ar.com.travelpaq.hogarpresente.api.security.service.IRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,15 +15,17 @@ import java.util.Optional;
 
 @Service
 @Transactional
-public class RoleService {
+public class RoleServiceImpl implements IRoleService {
 
     @Autowired
-    IRoleRepository roleRepository;
+    private IRoleRepository roleRepository;
 
+    @Override
     public Optional<RoleEntity> getByRoleNombre(RoleNombre roleNombre){
         return roleRepository.findByRoleNombre(roleNombre);
     }
 
+    @Override
     public ResponseEntity<List<RoleEntity>> findAll() {
         RoleEntity roleEntityUSER = new RoleEntity(1, RoleNombre.ROLE_ALUMNO);
         RoleEntity roleEntityCAPACITADOR = new RoleEntity(2, RoleNombre.ROLE_CAPACITADOR);

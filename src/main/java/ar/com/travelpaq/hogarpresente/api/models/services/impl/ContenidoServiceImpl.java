@@ -48,41 +48,33 @@ public class ContenidoServiceImpl implements IContenidoService {
 
     @Override
     public ResponseEntity<?> create(ContenidoDto contenidoDto) {
-        if(StringUtils.isBlank(contenidoDto.getNombre()))
-            return new ResponseEntity(new Mensaje("El nombre es obligatorio"), HttpStatus.BAD_REQUEST);
-        if(StringUtils.isBlank(contenidoDto.getDenominacion()))
-            return new ResponseEntity(new Mensaje("La denominacion es obligatorio"), HttpStatus.BAD_REQUEST);
+        if(StringUtils.isBlank(contenidoDto.getTitulo()))
+            return new ResponseEntity(new Mensaje("El título es obligatorio!"), HttpStatus.BAD_REQUEST);
+        if(StringUtils.isBlank(contenidoDto.getSubtitulo()))
+            return new ResponseEntity(new Mensaje("El subtítulo es obligatorio!"), HttpStatus.BAD_REQUEST);
         if(StringUtils.isBlank(contenidoDto.getDescripcion()))
-            return new ResponseEntity(new Mensaje("La descripcion es obligatoria"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(new Mensaje("La descripción es obligatoria!"), HttpStatus.BAD_REQUEST);
         if(StringUtils.isBlank(contenidoDto.getDocumento()))
-            return new ResponseEntity(new Mensaje("Documentacion vacia!"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(new Mensaje("La documentación es obligatoria!"), HttpStatus.BAD_REQUEST);
         if(!unidadRepository.existsById(contenidoDto.getUnidadId()))
-            return new ResponseEntity(new Mensaje("La unidad debe existir en la base de datos"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(new Mensaje("La unidad a la que se le asigna el contenido, debe existir en la base de datos!"), HttpStatus.NOT_FOUND);
         ContenidoEntity contenidoEntity = contenidoMapper.mapTareaEntityToTarea(contenidoDto);
         contenidoRepository.save(contenidoEntity);
         UnidadEntity unidadEntity = unidadRepository.getOne(contenidoDto.getUnidadId());
         unidadEntity.getContenidos().add(contenidoEntity);
         unidadRepository.save(unidadEntity);
-        return new ResponseEntity(new Mensaje("Contenido creado para la unidad ID: " + contenidoDto.getUnidadId() + "  !"), HttpStatus.OK);
+        return new ResponseEntity(new Mensaje("Contenido creado para la unidad ID: " + contenidoDto.getUnidadId() + " !"), HttpStatus.CREATED);
     }
 
     @Override
     public ResponseEntity<?> update(ContenidoDto contenidoDto, Long id) {
         if (!contenidoRepository.existsById(id))
             return new ResponseEntity(new Mensaje("No existe el contenido en la base de datos"), HttpStatus.NOT_FOUND);
-        if(StringUtils.isBlank(contenidoDto.getNombre()))
-            return new ResponseEntity(new Mensaje("El nombre es obligatorio"), HttpStatus.BAD_REQUEST);
-        if(StringUtils.isBlank(contenidoDto.getDenominacion()))
-            return new ResponseEntity(new Mensaje("La denominacion es obligatorio"), HttpStatus.BAD_REQUEST);
-        if(StringUtils.isBlank(contenidoDto.getDescripcion()))
-            return new ResponseEntity(new Mensaje("La descripcion es obligatoria"), HttpStatus.BAD_REQUEST);
-        if(StringUtils.isBlank(contenidoDto.getDocumento()))
-            return new ResponseEntity(new Mensaje("Documentacion vacia!"), HttpStatus.BAD_REQUEST);
         if(!unidadRepository.existsById(contenidoDto.getUnidadId()))
             return new ResponseEntity(new Mensaje("No existe unidad asociado al contenido en la base de datos"), HttpStatus.BAD_REQUEST);
         ContenidoEntity contenidoEntity = contenidoRepository.getOne(id);
-        contenidoEntity.setNombre(contenidoDto.getNombre());
-        contenidoEntity.setDenominacion(contenidoDto.getDenominacion());
+        contenidoEntity.setTitulo(contenidoDto.getTitulo());
+        contenidoEntity.setSubtitulo(contenidoDto.getSubtitulo());
         contenidoEntity.setDescripcion(contenidoDto.getDescripcion());
         contenidoEntity.setDocumento(contenidoDto.getDocumento());
         contenidoRepository.save(contenidoEntity);

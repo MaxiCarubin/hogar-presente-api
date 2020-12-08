@@ -1,34 +1,22 @@
-package ar.com.travelpaq.hogarpresente.api.models.services.impl;
+package ar.com.travelpaq.hogarpresente.api.security.service.impl;
 
-import ar.com.travelpaq.hogarpresente.api.models.dto.CompletoUsuarioDto;
-import ar.com.travelpaq.hogarpresente.api.models.dto.UsuarioDto;
+import ar.com.travelpaq.hogarpresente.api.security.dto.CompletoUsuarioDto;
+import ar.com.travelpaq.hogarpresente.api.security.dto.UsuarioDto;
 import ar.com.travelpaq.hogarpresente.api.models.dto.Mensaje;
-import ar.com.travelpaq.hogarpresente.api.models.entity.CursoEntity;
-import ar.com.travelpaq.hogarpresente.api.models.entity.UsuarioEntity;
-import ar.com.travelpaq.hogarpresente.api.models.mapper.UsuarioMapper;
+import ar.com.travelpaq.hogarpresente.api.security.entity.UsuarioEntity;
+import ar.com.travelpaq.hogarpresente.api.security.mapper.UsuarioMapper;
 import ar.com.travelpaq.hogarpresente.api.models.mapper.InscripcionMapper;
-import ar.com.travelpaq.hogarpresente.api.models.repository.IUsuarioRepository;
-import ar.com.travelpaq.hogarpresente.api.models.services.IUsuarioService;
+import ar.com.travelpaq.hogarpresente.api.security.repository.IUsuarioRepository;
+import ar.com.travelpaq.hogarpresente.api.security.service.IUsuarioService;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.*;
 
 

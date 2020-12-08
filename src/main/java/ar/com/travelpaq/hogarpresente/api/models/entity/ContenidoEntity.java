@@ -17,21 +17,16 @@ public class ContenidoEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(nullable = false, length = 60)
-    private String nombre;
+    @Column(nullable = false, length = 45)
+    private String titulo;
 
-    @Column(nullable = false)
-    private String denominacion;
+    @Column(nullable = false, length = 45)
+    private String subtitulo;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 500)
     private String descripcion;
 
+    @Column(nullable = false, length = 500)
     private String documento;
-
-//    @ManyToOne
-//    @JoinColumn(name = "unidad_id")
-//    private UnidadEntity unidad;
-
-//    private Boolean terminada;
 
 }

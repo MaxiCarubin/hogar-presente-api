@@ -1,10 +1,11 @@
-package ar.com.travelpaq.hogarpresente.api.models.mapper;
+package ar.com.travelpaq.hogarpresente.api.security.mapper;
 
-import ar.com.travelpaq.hogarpresente.api.models.dto.CompletoUsuarioDto;
-import ar.com.travelpaq.hogarpresente.api.models.dto.UsuarioDto;
+import ar.com.travelpaq.hogarpresente.api.models.mapper.InscripcionMapper;
+import ar.com.travelpaq.hogarpresente.api.security.dto.CompletoUsuarioDto;
+import ar.com.travelpaq.hogarpresente.api.security.dto.UsuarioDto;
 import ar.com.travelpaq.hogarpresente.api.models.entity.CursoEntity;
 import ar.com.travelpaq.hogarpresente.api.security.dto.RoleDto;
-import ar.com.travelpaq.hogarpresente.api.models.entity.UsuarioEntity;
+import ar.com.travelpaq.hogarpresente.api.security.entity.UsuarioEntity;
 import ar.com.travelpaq.hogarpresente.api.security.entity.RoleEntity;
 import ar.com.travelpaq.hogarpresente.api.security.mapper.RoleMapper;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package ar.com.travelpaq.hogarpresente.api.controller;
+package ar.com.travelpaq.hogarpresente.api.models.controller;
 
 import ar.com.travelpaq.hogarpresente.api.models.dto.CursoDto;
 import ar.com.travelpaq.hogarpresente.api.models.services.ICursoService;
@@ -14,6 +14,7 @@ public class CursoRestController {
     private ICursoService cursoService;
     //cambiar por findAll
     @GetMapping("/cursos")
+
     public ResponseEntity<?> findAll(){
         return cursoService.findAll();
     }

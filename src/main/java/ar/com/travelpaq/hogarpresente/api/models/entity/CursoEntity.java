@@ -1,10 +1,11 @@
 package ar.com.travelpaq.hogarpresente.api.models.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import ar.com.travelpaq.hogarpresente.api.security.entity.UsuarioEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import javax.persistence.*;
+import javax.validation.constraints.PositiveOrZero;
 import java.io.Serializable;
 import java.util.List;
 
@@ -24,16 +25,16 @@ public class CursoEntity implements Serializable {
     @Column(nullable = false, length = 45)
     private String subtitulo;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 500)
     private String descripcion;
 
-//    @Column(nullable = false, length = 45)
-//    private String capacitador;
-
+    @PositiveOrZero
     private float precio;
 
+    @Column(nullable = false, length = 45)
     private String categoria;
 
+    @Column(length = 400)
     private String imagen;
 
     private boolean habilitado;

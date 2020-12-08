@@ -1,5 +1,6 @@
-package ar.com.travelpaq.hogarpresente.api.models.entity;
+package ar.com.travelpaq.hogarpresente.api.security.entity;
 
+import ar.com.travelpaq.hogarpresente.api.models.entity.CursoEntity;
 import ar.com.travelpaq.hogarpresente.api.security.entity.RoleEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
@@ -24,24 +25,25 @@ public class UsuarioEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @NotNull
+    @Column(nullable = false, length = 45)
     private String nombre;
 
-    @NotNull
+    @Column(nullable = false, length = 45)
     private String apellido;
 
     private int edad;
 
-    @NotNull
     @Email
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String correo;
 
-    @NotNull
+    @Column(nullable = false, length = 400)
     private String clave;
 
+    @Column(length = 400)
     private String foto;
 
+    @Column(length = 45)
     private String estudio;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario", fetch = FetchType.EAGER)

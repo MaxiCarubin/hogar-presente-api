@@ -14,8 +14,8 @@ public class ContenidoMapper {
     public ContenidoDto mapTareaToTareaEntity(ContenidoEntity contenidoEntity) {
         ContenidoDto contenidoDto = new ContenidoDto();
         contenidoDto.setId(contenidoEntity.getId());
-        contenidoDto.setNombre(contenidoEntity.getNombre());
-        contenidoDto.setDenominacion(contenidoEntity.getDenominacion());
+        contenidoDto.setTitulo(contenidoEntity.getTitulo());
+        contenidoDto.setSubtitulo(contenidoEntity.getSubtitulo());
         contenidoDto.setDescripcion(contenidoEntity.getDescripcion());
         contenidoDto.setDocumento(contenidoEntity.getDocumento());
 //        tareaDto.setUnidad(unidadMapper.mapUnidadEntityToUnidad(tareaEntity.getUnidad()));
@@ -24,8 +24,8 @@ public class ContenidoMapper {
     public ContenidoEntity mapTareaEntityToTarea(ContenidoDto contenidoDto) {
         ContenidoEntity contenidoEntity = new ContenidoEntity();
         contenidoEntity.setId(contenidoDto.getId());
-        contenidoEntity.setNombre(contenidoDto.getNombre());
-        contenidoEntity.setDenominacion(contenidoDto.getDenominacion());
+        contenidoEntity.setTitulo(contenidoDto.getTitulo());
+        contenidoEntity.setSubtitulo(contenidoDto.getSubtitulo());
         contenidoEntity.setDescripcion(contenidoDto.getDescripcion());
         contenidoEntity.setDocumento(contenidoDto.getDocumento());
 //        tareaEntity.setUnidad(unidadMapper.mapUnidadToUnidadEntity(tareaDto.getUnidad()));

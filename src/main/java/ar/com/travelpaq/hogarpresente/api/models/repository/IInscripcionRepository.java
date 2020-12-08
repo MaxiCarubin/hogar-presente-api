@@ -1,6 +1,6 @@
 package ar.com.travelpaq.hogarpresente.api.models.repository;
 
-import ar.com.travelpaq.hogarpresente.api.models.entity.UsuarioEntity;
+import ar.com.travelpaq.hogarpresente.api.security.entity.UsuarioEntity;
 import ar.com.travelpaq.hogarpresente.api.models.entity.CursoEntity;
 import ar.com.travelpaq.hogarpresente.api.models.entity.InscripcionEntity;
 import org.springframework.data.jpa.repository.JpaRepository;

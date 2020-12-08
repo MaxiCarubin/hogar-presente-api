@@ -1,6 +1,5 @@
 package ar.com.travelpaq.hogarpresente.api.security.entity;
 
-import ar.com.travelpaq.hogarpresente.api.models.entity.UsuarioEntity;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;

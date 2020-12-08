@@ -1,4 +1,5 @@
 package ar.com.travelpaq.hogarpresente.api.models.entity;
+import ar.com.travelpaq.hogarpresente.api.security.entity.UsuarioEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

@@ -1,4 +1,4 @@
-package ar.com.travelpaq.hogarpresente.api.models.dto;
+package ar.com.travelpaq.hogarpresente.api.security.dto;
 
 import ar.com.travelpaq.hogarpresente.api.security.dto.RoleDto;
 import lombok.AllArgsConstructor;

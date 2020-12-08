@@ -2,13 +2,13 @@ package ar.com.travelpaq.hogarpresente.api.models.services.impl;
 
 import ar.com.travelpaq.hogarpresente.api.models.dto.InscripcionDto;
 import ar.com.travelpaq.hogarpresente.api.models.dto.Mensaje;
-import ar.com.travelpaq.hogarpresente.api.models.entity.UsuarioEntity;
+import ar.com.travelpaq.hogarpresente.api.security.entity.UsuarioEntity;
 import ar.com.travelpaq.hogarpresente.api.models.entity.CursoEntity;
 import ar.com.travelpaq.hogarpresente.api.models.entity.InscripcionEntity;
-import ar.com.travelpaq.hogarpresente.api.models.mapper.UsuarioMapper;
+import ar.com.travelpaq.hogarpresente.api.security.mapper.UsuarioMapper;
 import ar.com.travelpaq.hogarpresente.api.models.mapper.CursoMapper;
 import ar.com.travelpaq.hogarpresente.api.models.mapper.InscripcionMapper;
-import ar.com.travelpaq.hogarpresente.api.models.repository.IUsuarioRepository;
+import ar.com.travelpaq.hogarpresente.api.security.repository.IUsuarioRepository;
 import ar.com.travelpaq.hogarpresente.api.models.repository.ICursoRepository;
 import ar.com.travelpaq.hogarpresente.api.models.repository.IInscripcionRepository;
 import ar.com.travelpaq.hogarpresente.api.models.services.IInscripcionService;

@@ -2,16 +2,16 @@ package ar.com.travelpaq.hogarpresente.api.models.services.impl;
 
 import ar.com.travelpaq.hogarpresente.api.models.dto.*;
 import ar.com.travelpaq.hogarpresente.api.models.entity.CursoEntity;
-import ar.com.travelpaq.hogarpresente.api.models.entity.UnidadEntity;
-import ar.com.travelpaq.hogarpresente.api.models.entity.UsuarioEntity;
+import ar.com.travelpaq.hogarpresente.api.security.entity.UsuarioEntity;
 import ar.com.travelpaq.hogarpresente.api.models.mapper.*;
 import ar.com.travelpaq.hogarpresente.api.models.repository.IContenidoRepository;
 import ar.com.travelpaq.hogarpresente.api.models.repository.ICursoRepository;
 import ar.com.travelpaq.hogarpresente.api.models.repository.IUnidadRepository;
-import ar.com.travelpaq.hogarpresente.api.models.repository.IUsuarioRepository;
+import ar.com.travelpaq.hogarpresente.api.security.repository.IUsuarioRepository;
 import ar.com.travelpaq.hogarpresente.api.models.services.ICursoService;
 import ar.com.travelpaq.hogarpresente.api.security.entity.RoleEntity;
 import ar.com.travelpaq.hogarpresente.api.security.enums.RoleNombre;
+import ar.com.travelpaq.hogarpresente.api.security.mapper.UsuarioMapper;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,7 +20,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @Service
 public class CursoServiceImpl implements ICursoService {
@@ -90,15 +89,15 @@ public class CursoServiceImpl implements ICursoService {
     @Override
     public ResponseEntity<?> create(CursoDto newCurso) {
         if(StringUtils.isBlank(newCurso.getTitulo()))
-            return new ResponseEntity(new Mensaje("El nombre es obligatorio"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(new Mensaje("El título es obligatorio"), HttpStatus.BAD_REQUEST);
         if(StringUtils.isBlank(newCurso.getSubtitulo()))
-            return new ResponseEntity(new Mensaje("El nombre es obligatorio"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(new Mensaje("El subtítulo es obligatorio"), HttpStatus.BAD_REQUEST);
         if(StringUtils.isBlank(newCurso.getDescripcion()))
-            return new ResponseEntity(new Mensaje("La descripcion es obligatoria"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(new Mensaje("La descripción es obligatoria"), HttpStatus.BAD_REQUEST);
         if(newCurso.getPrecio() < 0)
             return new ResponseEntity(new Mensaje("El precio no puede ser negativo"), HttpStatus.BAD_REQUEST);
         if(!usuarioRepository.existsById(newCurso.getUsuarioId()))
-            return new ResponseEntity(new Mensaje("El usuario no esta en la base de datos"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(new Mensaje("El usuario que crea el curso, no esta en la base de datos"), HttpStatus.NOT_FOUND);
         UsuarioEntity usuarioEntity = usuarioRepository.findById(newCurso.getUsuarioId()).get();
         if(usuarioEntity.getRoles().contains(roleAlumno))
             return new ResponseEntity(new Mensaje("El usuario debe ser un capacitador o admin para crear cursos"), HttpStatus.BAD_REQUEST);
@@ -114,43 +113,31 @@ public class CursoServiceImpl implements ICursoService {
     @Override
     @Transactional
     public ResponseEntity<?> update(CursoDto cursoDto, Long id) {
-        if (!cursoRepository.existsById(id)){
+        if (!cursoRepository.existsById(id))
             return new ResponseEntity(new Mensaje("No existe el curso en la base de datos"), HttpStatus.NOT_FOUND);
-        }
-        else {
-//            if (StringUtils.isBlank(cursoDto.getNombre()))
-//                return new ResponseEntity(new Mensaje("El nombre es obligatorio"), HttpStatus.BAD_REQUEST);
-//            if (StringUtils.isBlank(cursoDto.getDescripcion()))
-//                return new ResponseEntity(new Mensaje("La descripcion es obligatoria"), HttpStatus.BAD_REQUEST);
-//            if (cursoDto.getPrecio() < 0)
-//                return new ResponseEntity(new Mensaje("El precio no puede ser negativo"), HttpStatus.BAD_REQUEST);
-//            if(!usuarioRepository.existsById(cursoDto.getUsuarioId()))
-//                return new ResponseEntity(new Mensaje("El usuario no esta en la base de datos"), HttpStatus.BAD_REQUEST);
-            UsuarioEntity usuarioNuevo = usuarioRepository.findById(cursoDto.getUsuarioId()).get();
-            if(usuarioNuevo.getRoles().contains(roleAlumno))
-                return new ResponseEntity(new Mensaje("El usuario debe ser un capacitador o admin para editar el curso"), HttpStatus.BAD_REQUEST);
-            CursoEntity cursoEntity = cursoRepository.getOne(id);
-            UsuarioEntity usuarioViejo = cursoRepository.findById(id).get().getUsuario();
-            if (usuarioNuevo.getId() != usuarioViejo.getId() && usuarioNuevo.getRoles().contains(roleCapacitador))
-                return new ResponseEntity
-                        (
-                                new Mensaje
-                                        (
-                                                "El ID del creador del curso que se quiere modificar debe coincidir con el ID del usuario que esta modificando el curso o ese usuario debe ser ADMIN."
-                                        )
-                                , HttpStatus.BAD_REQUEST
-                        );
-
-            cursoEntity.setTitulo(cursoDto.getTitulo());
-            cursoEntity.setSubtitulo(cursoDto.getSubtitulo());
-            cursoEntity.setDescripcion(cursoDto.getDescripcion());
-            cursoEntity.setPrecio(cursoDto.getPrecio());
-            cursoEntity.setImagen(cursoDto.getImagen());
-            cursoEntity.setCategoria(cursoDto.getCategoria());
-            cursoEntity.setHabilitado(cursoDto.isHabilitado());
-            cursoRepository.save(cursoEntity);
-            return new ResponseEntity(new Mensaje("Curso Actualizado!"), HttpStatus.OK);
-        }
+        UsuarioEntity usuarioNuevo = usuarioRepository.findById(cursoDto.getUsuarioId()).get();
+        if(usuarioNuevo.getRoles().contains(roleAlumno))
+            return new ResponseEntity(new Mensaje("El usuario debe ser un capacitador o admin para editar el curso"), HttpStatus.BAD_REQUEST);
+        CursoEntity cursoEntity = cursoRepository.getOne(id);
+        UsuarioEntity usuarioViejo = cursoRepository.findById(id).get().getUsuario();
+        if (usuarioNuevo.getId() != usuarioViejo.getId() && usuarioNuevo.getRoles().contains(roleCapacitador))
+            return new ResponseEntity
+                    (
+                            new Mensaje
+                                    (
+                                            "El ID del creador del curso que se quiere modificar debe coincidir con el ID del usuario que esta modificando el curso o ese usuario debe ser ADMIN."
+                                    )
+                            ,HttpStatus.BAD_REQUEST
+                    );
+        cursoEntity.setTitulo(cursoDto.getTitulo());
+        cursoEntity.setSubtitulo(cursoDto.getSubtitulo());
+        cursoEntity.setDescripcion(cursoDto.getDescripcion());
+        cursoEntity.setPrecio(cursoDto.getPrecio());
+        cursoEntity.setImagen(cursoDto.getImagen());
+        cursoEntity.setCategoria(cursoDto.getCategoria());
+        cursoEntity.setHabilitado(cursoDto.isHabilitado());
+        cursoRepository.save(cursoEntity);
+        return new ResponseEntity(new Mensaje("Curso Actualizado!"), HttpStatus.OK);
     }
 
     @Override

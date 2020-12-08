@@ -1,9 +1,8 @@
-package ar.com.travelpaq.hogarpresente.api.models.services;
+package ar.com.travelpaq.hogarpresente.api.security.service;
 
-import ar.com.travelpaq.hogarpresente.api.models.dto.UsuarioDto;
-import ar.com.travelpaq.hogarpresente.api.models.entity.UsuarioEntity;
+import ar.com.travelpaq.hogarpresente.api.security.dto.UsuarioDto;
+import ar.com.travelpaq.hogarpresente.api.security.entity.UsuarioEntity;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Optional;
 
