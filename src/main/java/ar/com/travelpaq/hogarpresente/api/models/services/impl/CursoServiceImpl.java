@@ -1,5 +1,9 @@
 package ar.com.travelpaq.hogarpresente.api.models.services.impl;
 
+import ar.com.travelpaq.hogarpresente.api.cloudinary.entity.ImagenEntity;
+import ar.com.travelpaq.hogarpresente.api.cloudinary.repository.IImagenRepository;
+import ar.com.travelpaq.hogarpresente.api.cloudinary.service.CloudinaryService;
+import ar.com.travelpaq.hogarpresente.api.cloudinary.service.IImagenService;
 import ar.com.travelpaq.hogarpresente.api.models.dto.*;
 import ar.com.travelpaq.hogarpresente.api.models.entity.CursoEntity;
 import ar.com.travelpaq.hogarpresente.api.security.entity.UsuarioEntity;
@@ -18,8 +22,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class CursoServiceImpl implements ICursoService {
@@ -49,7 +57,16 @@ public class CursoServiceImpl implements ICursoService {
     private ContenidoMapper contenidoMapper;
 
     @Autowired
+    private IImagenRepository imagenRepository;
+
+    @Autowired
+    private IImagenService imagenService;
+
+    @Autowired
     private IContenidoRepository contenidoRepository;
+
+    @Autowired
+    private CloudinaryService cloudinaryService;
 
     private static RoleEntity roleAdmin = new RoleEntity(3, RoleNombre.ROLE_ADMIN);
 
@@ -94,6 +111,8 @@ public class CursoServiceImpl implements ICursoService {
             return new ResponseEntity(new Mensaje("El subtítulo es obligatorio"), HttpStatus.BAD_REQUEST);
         if(StringUtils.isBlank(newCurso.getDescripcion()))
             return new ResponseEntity(new Mensaje("La descripción es obligatoria"), HttpStatus.BAD_REQUEST);
+        if(StringUtils.isBlank(newCurso.getCategoria()))
+            return new ResponseEntity(new Mensaje("La categoria es obligatoria"), HttpStatus.BAD_REQUEST);
         if(newCurso.getPrecio() < 0)
             return new ResponseEntity(new Mensaje("El precio no puede ser negativo"), HttpStatus.BAD_REQUEST);
         if(!usuarioRepository.existsById(newCurso.getUsuarioId()))
@@ -101,8 +120,10 @@ public class CursoServiceImpl implements ICursoService {
         UsuarioEntity usuarioEntity = usuarioRepository.findById(newCurso.getUsuarioId()).get();
         if(usuarioEntity.getRoles().contains(roleAlumno))
             return new ResponseEntity(new Mensaje("El usuario debe ser un capacitador o admin para crear cursos"), HttpStatus.BAD_REQUEST);
+        ImagenEntity imagenEntity = imagenRepository.findById(2).orElse(null);
         CursoEntity cursoEntity = cursoMapper.mapCursoToCursoEntity(newCurso);
         cursoEntity.setHabilitado(false);
+        cursoEntity.setImagen(imagenEntity);
         cursoEntity.setUsuario(usuarioEntity);
         cursoRepository.save(cursoEntity);
         usuarioEntity.getCursos().add(cursoEntity);
@@ -129,13 +150,12 @@ public class CursoServiceImpl implements ICursoService {
                                     )
                             ,HttpStatus.BAD_REQUEST
                     );
+
         cursoEntity.setTitulo(cursoDto.getTitulo());
         cursoEntity.setSubtitulo(cursoDto.getSubtitulo());
         cursoEntity.setDescripcion(cursoDto.getDescripcion());
-        cursoEntity.setPrecio(cursoDto.getPrecio());
-        cursoEntity.setImagen(cursoDto.getImagen());
         cursoEntity.setCategoria(cursoDto.getCategoria());
-        cursoEntity.setHabilitado(cursoDto.isHabilitado());
+        cursoEntity.setPrecio(cursoDto.getPrecio());
         cursoRepository.save(cursoEntity);
         return new ResponseEntity(new Mensaje("Curso Actualizado!"), HttpStatus.OK);
     }

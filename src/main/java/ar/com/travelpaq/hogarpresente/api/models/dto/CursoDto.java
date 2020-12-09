@@ -16,7 +16,5 @@ public class CursoDto {
     private String subtitulo;
     private float precio;
     private String categoria;
-    private String imagen;
-    private boolean habilitado;
     private long usuarioId;
 }

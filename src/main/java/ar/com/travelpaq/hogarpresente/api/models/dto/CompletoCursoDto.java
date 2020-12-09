@@ -1,5 +1,6 @@
 package ar.com.travelpaq.hogarpresente.api.models.dto;
 
+import ar.com.travelpaq.hogarpresente.api.cloudinary.dto.ImagenDto;
 import ar.com.travelpaq.hogarpresente.api.models.entity.UnidadEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,7 +18,7 @@ public class CompletoCursoDto {
     private String descripcion;
     private float precio;
     private String categoria;
-    private String imagen;
+    private ImagenDto imagen;
     private boolean habilitado;
     private long id_usuario_creador;
     private List<UnidadEntity> unidades;

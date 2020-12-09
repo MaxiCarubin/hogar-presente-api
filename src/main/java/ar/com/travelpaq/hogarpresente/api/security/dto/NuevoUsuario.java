@@ -26,7 +26,7 @@ public class NuevoUsuario {
     private int edad;
     @NotBlank
     private String estudios;
-    @NotBlank
-    private String foto;
+//    @NotBlank
+//    private String foto;
     private Set<String> roles = new HashSet<>();
 }

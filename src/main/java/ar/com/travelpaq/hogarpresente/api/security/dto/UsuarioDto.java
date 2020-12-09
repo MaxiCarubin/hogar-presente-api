@@ -17,7 +17,7 @@ public class UsuarioDto {
     private String clave;
     private int edad;
     private String estudio;
-    private String foto;
+    private int imagenId;
     private Set<RoleDto> roles;
 
 }

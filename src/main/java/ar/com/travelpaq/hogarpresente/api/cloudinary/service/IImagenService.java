@@ -12,4 +12,8 @@ public interface IImagenService {
     public ResponseEntity<?> upload(MultipartFile multipartFile) throws IOException;
 
     public ResponseEntity<?> delete(int id) throws IOException;
+
+    public ResponseEntity<?> uploadCurso(MultipartFile multipartFile, long idCurso);
+
+    public ResponseEntity<?> uploadUsuario(MultipartFile multipartFile, long idUsuario);
 }

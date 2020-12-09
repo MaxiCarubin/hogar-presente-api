@@ -1,5 +1,6 @@
 package ar.com.travelpaq.hogarpresente.api.security.dto;
 
+import ar.com.travelpaq.hogarpresente.api.cloudinary.dto.ImagenDto;
 import ar.com.travelpaq.hogarpresente.api.security.dto.RoleDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,7 +20,7 @@ public class CompletoUsuarioDto {
     private String clave;
     private int edad;
     private String estudio;
-    private String foto;
     private Set<RoleDto> rol;
     private List<Long> id_cursos_creados;
+    private ImagenDto imagen;
 }

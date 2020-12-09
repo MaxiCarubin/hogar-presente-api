@@ -1,5 +1,7 @@
 package ar.com.travelpaq.hogarpresente.api.security.mapper;
 
+import ar.com.travelpaq.hogarpresente.api.cloudinary.dto.ImagenDto;
+import ar.com.travelpaq.hogarpresente.api.cloudinary.mapper.ImagenMapper;
 import ar.com.travelpaq.hogarpresente.api.models.mapper.InscripcionMapper;
 import ar.com.travelpaq.hogarpresente.api.security.dto.CompletoUsuarioDto;
 import ar.com.travelpaq.hogarpresente.api.security.dto.UsuarioDto;
@@ -25,6 +27,9 @@ public class UsuarioMapper {
     @Autowired
     private RoleMapper roleMapper;
 
+    @Autowired
+    private ImagenMapper imagenMapper;
+
     public UsuarioDto mapAlumnoEntityToAlumno(UsuarioEntity usuarioEntity) {
 
         UsuarioDto usuarioDto = new UsuarioDto();
@@ -33,7 +38,6 @@ public class UsuarioMapper {
         usuarioDto.setApellido(usuarioEntity.getApellido());
         usuarioDto.setCorreo(usuarioEntity.getCorreo());
         usuarioDto.setClave(usuarioEntity.getClave());
-        usuarioDto.setFoto(usuarioEntity.getFoto());
 
 //        Set<InscripcionDto> inscripcioesDominio = new HashSet<>();
 //        Set<InscripcionEntity> inscripcionesEntity = alumnoEntity.getInscripciones();
@@ -56,7 +60,6 @@ public class UsuarioMapper {
         usuarioEntity.setApellido(usuarioDto.getApellido());
         usuarioEntity.setCorreo(usuarioDto.getCorreo());
         usuarioEntity.setClave(usuarioDto.getClave());
-        usuarioEntity.setFoto(usuarioDto.getFoto());
 
 //        Set<InscripcionEntity> inscripcionesEntity = new HashSet<>();
 //        Set<InscripcionDto> inscripcionesDto = alumnoDto.getInscripciones();
@@ -91,14 +94,18 @@ public class UsuarioMapper {
         usuarioDto.setCorreo(usuarioEntity.getCorreo());
         usuarioDto.setEdad(usuarioEntity.getEdad());
         usuarioDto.setEstudio(usuarioEntity.getEstudio());
-        usuarioDto.setFoto(usuarioEntity.getFoto());
         usuarioDto.setClave(usuarioEntity.getClave());
+
+        ImagenDto imagen = imagenMapper.mapImagenEntityToImagenDto(usuarioEntity.getImagen());
+        usuarioDto.setImagen(imagen);
+
         Set<RoleDto> roleDtos = new HashSet<>();
         for (RoleEntity roleEntity : usuarioEntity.getRoles()){
             RoleDto roleDto = roleMapper.mapRoleDtoToRoleEntity(roleEntity);
             roleDtos.add(roleDto);
         }
         usuarioDto.setRol(roleDtos);
+
         List<Long> cursosCreados = new ArrayList<>();
         for (CursoEntity cursoEntity : usuarioEntity.getCursos()){
             cursosCreados.add(cursoEntity.getId());

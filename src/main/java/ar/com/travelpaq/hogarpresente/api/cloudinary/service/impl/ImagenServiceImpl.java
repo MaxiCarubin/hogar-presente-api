@@ -5,6 +5,8 @@ import ar.com.travelpaq.hogarpresente.api.cloudinary.repository.IImagenRepositor
 import ar.com.travelpaq.hogarpresente.api.cloudinary.service.CloudinaryService;
 import ar.com.travelpaq.hogarpresente.api.cloudinary.service.IImagenService;
 import ar.com.travelpaq.hogarpresente.api.models.dto.Mensaje;
+import ar.com.travelpaq.hogarpresente.api.models.repository.ICursoRepository;
+import ar.com.travelpaq.hogarpresente.api.security.repository.IUsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +19,6 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @Service
 @Transactional
@@ -28,6 +29,12 @@ public class ImagenServiceImpl implements IImagenService {
 
     @Autowired
     private CloudinaryService cloudinaryService;
+
+    @Autowired
+    private IUsuarioRepository usuarioRepository;
+
+    @Autowired
+    private ICursoRepository cursoRepository;
 
     @Override
     public ResponseEntity<?> list(){
@@ -43,12 +50,15 @@ public class ImagenServiceImpl implements IImagenService {
         }
         Map result = cloudinaryService.upload(multipartFile);
         ImagenEntity imagen =
-                new ImagenEntity((String)result.get("original_filename"),
+                new ImagenEntity(
+                        (String)result.get("original_filename"),
                         (String)result.get("url"),
-                        (String)result.get("public_id"));
+                        (String)result.get("public_id")
+                );
         imagenRepository.save(imagen);
-        return new ResponseEntity(new Mensaje("imagen subida"), HttpStatus.OK);
+        return new ResponseEntity(imagen, HttpStatus.OK);
     }
+
 
     @Override
     public ResponseEntity<?> delete(int id) throws IOException {
@@ -59,4 +69,17 @@ public class ImagenServiceImpl implements IImagenService {
         imagenRepository.deleteById(id);
         return new ResponseEntity(new Mensaje("imagen eliminada"), HttpStatus.OK);
     }
+
+    @Override
+    public ResponseEntity<?> uploadCurso(MultipartFile multipartFile, long idCurso) {
+
+        return null;
+    }
+
+    @Override
+    public ResponseEntity<?> uploadUsuario(MultipartFile multipartFile, long idUsuario) {
+
+        return null;
+    }
+
 }

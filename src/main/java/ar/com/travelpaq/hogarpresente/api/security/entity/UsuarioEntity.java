@@ -1,5 +1,6 @@
 package ar.com.travelpaq.hogarpresente.api.security.entity;
 
+import ar.com.travelpaq.hogarpresente.api.cloudinary.entity.ImagenEntity;
 import ar.com.travelpaq.hogarpresente.api.models.entity.CursoEntity;
 import ar.com.travelpaq.hogarpresente.api.security.entity.RoleEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -40,8 +41,12 @@ public class UsuarioEntity implements Serializable {
     @Column(nullable = false, length = 400)
     private String clave;
 
-    @Column(length = 400)
-    private String foto;
+//    @Column(length = 400)
+//    private String foto;
+
+    @ManyToOne
+    @JoinColumn(name = "imagen_id")
+    private ImagenEntity imagen;
 
     @Column(length = 45)
     private String estudio;
@@ -59,13 +64,13 @@ public class UsuarioEntity implements Serializable {
             uniqueConstraints = {@UniqueConstraint(columnNames = {"usuario_id","role_id"})})
     private Set<RoleEntity> roles;
 
-    public UsuarioEntity(String nombre, String apellido, String correo, String clave, int edad, String foto, String estudio) {
+    public UsuarioEntity(String nombre, String apellido, String correo, String clave, int edad, ImagenEntity imagen, String estudio) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.correo = correo;
         this.clave = clave;
         this.edad = edad;
-        this.foto = foto;
+        this.imagen = imagen;
         this.estudio = estudio;
     }
 

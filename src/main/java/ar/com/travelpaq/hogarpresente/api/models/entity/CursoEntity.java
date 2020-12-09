@@ -1,5 +1,6 @@
 package ar.com.travelpaq.hogarpresente.api.models.entity;
 
+import ar.com.travelpaq.hogarpresente.api.cloudinary.entity.ImagenEntity;
 import ar.com.travelpaq.hogarpresente.api.security.entity.UsuarioEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -28,14 +29,17 @@ public class CursoEntity implements Serializable {
     @Column(nullable = false, length = 500)
     private String descripcion;
 
-    @PositiveOrZero
     private float precio;
 
     @Column(nullable = false, length = 45)
     private String categoria;
 
-    @Column(length = 400)
-    private String imagen;
+//    @Column(length = 400)
+//    private String imagen;
+
+    @ManyToOne
+    @JoinColumn(name = "imagen_id")
+    private ImagenEntity imagen;
 
     private boolean habilitado;
 

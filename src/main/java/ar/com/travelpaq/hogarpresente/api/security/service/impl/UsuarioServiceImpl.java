@@ -93,7 +93,6 @@ public class UsuarioServiceImpl implements IUsuarioService {
         usuarioEntity.setApellido(usuarioDto.getApellido());
         usuarioEntity.setCorreo(usuarioDto.getCorreo());
         usuarioEntity.setClave(usuarioDto.getClave());
-        usuarioEntity.setFoto(usuarioDto.getFoto());
         usuarioEntity.setEdad(usuarioDto.getEdad());
         usuarioEntity.setEstudio(usuarioDto.getEstudio());
 

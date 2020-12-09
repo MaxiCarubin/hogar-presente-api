@@ -1,5 +1,8 @@
 package ar.com.travelpaq.hogarpresente.api.security.controller;
 
+import ar.com.travelpaq.hogarpresente.api.cloudinary.entity.ImagenEntity;
+import ar.com.travelpaq.hogarpresente.api.cloudinary.repository.IImagenRepository;
+import ar.com.travelpaq.hogarpresente.api.cloudinary.service.CloudinaryService;
 import ar.com.travelpaq.hogarpresente.api.models.dto.Mensaje;
 import ar.com.travelpaq.hogarpresente.api.security.entity.UsuarioEntity;
 import ar.com.travelpaq.hogarpresente.api.security.service.IUsuarioService;
@@ -21,9 +24,15 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.imageio.ImageIO;
 import javax.validation.Valid;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 @RestController
@@ -32,19 +41,25 @@ import java.util.Set;
 public class AuthController {
 
     @Autowired
-    PasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
-    AuthenticationManager authenticationManager;
+    private AuthenticationManager authenticationManager;
 
     @Autowired
-    IUsuarioService usuarioService;
+    private IUsuarioService usuarioService;
 
     @Autowired
-    RoleServiceImpl rolService;
+    private RoleServiceImpl rolService;
 
     @Autowired
-    JwtProvider jwtProvider;
+    private JwtProvider jwtProvider;
+
+    @Autowired
+    private CloudinaryService cloudinaryService;
+
+    @Autowired
+    private IImagenRepository imagenRepository;
 
 
     @GetMapping("/roles")
@@ -52,13 +67,13 @@ public class AuthController {
         return rolService.findAll();
     }
 
-
     @PostMapping("/nuevo")
     public ResponseEntity<?> nuevo(@Valid @RequestBody NuevoUsuario nuevoUsuario, BindingResult bindingResult){
         if(bindingResult.hasErrors())
             return new ResponseEntity(new Mensaje("campos mal puestos o email inválido"), HttpStatus.BAD_REQUEST);
         if(usuarioService.existsByCorreo(nuevoUsuario.getCorreo()))
             return new ResponseEntity(new Mensaje("ese email ya existe"), HttpStatus.BAD_REQUEST);
+        ImagenEntity imagenEntity = imagenRepository.findById(1).orElse(null);
         UsuarioEntity usuarioEntity =
                 new UsuarioEntity
                     (
@@ -67,7 +82,7 @@ public class AuthController {
                         nuevoUsuario.getCorreo(),
                         passwordEncoder.encode(nuevoUsuario.getClave()),
                         nuevoUsuario.getEdad(),
-                        nuevoUsuario.getFoto(),
+                        imagenEntity,
                         nuevoUsuario.getEstudios()
                     );
         Set<RoleEntity> roles = new HashSet<>();
@@ -107,7 +122,7 @@ public class AuthController {
                                 userDetails.getAuthorities(),
                                 usuarioEntity.getNombre(),
                                 usuarioEntity.getApellido(),
-                                usuarioEntity.getFoto(),
+                                usuarioEntity.getImagen(),
                                 usuarioEntity.getId()
                         );
         return new ResponseEntity(jwtDto, HttpStatus.OK);
