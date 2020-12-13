@@ -1,5 +1,6 @@
 package ar.com.travelpaq.hogarpresente.api.security.dto;
 
+import ar.com.travelpaq.hogarpresente.api.cloudinary.entity.ImagenEntity;
 import ar.com.travelpaq.hogarpresente.api.security.dto.RoleDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,7 +18,7 @@ public class UsuarioDto {
     private String clave;
     private int edad;
     private String estudio;
-    private int imagenId;
+    private ImagenEntity imagen;
     private Set<RoleDto> roles;
 
 }

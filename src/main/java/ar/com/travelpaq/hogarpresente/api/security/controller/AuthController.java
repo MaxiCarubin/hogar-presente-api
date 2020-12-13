@@ -73,7 +73,12 @@ public class AuthController {
             return new ResponseEntity(new Mensaje("campos mal puestos o email inválido"), HttpStatus.BAD_REQUEST);
         if(usuarioService.existsByCorreo(nuevoUsuario.getCorreo()))
             return new ResponseEntity(new Mensaje("ese email ya existe"), HttpStatus.BAD_REQUEST);
-        ImagenEntity imagenEntity = imagenRepository.findById(1).orElse(null);
+        ImagenEntity imagenEntity = new ImagenEntity();
+        if(nuevoUsuario.getImagen() == null)
+            imagenEntity = imagenRepository.findById(1).orElse(null);
+        else
+            imagenEntity = nuevoUsuario.getImagen();
+
         UsuarioEntity usuarioEntity =
                 new UsuarioEntity
                     (

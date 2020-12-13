@@ -20,13 +20,13 @@ public class InscripcionEntity {
     @Temporal(TemporalType.DATE)
     private Date inscripcionAt;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "usuario_id")
-    private UsuarioEntity alumno;
+    private UsuarioEntity usuarioInscripcion;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "curso_id")
-    private CursoEntity curso;
+    private CursoEntity cursoInscripcion;
 
     @PrePersist
     public void prePersist(){

@@ -1,5 +1,6 @@
 package ar.com.travelpaq.hogarpresente.api.models.controller;
 
+import ar.com.travelpaq.hogarpresente.api.cloudinary.entity.ImagenEntity;
 import ar.com.travelpaq.hogarpresente.api.models.dto.CursoDto;
 import ar.com.travelpaq.hogarpresente.api.models.services.ICursoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,15 +11,15 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api")
 public class CursoRestController {
+
     @Autowired
     private ICursoService cursoService;
-    //cambiar por findAll
-    @GetMapping("/cursos")
 
+    @GetMapping("/cursos")
     public ResponseEntity<?> findAll(){
         return cursoService.findAll();
     }
-    //cambiar por findOne
+
     @GetMapping("/cursos/{id}")
     public ResponseEntity<?> findOne(@PathVariable Long id){
         return cursoService.findById(id);
@@ -40,7 +41,8 @@ public class CursoRestController {
     }
 
     @DeleteMapping("/cursos/{id}")
-    public ResponseEntity<?> delente(@PathVariable Long id) {
+    public ResponseEntity<?> delete(@PathVariable Long id) {
         return cursoService.delete(id);
     }
+
 }

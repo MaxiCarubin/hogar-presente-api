@@ -6,9 +6,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import javax.persistence.*;
-import javax.validation.constraints.PositiveOrZero;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -34,20 +34,20 @@ public class CursoEntity implements Serializable {
     @Column(nullable = false, length = 45)
     private String categoria;
 
-//    @Column(length = 400)
-//    private String imagen;
-
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "imagen_id")
     private ImagenEntity imagen;
 
     private boolean habilitado;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "usuario_id", nullable = false)
     private UsuarioEntity usuario;
 
-    @OneToMany(targetEntity = UnidadEntity.class,cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "curso",cascade = CascadeType.ALL)
     private List<UnidadEntity> unidades;
+
+    @OneToMany(mappedBy = "cursoInscripcion",cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<InscripcionEntity> inscripciones;
 
 }

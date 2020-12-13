@@ -1,5 +1,6 @@
 package ar.com.travelpaq.hogarpresente.api.models.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -28,5 +29,10 @@ public class ContenidoEntity {
 
     @Column(nullable = false, length = 500)
     private String documento;
+
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "unidad_id")
+    private UnidadEntity unidad;
 
 }

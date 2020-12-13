@@ -95,8 +95,11 @@ public class UsuarioMapper {
         usuarioDto.setEdad(usuarioEntity.getEdad());
         usuarioDto.setEstudio(usuarioEntity.getEstudio());
         usuarioDto.setClave(usuarioEntity.getClave());
+        ImagenDto imagen = null;
+        if (usuarioEntity.getImagen() != null){
+            imagen = imagenMapper.mapImagenEntityToImagenDto(usuarioEntity.getImagen());
+        }
 
-        ImagenDto imagen = imagenMapper.mapImagenEntityToImagenDto(usuarioEntity.getImagen());
         usuarioDto.setImagen(imagen);
 
         Set<RoleDto> roleDtos = new HashSet<>();

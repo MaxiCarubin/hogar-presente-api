@@ -41,14 +41,4 @@ public class InscripcionRestController {
         return inscripcionService.delete(id);
     }
 
-    @GetMapping("/inscripciones/alumno/{id}")
-    public ResponseEntity<?> findByAlumnoId(@PathVariable Long id){
-        return inscripcionService.findByAlumnoId(id);
-    }
-
-    @GetMapping("/inscripciones/curso/{id}")
-    public ResponseEntity<?> findByCursoId(@PathVariable Long id){
-        return inscripcionService.findByCursoId(id);
-    }
-
 }

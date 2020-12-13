@@ -1,5 +1,6 @@
 package ar.com.travelpaq.hogarpresente.api.models.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -28,7 +29,12 @@ public class UnidadEntity {
 //    @JoinColumn(name = "curso_id")
 //    private CursoEntity curso;
 
-    @OneToMany(targetEntity = ContenidoEntity.class, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "unidad", cascade = CascadeType.ALL)
     private List<ContenidoEntity> contenidos;
+
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "curso_id")
+    private CursoEntity curso;
 
 }

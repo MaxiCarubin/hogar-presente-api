@@ -23,11 +23,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class CursoServiceImpl implements ICursoService {
@@ -77,9 +74,9 @@ public class CursoServiceImpl implements ICursoService {
     @Override
     public ResponseEntity<?> findAll() {
         List<CursoEntity> cursoEntities = cursoRepository.findAll();
-        List<CompletoCursoDto> cursoDtos = new ArrayList<>();
+        List<MostrarCursoDto> cursoDtos = new ArrayList<>();
         for (CursoEntity cursoEntity : cursoEntities){
-            CompletoCursoDto cursoDto = cursoMapper.mapCursoDtoToCursoEntity(cursoEntity);
+            MostrarCursoDto cursoDto = cursoMapper.mapCursoDtoToCursoEntity(cursoEntity);
             cursoDtos.add(cursoDto);
         }
         return new ResponseEntity(cursoDtos, HttpStatus.OK);
@@ -90,17 +87,8 @@ public class CursoServiceImpl implements ICursoService {
         if (!cursoRepository.existsById(id))
             return new ResponseEntity(new Mensaje("No existe el curso en la base de datos"), HttpStatus.NOT_FOUND);
         CursoEntity cursoEntity = cursoRepository.findById(id).get();
-        CompletoCursoDto cursoDto = cursoMapper.mapCursoDtoToCursoEntity(cursoEntity);
+        MostrarCursoDto cursoDto = cursoMapper.mapCursoDtoToCursoEntity(cursoEntity);
         return new ResponseEntity(cursoDto, HttpStatus.OK);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public boolean findById2(Long id) {
-        if(cursoRepository.findById(id) != null){
-            return true;
-        }
-        else return false;
     }
 
     @Override
@@ -120,7 +108,12 @@ public class CursoServiceImpl implements ICursoService {
         UsuarioEntity usuarioEntity = usuarioRepository.findById(newCurso.getUsuarioId()).get();
         if(usuarioEntity.getRoles().contains(roleAlumno))
             return new ResponseEntity(new Mensaje("El usuario debe ser un capacitador o admin para crear cursos"), HttpStatus.BAD_REQUEST);
-        ImagenEntity imagenEntity = imagenRepository.findById(2).orElse(null);
+
+        ImagenEntity imagenEntity = new ImagenEntity();
+        if (newCurso.getImagenId() == 0)
+            imagenEntity = imagenRepository.findById(2).get();
+        else
+            imagenEntity = imagenRepository.findById(newCurso.getImagenId()).get();
         CursoEntity cursoEntity = cursoMapper.mapCursoToCursoEntity(newCurso);
         cursoEntity.setHabilitado(false);
         cursoEntity.setImagen(imagenEntity);
@@ -150,21 +143,31 @@ public class CursoServiceImpl implements ICursoService {
                                     )
                             ,HttpStatus.BAD_REQUEST
                     );
-
-        cursoEntity.setTitulo(cursoDto.getTitulo());
-        cursoEntity.setSubtitulo(cursoDto.getSubtitulo());
-        cursoEntity.setDescripcion(cursoDto.getDescripcion());
-        cursoEntity.setCategoria(cursoDto.getCategoria());
-        cursoEntity.setPrecio(cursoDto.getPrecio());
+        if (!cursoDto.getTitulo().isEmpty())
+            cursoEntity.setTitulo(cursoDto.getTitulo());
+        if (!cursoDto.getSubtitulo().isEmpty())
+            cursoEntity.setSubtitulo(cursoDto.getSubtitulo());
+        if (!cursoDto.getDescripcion().isEmpty())
+            cursoEntity.setDescripcion(cursoDto.getDescripcion());
+        if (!cursoDto.getCategoria().isEmpty())
+            cursoEntity.setCategoria(cursoDto.getCategoria());
+        if(cursoDto.getPrecio() >= 0)
+            cursoEntity.setPrecio(cursoDto.getPrecio());
+        if(cursoDto.getImagenId() != 0)
+        {
+            imagenRepository.deleteById(cursoEntity.getImagen().getId());
+            ImagenEntity imagenEntity = imagenRepository.findById(cursoDto.getImagenId()).get();
+            cursoEntity.setImagen(imagenEntity);
+        }
         cursoRepository.save(cursoEntity);
         return new ResponseEntity(new Mensaje("Curso Actualizado!"), HttpStatus.OK);
     }
 
     @Override
-    @Transactional
     public ResponseEntity<?> delete(Long id) {
         if (!cursoRepository.existsById(id))
             return new ResponseEntity(new Mensaje("No existe"), HttpStatus.NOT_FOUND);
+        CursoEntity cursoEntity = cursoRepository.getOne(id);
         cursoRepository.deleteById(id);
         return new ResponseEntity(new Mensaje("Curso Eliminado!"), HttpStatus.OK);
     }
@@ -174,7 +177,10 @@ public class CursoServiceImpl implements ICursoService {
         if (!cursoRepository.existsById(id))
             return new ResponseEntity(new Mensaje("No existe"), HttpStatus.NOT_FOUND);
         CursoEntity cursoEntity = cursoRepository.getOne(id);
-        cursoEntity.setHabilitado(true);
+        if(cursoEntity.isHabilitado())
+            cursoEntity.setHabilitado(false);
+        else
+            cursoEntity.setHabilitado(true);
         cursoRepository.save(cursoEntity);
         return new ResponseEntity(new Mensaje("Curso Habilitado!"), HttpStatus.OK);
     }

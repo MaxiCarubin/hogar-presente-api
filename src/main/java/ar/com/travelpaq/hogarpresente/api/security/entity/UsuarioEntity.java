@@ -2,6 +2,7 @@ package ar.com.travelpaq.hogarpresente.api.security.entity;
 
 import ar.com.travelpaq.hogarpresente.api.cloudinary.entity.ImagenEntity;
 import ar.com.travelpaq.hogarpresente.api.models.entity.CursoEntity;
+import ar.com.travelpaq.hogarpresente.api.models.entity.InscripcionEntity;
 import ar.com.travelpaq.hogarpresente.api.security.entity.RoleEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
@@ -54,8 +55,8 @@ public class UsuarioEntity implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario", fetch = FetchType.EAGER)
     private List<CursoEntity> cursos;
 
-//    @OneToMany(mappedBy = "alumno_entity", fetch = FetchType.EAGER)
-//    private Set<InscripcionEntity> inscripciones;
+    @OneToMany(mappedBy = "usuarioInscripcion", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<InscripcionEntity> inscripciones;
 
     @NotNull
     @ManyToMany(fetch = FetchType.EAGER)

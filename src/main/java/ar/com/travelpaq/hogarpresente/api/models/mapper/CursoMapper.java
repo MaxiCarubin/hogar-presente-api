@@ -1,7 +1,6 @@
 package ar.com.travelpaq.hogarpresente.api.models.mapper;
 
 import ar.com.travelpaq.hogarpresente.api.cloudinary.dto.ImagenDto;
-import ar.com.travelpaq.hogarpresente.api.cloudinary.entity.ImagenEntity;
 import ar.com.travelpaq.hogarpresente.api.cloudinary.mapper.ImagenMapper;
 import ar.com.travelpaq.hogarpresente.api.models.dto.*;
 import ar.com.travelpaq.hogarpresente.api.models.entity.CursoEntity;
@@ -41,8 +40,8 @@ public class CursoMapper {
         return cursoEntity;
     }
 
-    public CompletoCursoDto mapCursoDtoToCursoEntity(CursoEntity cursoEntity){
-        CompletoCursoDto cursoDto = new CompletoCursoDto();
+    public MostrarCursoDto mapCursoDtoToCursoEntity(CursoEntity cursoEntity){
+        MostrarCursoDto cursoDto = new MostrarCursoDto();
         cursoDto.setId(cursoEntity.getId());
         cursoDto.setTitulo(cursoEntity.getTitulo());
         cursoDto.setSubtitulo(cursoEntity.getSubtitulo());
@@ -53,7 +52,7 @@ public class CursoMapper {
         cursoDto.setUnidades(cursoEntity.getUnidades());
         cursoDto.setHabilitado(cursoEntity.isHabilitado());
         ImagenDto imagen = imagenMapper.mapImagenEntityToImagenDto(cursoEntity.getImagen());
-        cursoDto.setImagen(imagen);
+        cursoDto.setImagen(imagen.getImagenUrl());
         return cursoDto;
     }
 }

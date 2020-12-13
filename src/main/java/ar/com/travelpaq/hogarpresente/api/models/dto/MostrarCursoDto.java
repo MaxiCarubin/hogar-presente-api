@@ -11,14 +11,14 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CompletoCursoDto {
+public class MostrarCursoDto {
     private long id;
     private String titulo;
     private String subtitulo;
     private String descripcion;
     private float precio;
     private String categoria;
-    private ImagenDto imagen;
+    private String imagen;
     private boolean habilitado;
     private long id_usuario_creador;
     private List<UnidadEntity> unidades;

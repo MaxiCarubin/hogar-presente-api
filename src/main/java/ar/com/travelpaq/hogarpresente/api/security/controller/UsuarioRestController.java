@@ -1,4 +1,5 @@
 package ar.com.travelpaq.hogarpresente.api.security.controller;
+import ar.com.travelpaq.hogarpresente.api.cloudinary.entity.ImagenEntity;
 import ar.com.travelpaq.hogarpresente.api.security.dto.UsuarioDto;
 import ar.com.travelpaq.hogarpresente.api.security.service.IUsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,11 +23,6 @@ public class UsuarioRestController {
     @GetMapping("/usuarios/{id}")
     public ResponseEntity<?> findOne(@PathVariable Long id){
         return usuarioService.findById(id);
-    }
-
-    @PostMapping("/usuarios")
-    public ResponseEntity<?> create(@RequestBody UsuarioDto usuarioDto){
-        return usuarioService.create(usuarioDto);
     }
 
     @PutMapping("/usuarios/{id}")

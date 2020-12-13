@@ -13,7 +13,10 @@ public interface IImagenService {
 
     public ResponseEntity<?> delete(int id) throws IOException;
 
-    public ResponseEntity<?> uploadCurso(MultipartFile multipartFile, long idCurso);
+    public ResponseEntity<?> findById(int id);
 
-    public ResponseEntity<?> uploadUsuario(MultipartFile multipartFile, long idUsuario);
+//    public ResponseEntity<?> uploadCurso(MultipartFile multipartFile, long idCurso);
+
+//    public ResponseEntity<?> uploadUsuario(MultipartFile multipartFile, long idUsuario);
+
 }

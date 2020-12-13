@@ -31,7 +31,6 @@ public class InscripcionMapper {
         inscripcionEntity.setInscripcionAt(inscripcionEntity.getInscripcionAt());
 //        inscripcionEntity.setAlumno(alumnoMapper.mapAlumnoToAlumnoEntity(inscripcionDto.getAlumno()));
 //        inscripcionEntity.setCurso(cursoMapper.mapCursoToCursoEntity(inscripcionDto.getCurso()));
-
         return inscripcionEntity;
     }
 }

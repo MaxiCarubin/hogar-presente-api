@@ -1,12 +1,11 @@
 package ar.com.travelpaq.hogarpresente.api.models.services;
+import ar.com.travelpaq.hogarpresente.api.cloudinary.entity.ImagenEntity;
 import ar.com.travelpaq.hogarpresente.api.models.dto.CursoDto;
 import org.springframework.http.ResponseEntity;
 
 public interface ICursoService {
 
     public ResponseEntity<?> findAll();
-
-    public boolean findById2(Long id);
 
     public ResponseEntity<?> findById(Long id);
 

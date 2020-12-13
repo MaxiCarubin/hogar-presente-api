@@ -63,8 +63,8 @@ public class InscripcionServiceImpl implements IInscripcionService {
         if(!cursoRepository.existsById(inscripcionDto.getCursoId()))
             return new ResponseEntity(new Mensaje("El curso debe existir en la base de datos"), HttpStatus.BAD_REQUEST);
         InscripcionEntity inscripcionEntity = inscripcionMapper.mapInscripcionToInscripcionEntity(inscripcionDto);
-        inscripcionEntity.setAlumno(usuarioRepository.findById(inscripcionDto.getUsuarioId()).orElse(null));
-        inscripcionEntity.setCurso(cursoRepository.findById(inscripcionDto.getCursoId()).orElse(null));
+        inscripcionEntity.setUsuarioInscripcion(usuarioRepository.findById(inscripcionDto.getUsuarioId()).orElse(null));
+        inscripcionEntity.setCursoInscripcion(cursoRepository.findById(inscripcionDto.getCursoId()).orElse(null));
         inscripcionRepository.save(inscripcionEntity);
         return new ResponseEntity(new Mensaje("Inscripción creada!"), HttpStatus.OK);
     }
@@ -75,8 +75,8 @@ public class InscripcionServiceImpl implements IInscripcionService {
             return new ResponseEntity(new Mensaje("no existe la inscripción en la base de datos"), HttpStatus.NOT_FOUND);
         InscripcionEntity inscripcionEntity = inscripcionRepository.getOne(id);
         inscripcionEntity.setInscripcionAt(inscripcionDto.getInscripcionAt());
-        inscripcionEntity.setAlumno(usuarioRepository.findById(inscripcionDto.getUsuarioId()).orElse(null));
-        inscripcionEntity.setCurso(cursoRepository.findById(inscripcionDto.getCursoId()).orElse(null));
+        inscripcionEntity.setUsuarioInscripcion(usuarioRepository.findById(inscripcionDto.getUsuarioId()).orElse(null));
+        inscripcionEntity.setCursoInscripcion(cursoRepository.findById(inscripcionDto.getCursoId()).orElse(null));
         inscripcionRepository.save(inscripcionEntity);
         return new ResponseEntity(new Mensaje("Inscripción Actualizada!"), HttpStatus.OK);
     }
@@ -87,24 +87,6 @@ public class InscripcionServiceImpl implements IInscripcionService {
             return new ResponseEntity(new Mensaje("No existe"), HttpStatus.NOT_FOUND);
         inscripcionRepository.deleteById(id);
         return new ResponseEntity(new Mensaje("Inscripción Eliminada!"), HttpStatus.OK);
-    }
-
-    @Override
-    public ResponseEntity<?> findByAlumnoId(Long id) {
-        if(!usuarioRepository.existsById(id))
-            return new ResponseEntity(new Mensaje("El alumno debe existir en la base de datos"), HttpStatus.NOT_FOUND);
-        UsuarioEntity usuarioEntity = usuarioRepository.findById(id).orElse(null);
-        List<InscripcionEntity> inscripcionEntities = inscripcionRepository.findAllByAlumno(usuarioEntity);
-        return new ResponseEntity(inscripcionEntities, HttpStatus.OK);
-    }
-
-    @Override
-    public ResponseEntity<?> findByCursoId(Long id) {
-        if(!cursoRepository.existsById(id))
-            return new ResponseEntity(new Mensaje("El curso debe existir en la base de datos"), HttpStatus.NOT_FOUND);
-        CursoEntity cursoEntity = cursoRepository.findById(id).orElse(null);
-        List<InscripcionEntity> inscripcionEntities = inscripcionRepository.findAllByCurso(cursoEntity);
-        return new ResponseEntity(inscripcionEntities, HttpStatus.OK);
     }
 }
 

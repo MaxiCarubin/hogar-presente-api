@@ -1,8 +1,10 @@
 package ar.com.travelpaq.hogarpresente.api.security.dto;
 
+import ar.com.travelpaq.hogarpresente.api.cloudinary.entity.ImagenEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -26,7 +28,6 @@ public class NuevoUsuario {
     private int edad;
     @NotBlank
     private String estudios;
-//    @NotBlank
-//    private String foto;
+    private ImagenEntity imagen;
     private Set<String> roles = new HashSet<>();
 }

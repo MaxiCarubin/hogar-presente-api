@@ -42,6 +42,8 @@ public class ImagenServiceImpl implements IImagenService {
         return new ResponseEntity(list, HttpStatus.OK);
     }
 
+
+
     @Override
     public ResponseEntity<?> upload(MultipartFile multipartFile) throws IOException {
         BufferedImage bi = ImageIO.read(multipartFile.getInputStream());
@@ -71,15 +73,10 @@ public class ImagenServiceImpl implements IImagenService {
     }
 
     @Override
-    public ResponseEntity<?> uploadCurso(MultipartFile multipartFile, long idCurso) {
-
-        return null;
+    public ResponseEntity<?> findById(int id) {
+        if (!imagenRepository.existsById(id))
+            return new ResponseEntity(new Mensaje("No existe la imagen en la base de datos"), HttpStatus.NOT_FOUND);
+        ImagenEntity imagenEntity = imagenRepository.findById(id).get();
+        return new ResponseEntity(imagenEntity, HttpStatus.OK);
     }
-
-    @Override
-    public ResponseEntity<?> uploadUsuario(MultipartFile multipartFile, long idUsuario) {
-
-        return null;
-    }
-
 }
