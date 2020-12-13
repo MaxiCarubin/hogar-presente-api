@@ -1,10 +1,11 @@
 package ar.com.travelpaq.hogarpresente.api.security.service;
 
-import ar.com.travelpaq.hogarpresente.api.cloudinary.entity.ImagenEntity;
-import ar.com.travelpaq.hogarpresente.api.security.dto.UsuarioDto;
+import ar.com.travelpaq.hogarpresente.api.security.dto.UpdateUsuarioDto;
 import ar.com.travelpaq.hogarpresente.api.security.entity.UsuarioEntity;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.Optional;
 
 public interface IUsuarioService {
@@ -19,9 +20,11 @@ public interface IUsuarioService {
 
     public ResponseEntity<?> findById(Long id);
 
-    public ResponseEntity<?> update(UsuarioDto usuarioDto, Long id);
+    public ResponseEntity<?> update(UpdateUsuarioDto updateUsuarioDto, Long id);
 
     public ResponseEntity<?> delete(Long id);
+
+    public ResponseEntity<?> updateImg(MultipartFile multipartFile, Long id) throws IOException;
 
 //    public ResponseEntity<?> upload(MultipartFile archivo, Long id);
 //

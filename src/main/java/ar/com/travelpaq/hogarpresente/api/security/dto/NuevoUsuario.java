@@ -28,6 +28,5 @@ public class NuevoUsuario {
     private int edad;
     @NotBlank
     private String estudios;
-    private ImagenEntity imagen;
     private Set<String> roles = new HashSet<>();
 }

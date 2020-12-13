@@ -73,11 +73,7 @@ public class AuthController {
             return new ResponseEntity(new Mensaje("campos mal puestos o email inválido"), HttpStatus.BAD_REQUEST);
         if(usuarioService.existsByCorreo(nuevoUsuario.getCorreo()))
             return new ResponseEntity(new Mensaje("ese email ya existe"), HttpStatus.BAD_REQUEST);
-        ImagenEntity imagenEntity = new ImagenEntity();
-        if(nuevoUsuario.getImagen() == null)
-            imagenEntity = imagenRepository.findById(1).orElse(null);
-        else
-            imagenEntity = nuevoUsuario.getImagen();
+        ImagenEntity imagenEntity = imagenRepository.findById(1).get();
 
         UsuarioEntity usuarioEntity =
                 new UsuarioEntity
@@ -99,7 +95,9 @@ public class AuthController {
             roles.add(rolService.getByRoleNombre(RoleNombre.ROLE_ADMIN).get());
         usuarioEntity.setRoles(roles);
         usuarioService.save(usuarioEntity);
-        return new ResponseEntity(new Mensaje("usuario guardado"), HttpStatus.CREATED);
+//        return new ResponseEntity(new Mensaje("usuario guardado"), HttpStatus.CREATED);
+        return new ResponseEntity(imagenEntity, HttpStatus.CREATED);
+
     }
 
     @PostMapping("/login")

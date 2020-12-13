@@ -1,15 +1,12 @@
 package ar.com.travelpaq.hogarpresente.api.security.mapper;
 
-import ar.com.travelpaq.hogarpresente.api.cloudinary.dto.ImagenDto;
 import ar.com.travelpaq.hogarpresente.api.cloudinary.mapper.ImagenMapper;
 import ar.com.travelpaq.hogarpresente.api.models.mapper.InscripcionMapper;
-import ar.com.travelpaq.hogarpresente.api.security.dto.CompletoUsuarioDto;
-import ar.com.travelpaq.hogarpresente.api.security.dto.UsuarioDto;
+import ar.com.travelpaq.hogarpresente.api.security.dto.MuestraUsuarioDto;
 import ar.com.travelpaq.hogarpresente.api.models.entity.CursoEntity;
 import ar.com.travelpaq.hogarpresente.api.security.dto.RoleDto;
 import ar.com.travelpaq.hogarpresente.api.security.entity.UsuarioEntity;
 import ar.com.travelpaq.hogarpresente.api.security.entity.RoleEntity;
-import ar.com.travelpaq.hogarpresente.api.security.mapper.RoleMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -30,64 +27,40 @@ public class UsuarioMapper {
     @Autowired
     private ImagenMapper imagenMapper;
 
-    public UsuarioDto mapAlumnoEntityToAlumno(UsuarioEntity usuarioEntity) {
+//    public UsuarioDto mapUsuarioEntityToMuestraUsuarioDto(UsuarioEntity usuarioEntity) {
+//
+//        UsuarioDto usuarioDto = new UsuarioDto();
+//        usuarioDto.setId(usuarioEntity.getId());
+//        usuarioDto.setNombre(usuarioEntity.getNombre());
+//        usuarioDto.setApellido(usuarioEntity.getApellido());
+//        usuarioDto.setCorreo(usuarioEntity.getCorreo());
+//
+//        Set<RoleDto> rolesDominio = new HashSet<>();
+//        Set<RoleEntity> rolesEntity = usuarioEntity.getRoles();
+//        rolesEntity.forEach(roleEntity -> rolesDominio.add(roleEntity.convertToRole(roleEntity)));
+//        usuarioDto.setRoles(rolesDominio);
+//
+//        usuarioDto.setImagen(usuarioEntity.getImagen().getImagenUrl());
+//
+//        return usuarioDto;
+//    }
+//    public UsuarioEntity mapMuestraUsuarioDtoToAlumnoEntity(MuestraUsuarioDto muestraUsuarioDto){
+//        UsuarioEntity usuarioEntity = new UsuarioEntity();
+//        usuarioEntity.setId(muestraUsuarioDto.getId());
+//        usuarioEntity.setNombre(muestraUsuarioDto.getNombre());
+//        usuarioEntity.setApellido(muestraUsuarioDto.getApellido());
+//        usuarioEntity.setCorreo(muestraUsuarioDto.getCorreo());
+//
+//        Set<RoleEntity> rolesEntity = new HashSet<>();
+//        Set<RoleDto> rolesDominio = muestraUsuarioDto.getRoles();
+//        rolesDominio.forEach(role -> rolesEntity.add(role.convertToRoleEntity(role)));
+//        usuarioEntity.setRoles(rolesEntity);
+//
+//        return usuarioEntity;
+//    }
 
-        UsuarioDto usuarioDto = new UsuarioDto();
-        usuarioDto.setId(usuarioEntity.getId());
-        usuarioDto.setNombre(usuarioEntity.getNombre());
-        usuarioDto.setApellido(usuarioEntity.getApellido());
-        usuarioDto.setCorreo(usuarioEntity.getCorreo());
-        usuarioDto.setClave(usuarioEntity.getClave());
-
-//        Set<InscripcionDto> inscripcioesDominio = new HashSet<>();
-//        Set<InscripcionEntity> inscripcionesEntity = alumnoEntity.getInscripciones();
-//        for (InscripcionEntity inscripcionEntity : inscripcionesEntity) {
-//            inscripcioesDominio.add(inscripcionMapper.mapInscripcionEntityToInscripcion(inscripcionEntity));
-//        }
-//        alumnoDto.setInscripciones(inscripcioesDominio);
-
-        Set<RoleDto> rolesDominio = new HashSet<>();
-        Set<RoleEntity> rolesEntity = usuarioEntity.getRoles();
-        rolesEntity.forEach(roleEntity -> rolesDominio.add(roleEntity.convertToRole(roleEntity)));
-        usuarioDto.setRoles(rolesDominio);
-
-        return usuarioDto;
-    }
-    public UsuarioEntity mapAlumnoToAlumnoEntity(UsuarioDto usuarioDto){
-        UsuarioEntity usuarioEntity = new UsuarioEntity();
-        usuarioEntity.setId(usuarioDto.getId());
-        usuarioEntity.setNombre(usuarioDto.getNombre());
-        usuarioEntity.setApellido(usuarioDto.getApellido());
-        usuarioEntity.setCorreo(usuarioDto.getCorreo());
-        usuarioEntity.setClave(usuarioDto.getClave());
-
-//        Set<InscripcionEntity> inscripcionesEntity = new HashSet<>();
-//        Set<InscripcionDto> inscripcionesDto = alumnoDto.getInscripciones();
-//        for (InscripcionDto inscripcionDto : inscripcionesDto) {
-//            inscripcionesEntity.add(inscripcionMapper.mapInscripcionToInscripcionEntity(inscripcionDto));
-//        }
-//        alumnoEntity.setInscripciones(inscripcionesEntity);
-
-        Set<RoleEntity> rolesEntity = new HashSet<>();
-        Set<RoleDto> rolesDominio = usuarioDto.getRoles();
-        rolesDominio.forEach(role -> rolesEntity.add(role.convertToRoleEntity(role)));
-        usuarioEntity.setRoles(rolesEntity);
-
-        /*
-        Set<InscripcionEntity> inscripcionesEntity = new HashSet<>();
-
-        Set<Inscripcion> inscripciones = alumno.getInscripciones();
-
-        inscripciones.forEach(inscripcion -> inscripcionesEntity.add(inscripcion.convertToInscripcionEntity(inscripcion)));
-
-        alumnoEntity.setInscripciones(inscripcionesEntity);
-        */
-
-        return usuarioEntity;
-    }
-
-    public CompletoUsuarioDto mapUsuarioEntityToUsuarioDto(UsuarioEntity usuarioEntity){
-        CompletoUsuarioDto usuarioDto = new CompletoUsuarioDto();
+    public MuestraUsuarioDto mapUsuarioEntityToMuestraUsuarioDto(UsuarioEntity usuarioEntity){
+        MuestraUsuarioDto usuarioDto = new MuestraUsuarioDto();
         usuarioDto.setId(usuarioEntity.getId());
         usuarioDto.setNombre(usuarioEntity.getNombre());
         usuarioDto.setApellido(usuarioEntity.getApellido());
@@ -95,12 +68,7 @@ public class UsuarioMapper {
         usuarioDto.setEdad(usuarioEntity.getEdad());
         usuarioDto.setEstudio(usuarioEntity.getEstudio());
         usuarioDto.setClave(usuarioEntity.getClave());
-        ImagenDto imagen = null;
-        if (usuarioEntity.getImagen() != null){
-            imagen = imagenMapper.mapImagenEntityToImagenDto(usuarioEntity.getImagen());
-        }
-
-        usuarioDto.setImagen(imagen);
+        usuarioDto.setImagen(usuarioEntity.getImagen().getImagenUrl());
 
         Set<RoleDto> roleDtos = new HashSet<>();
         for (RoleEntity roleEntity : usuarioEntity.getRoles()){

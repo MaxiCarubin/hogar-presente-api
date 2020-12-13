@@ -1,11 +1,13 @@
 package ar.com.travelpaq.hogarpresente.api.models.controller;
 
-import ar.com.travelpaq.hogarpresente.api.cloudinary.entity.ImagenEntity;
-import ar.com.travelpaq.hogarpresente.api.models.dto.CursoDto;
+import ar.com.travelpaq.hogarpresente.api.models.dto.NuevoCursoDto;
 import ar.com.travelpaq.hogarpresente.api.models.services.ICursoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @CrossOrigin
 @RestController
@@ -26,13 +28,18 @@ public class CursoRestController {
     }
 
     @PostMapping("/cursos")
-    public ResponseEntity<?> create(@RequestBody CursoDto cursoDto){
-        return cursoService.create(cursoDto);
+    public ResponseEntity<?> create(@RequestBody NuevoCursoDto nuevoCursoDto){
+        return cursoService.create(nuevoCursoDto);
     }
 
     @PutMapping("/cursos/{id}")
-    public ResponseEntity<?> update(@RequestBody CursoDto cursoDto, @PathVariable Long id){
-        return cursoService.update(cursoDto, id);
+    public ResponseEntity<?> update(@RequestBody NuevoCursoDto nuevoCursoDto, @PathVariable Long id){
+        return cursoService.update(nuevoCursoDto, id);
+    }
+
+    @PutMapping("/cursos/Img/{id}")
+    public ResponseEntity<?> updateImg(@RequestParam MultipartFile multipartFile, @PathVariable Long id) throws IOException {
+        return cursoService.updateImg(multipartFile, id);
     }
 
     @PutMapping("/cursos/habilitar/{id}")

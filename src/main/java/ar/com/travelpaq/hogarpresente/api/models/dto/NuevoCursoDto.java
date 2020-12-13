@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CursoDto {
+public class NuevoCursoDto {
     private long id;
     private String titulo;
     private String subtitulo;
@@ -15,5 +15,4 @@ public class CursoDto {
     private float precio;
     private String categoria;
     private long usuarioId;
-    private int imagenId;
 }

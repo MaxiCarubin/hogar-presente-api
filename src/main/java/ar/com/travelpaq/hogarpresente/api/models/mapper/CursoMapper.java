@@ -19,24 +19,24 @@ public class CursoMapper {
     @Autowired
     private ImagenMapper imagenMapper;
 
-    public CursoDto mapCursoEntityToCurso(CursoEntity cursoEntity){
-        CursoDto cursoDto = new CursoDto();
-        cursoDto.setId(cursoEntity.getId());
-        cursoDto.setTitulo(cursoEntity.getTitulo());
-        cursoDto.setSubtitulo(cursoEntity.getSubtitulo());
-        cursoDto.setDescripcion(cursoEntity.getDescripcion());
-        cursoDto.setPrecio(cursoEntity.getPrecio());
-        cursoDto.setCategoria(cursoEntity.getCategoria());
-        return cursoDto;
+    public NuevoCursoDto mapCursoEntityToCurso(CursoEntity cursoEntity){
+        NuevoCursoDto nuevoCursoDto = new NuevoCursoDto();
+        nuevoCursoDto.setId(cursoEntity.getId());
+        nuevoCursoDto.setTitulo(cursoEntity.getTitulo());
+        nuevoCursoDto.setSubtitulo(cursoEntity.getSubtitulo());
+        nuevoCursoDto.setDescripcion(cursoEntity.getDescripcion());
+        nuevoCursoDto.setPrecio(cursoEntity.getPrecio());
+        nuevoCursoDto.setCategoria(cursoEntity.getCategoria());
+        return nuevoCursoDto;
     }
-    public CursoEntity mapCursoToCursoEntity(CursoDto cursoDto){
+    public CursoEntity mapCursoToCursoEntity(NuevoCursoDto nuevoCursoDto){
         CursoEntity cursoEntity = new CursoEntity();
-        cursoEntity.setId(cursoDto.getId());
-        cursoEntity.setTitulo(cursoDto.getTitulo());
-        cursoEntity.setSubtitulo(cursoDto.getSubtitulo());
-        cursoEntity.setDescripcion(cursoDto.getDescripcion());
-        cursoEntity.setPrecio(cursoDto.getPrecio());
-        cursoEntity.setCategoria(cursoDto.getCategoria());
+        cursoEntity.setId(nuevoCursoDto.getId());
+        cursoEntity.setTitulo(nuevoCursoDto.getTitulo());
+        cursoEntity.setSubtitulo(nuevoCursoDto.getSubtitulo());
+        cursoEntity.setDescripcion(nuevoCursoDto.getDescripcion());
+        cursoEntity.setPrecio(nuevoCursoDto.getPrecio());
+        cursoEntity.setCategoria(nuevoCursoDto.getCategoria());
         return cursoEntity;
     }
 

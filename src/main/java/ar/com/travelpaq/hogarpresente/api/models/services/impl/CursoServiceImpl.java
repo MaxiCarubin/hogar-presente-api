@@ -22,9 +22,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class CursoServiceImpl implements ICursoService {
@@ -92,7 +97,7 @@ public class CursoServiceImpl implements ICursoService {
     }
 
     @Override
-    public ResponseEntity<?> create(CursoDto newCurso) {
+    public ResponseEntity<?> create(NuevoCursoDto newCurso) {
         if(StringUtils.isBlank(newCurso.getTitulo()))
             return new ResponseEntity(new Mensaje("El título es obligatorio"), HttpStatus.BAD_REQUEST);
         if(StringUtils.isBlank(newCurso.getSubtitulo()))
@@ -108,16 +113,11 @@ public class CursoServiceImpl implements ICursoService {
         UsuarioEntity usuarioEntity = usuarioRepository.findById(newCurso.getUsuarioId()).get();
         if(usuarioEntity.getRoles().contains(roleAlumno))
             return new ResponseEntity(new Mensaje("El usuario debe ser un capacitador o admin para crear cursos"), HttpStatus.BAD_REQUEST);
-
-        ImagenEntity imagenEntity = new ImagenEntity();
-        if (newCurso.getImagenId() == 0)
-            imagenEntity = imagenRepository.findById(2).get();
-        else
-            imagenEntity = imagenRepository.findById(newCurso.getImagenId()).get();
+        ImagenEntity imagenEntity = imagenRepository.findById(2).get();
         CursoEntity cursoEntity = cursoMapper.mapCursoToCursoEntity(newCurso);
         cursoEntity.setHabilitado(false);
-        cursoEntity.setImagen(imagenEntity);
         cursoEntity.setUsuario(usuarioEntity);
+        cursoEntity.setImagen(imagenEntity);
         cursoRepository.save(cursoEntity);
         usuarioEntity.getCursos().add(cursoEntity);
         usuarioRepository.save(usuarioEntity);
@@ -126,10 +126,10 @@ public class CursoServiceImpl implements ICursoService {
 
     @Override
     @Transactional
-    public ResponseEntity<?> update(CursoDto cursoDto, Long id) {
+    public ResponseEntity<?> update(NuevoCursoDto nuevoCursoDto, Long id) {
         if (!cursoRepository.existsById(id))
             return new ResponseEntity(new Mensaje("No existe el curso en la base de datos"), HttpStatus.NOT_FOUND);
-        UsuarioEntity usuarioNuevo = usuarioRepository.findById(cursoDto.getUsuarioId()).get();
+        UsuarioEntity usuarioNuevo = usuarioRepository.findById(nuevoCursoDto.getUsuarioId()).get();
         if(usuarioNuevo.getRoles().contains(roleAlumno))
             return new ResponseEntity(new Mensaje("El usuario debe ser un capacitador o admin para editar el curso"), HttpStatus.BAD_REQUEST);
         CursoEntity cursoEntity = cursoRepository.getOne(id);
@@ -143,22 +143,16 @@ public class CursoServiceImpl implements ICursoService {
                                     )
                             ,HttpStatus.BAD_REQUEST
                     );
-        if (!cursoDto.getTitulo().isEmpty())
-            cursoEntity.setTitulo(cursoDto.getTitulo());
-        if (!cursoDto.getSubtitulo().isEmpty())
-            cursoEntity.setSubtitulo(cursoDto.getSubtitulo());
-        if (!cursoDto.getDescripcion().isEmpty())
-            cursoEntity.setDescripcion(cursoDto.getDescripcion());
-        if (!cursoDto.getCategoria().isEmpty())
-            cursoEntity.setCategoria(cursoDto.getCategoria());
-        if(cursoDto.getPrecio() >= 0)
-            cursoEntity.setPrecio(cursoDto.getPrecio());
-        if(cursoDto.getImagenId() != 0)
-        {
-            imagenRepository.deleteById(cursoEntity.getImagen().getId());
-            ImagenEntity imagenEntity = imagenRepository.findById(cursoDto.getImagenId()).get();
-            cursoEntity.setImagen(imagenEntity);
-        }
+        if (!nuevoCursoDto.getTitulo().isEmpty())
+            cursoEntity.setTitulo(nuevoCursoDto.getTitulo());
+        if (!nuevoCursoDto.getSubtitulo().isEmpty())
+            cursoEntity.setSubtitulo(nuevoCursoDto.getSubtitulo());
+        if (!nuevoCursoDto.getDescripcion().isEmpty())
+            cursoEntity.setDescripcion(nuevoCursoDto.getDescripcion());
+        if (!nuevoCursoDto.getCategoria().isEmpty())
+            cursoEntity.setCategoria(nuevoCursoDto.getCategoria());
+        if(nuevoCursoDto.getPrecio() >= 0)
+            cursoEntity.setPrecio(nuevoCursoDto.getPrecio());
         cursoRepository.save(cursoEntity);
         return new ResponseEntity(new Mensaje("Curso Actualizado!"), HttpStatus.OK);
     }
@@ -183,5 +177,31 @@ public class CursoServiceImpl implements ICursoService {
             cursoEntity.setHabilitado(true);
         cursoRepository.save(cursoEntity);
         return new ResponseEntity(new Mensaje("Curso Habilitado!"), HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<?> updateImg(MultipartFile multipartFile, Long id) throws IOException {
+        if (!cursoRepository.existsById(id))
+            return new ResponseEntity(new Mensaje("No existe el curso al que se le desea subir la foto"), HttpStatus.NOT_FOUND);
+        CursoEntity cursoEntity = cursoRepository.getOne(id);
+        if (cursoEntity.getImagen() != null && cursoEntity.getImagen().getId() != 2)
+        {
+            imagenRepository.deleteById(cursoEntity.getImagen().getId());
+        }
+        BufferedImage bi = ImageIO.read(multipartFile.getInputStream());
+        if(bi == null){
+            return new ResponseEntity(new Mensaje("imagen no válida"), HttpStatus.BAD_REQUEST);
+        }
+        Map result = cloudinaryService.upload(multipartFile);
+        ImagenEntity imagen =
+                new ImagenEntity(
+                        (String)result.get("original_filename"),
+                        (String)result.get("url"),
+                        (String)result.get("public_id")
+                );
+        imagenRepository.save(imagen);
+        cursoEntity.setImagen(imagen);
+        cursoRepository.save(cursoEntity);
+        return new ResponseEntity(new Mensaje("Se actualizo la imagen correctamente"), HttpStatus.OK);
     }
 }
