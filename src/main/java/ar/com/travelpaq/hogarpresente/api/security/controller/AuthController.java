@@ -24,15 +24,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import javax.imageio.ImageIO;
 import javax.validation.Valid;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 @RestController
@@ -95,9 +90,7 @@ public class AuthController {
             roles.add(rolService.getByRoleNombre(RoleNombre.ROLE_ADMIN).get());
         usuarioEntity.setRoles(roles);
         usuarioService.save(usuarioEntity);
-//        return new ResponseEntity(new Mensaje("usuario guardado"), HttpStatus.CREATED);
-        return new ResponseEntity(imagenEntity, HttpStatus.CREATED);
-
+        return new ResponseEntity(new Mensaje("usuario guardado"), HttpStatus.CREATED);
     }
 
     @PostMapping("/login")

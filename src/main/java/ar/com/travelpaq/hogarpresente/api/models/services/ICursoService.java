@@ -1,5 +1,6 @@
 package ar.com.travelpaq.hogarpresente.api.models.services;
 import ar.com.travelpaq.hogarpresente.api.models.dto.NuevoCursoDto;
+import ar.com.travelpaq.hogarpresente.api.models.dto.UpdateCursoDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -13,7 +14,7 @@ public interface ICursoService {
 
     public ResponseEntity<?> create(NuevoCursoDto nuevoCursoDto);
 
-    public ResponseEntity<?> update(NuevoCursoDto nuevoCursoDto, Long id);
+    public ResponseEntity<?> update(UpdateCursoDto cursoDto, Long id);
 
     public ResponseEntity<?> delete(Long id);
 

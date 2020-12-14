@@ -59,9 +59,10 @@ public class ContenidoServiceImpl implements IContenidoService {
         if(!unidadRepository.existsById(contenidoDto.getUnidadId()))
             return new ResponseEntity(new Mensaje("La unidad a la que se le asigna el contenido, debe existir en la base de datos!"), HttpStatus.NOT_FOUND);
         ContenidoEntity contenidoEntity = contenidoMapper.mapTareaEntityToTarea(contenidoDto);
-        contenidoRepository.save(contenidoEntity);
         UnidadEntity unidadEntity = unidadRepository.getOne(contenidoDto.getUnidadId());
         unidadEntity.getContenidos().add(contenidoEntity);
+        contenidoEntity.setUnidad(unidadEntity);
+        contenidoRepository.save(contenidoEntity);
         unidadRepository.save(unidadEntity);
         return new ResponseEntity(new Mensaje("Contenido creado para la unidad ID: " + contenidoDto.getUnidadId() + " !"), HttpStatus.CREATED);
     }

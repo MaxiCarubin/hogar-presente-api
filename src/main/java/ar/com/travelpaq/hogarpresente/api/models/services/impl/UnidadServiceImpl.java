@@ -64,9 +64,10 @@ public class UnidadServiceImpl implements IUnidadService {
         if(!cursoRepository.existsById(unidadDto.getCursoId()))
             return new ResponseEntity(new Mensaje("El curso debe existir en la base de datos"), HttpStatus.NOT_FOUND);
         UnidadEntity unidadEntity = unidadMapper.mapUnidadToUnidadEntity(unidadDto);
-        unidadRepository.save(unidadEntity);
         CursoEntity cursoEntity = cursoRepository.getOne(unidadDto.getCursoId());
         cursoEntity.getUnidades().add(unidadEntity);
+        unidadEntity.setCurso(cursoEntity);
+        unidadRepository.save(unidadEntity);
         cursoRepository.save(cursoEntity);
         return new ResponseEntity(new Mensaje("Unidad creada!"), HttpStatus.OK);
     }
@@ -75,10 +76,6 @@ public class UnidadServiceImpl implements IUnidadService {
     public ResponseEntity<?> update(UnidadDto unidadDto, Long id) {
         if (!unidadRepository.existsById(id))
             return new ResponseEntity(new Mensaje("no existe la unidad en la base de datos"), HttpStatus.NOT_FOUND);
-        if(StringUtils.isBlank(unidadDto.getNombre()))
-            return new ResponseEntity(new Mensaje("El nombre es obligatorio"), HttpStatus.BAD_REQUEST);
-        if(StringUtils.isBlank(unidadDto.getDescripcion()))
-            return new ResponseEntity(new Mensaje("La descripcion es obligatoria"), HttpStatus.BAD_REQUEST);
         if(!cursoRepository.existsById(unidadDto.getCursoId()))
             return new ResponseEntity(new Mensaje("No existe curso asociado a la unidad en la base de datos"), HttpStatus.NOT_FOUND);
         UnidadEntity unidadEntity = unidadRepository.getOne(id);

@@ -126,33 +126,28 @@ public class CursoServiceImpl implements ICursoService {
 
     @Override
     @Transactional
-    public ResponseEntity<?> update(NuevoCursoDto nuevoCursoDto, Long id) {
+    public ResponseEntity<?> update(UpdateCursoDto cursoDto, Long id) {
         if (!cursoRepository.existsById(id))
             return new ResponseEntity(new Mensaje("No existe el curso en la base de datos"), HttpStatus.NOT_FOUND);
-        UsuarioEntity usuarioNuevo = usuarioRepository.findById(nuevoCursoDto.getUsuarioId()).get();
-        if(usuarioNuevo.getRoles().contains(roleAlumno))
-            return new ResponseEntity(new Mensaje("El usuario debe ser un capacitador o admin para editar el curso"), HttpStatus.BAD_REQUEST);
+//        UsuarioEntity usuarioNuevo = usuarioRepository.findById(cursoDto.getUsuarioId()).get();
+//        if(usuarioNuevo.getRoles().contains(roleAlumno))
+//            return new ResponseEntity(new Mensaje("El usuario debe ser un capacitador o admin para editar el curso"), HttpStatus.BAD_REQUEST);
         CursoEntity cursoEntity = cursoRepository.getOne(id);
-        UsuarioEntity usuarioViejo = cursoRepository.findById(id).get().getUsuario();
-        if (usuarioNuevo.getId() != usuarioViejo.getId() && usuarioNuevo.getRoles().contains(roleCapacitador))
-            return new ResponseEntity
-                    (
-                            new Mensaje
-                                    (
-                                            "El ID del creador del curso que se quiere modificar debe coincidir con el ID del usuario que esta modificando el curso o ese usuario debe ser ADMIN."
-                                    )
-                            ,HttpStatus.BAD_REQUEST
-                    );
-        if (!nuevoCursoDto.getTitulo().isEmpty())
-            cursoEntity.setTitulo(nuevoCursoDto.getTitulo());
-        if (!nuevoCursoDto.getSubtitulo().isEmpty())
-            cursoEntity.setSubtitulo(nuevoCursoDto.getSubtitulo());
-        if (!nuevoCursoDto.getDescripcion().isEmpty())
-            cursoEntity.setDescripcion(nuevoCursoDto.getDescripcion());
-        if (!nuevoCursoDto.getCategoria().isEmpty())
-            cursoEntity.setCategoria(nuevoCursoDto.getCategoria());
-        if(nuevoCursoDto.getPrecio() >= 0)
-            cursoEntity.setPrecio(nuevoCursoDto.getPrecio());
+//        UsuarioEntity usuarioViejo = cursoRepository.findById(id).get().getUsuario();
+//        if (usuarioNuevo.getId() != usuarioViejo.getId() && usuarioNuevo.getRoles().contains(roleCapacitador))
+//            return new ResponseEntity
+//                    (
+//                            new Mensaje
+//                                    (
+//                                            "El ID del creador del curso que se quiere modificar debe coincidir con el ID del usuario que esta modificando el curso o ese usuario debe ser ADMIN."
+//                                    )
+//                            ,HttpStatus.BAD_REQUEST
+//                    );
+        cursoEntity.setTitulo(cursoDto.getTitulo());
+        cursoEntity.setSubtitulo(cursoDto.getSubtitulo());
+        cursoEntity.setDescripcion(cursoDto.getDescripcion());
+        cursoEntity.setCategoria(cursoDto.getCategoria());
+        cursoEntity.setPrecio(cursoDto.getPrecio());
         cursoRepository.save(cursoEntity);
         return new ResponseEntity(new Mensaje("Curso Actualizado!"), HttpStatus.OK);
     }

@@ -1,6 +1,7 @@
 package ar.com.travelpaq.hogarpresente.api.models.controller;
 
 import ar.com.travelpaq.hogarpresente.api.models.dto.NuevoCursoDto;
+import ar.com.travelpaq.hogarpresente.api.models.dto.UpdateCursoDto;
 import ar.com.travelpaq.hogarpresente.api.models.services.ICursoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -33,8 +34,8 @@ public class CursoRestController {
     }
 
     @PutMapping("/cursos/{id}")
-    public ResponseEntity<?> update(@RequestBody NuevoCursoDto nuevoCursoDto, @PathVariable Long id){
-        return cursoService.update(nuevoCursoDto, id);
+    public ResponseEntity<?> update(@RequestBody UpdateCursoDto cursoDto, @PathVariable Long id){
+        return cursoService.update(cursoDto, id);
     }
 
     @PutMapping("/cursos/Img/{id}")

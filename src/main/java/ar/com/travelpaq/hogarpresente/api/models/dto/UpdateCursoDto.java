@@ -13,5 +13,4 @@ public class UpdateCursoDto {
     private String descripcion;
     private float precio;
     private String categoria;
-    private long usuarioId;
 }

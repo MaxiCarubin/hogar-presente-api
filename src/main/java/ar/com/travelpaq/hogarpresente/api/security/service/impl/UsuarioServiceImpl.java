@@ -94,6 +94,7 @@ public class UsuarioServiceImpl implements IUsuarioService {
         usuarioEntity.setEstudio(updateUsuarioDto.getEstudio());
         usuarioEntity.setEdad(updateUsuarioDto.getEdad());
         usuarioRepository.save(usuarioEntity);
+
         return new ResponseEntity(new Mensaje("Usuario Actualizado!"), HttpStatus.OK);
     }
 
