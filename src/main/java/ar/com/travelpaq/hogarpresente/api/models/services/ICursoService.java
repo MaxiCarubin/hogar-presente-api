@@ -21,4 +21,14 @@ public interface ICursoService {
     public ResponseEntity<?> habilitarCurso(Long id);
 
     public ResponseEntity<?> updateImg(MultipartFile multipartFile, Long id) throws IOException;
+
+    public ResponseEntity<?> updateTitulo(String titulo, Long id);
+
+    public ResponseEntity<?> updateSubtitulo(String subtitulo, Long id);
+
+    public ResponseEntity<?> updateCategoria(String categoria, Long id);
+
+    public ResponseEntity<?> updateDescripcion(String descripcion, Long id);
+
+    public ResponseEntity<?> updatePrecio(float precio, Long id);
 }

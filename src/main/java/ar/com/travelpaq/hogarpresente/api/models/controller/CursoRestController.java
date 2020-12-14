@@ -43,6 +43,32 @@ public class CursoRestController {
         return cursoService.updateImg(multipartFile, id);
     }
 
+    @PutMapping("/cursos/titulo/{id}")
+    public ResponseEntity<?> updateTitulo(@PathVariable Long id, @RequestBody String titulo){
+        return cursoService.updateTitulo(titulo, id);
+    }
+
+    @PutMapping("/cursos/subtitulo/{id}")
+    public ResponseEntity<?> updateSubtitulo(@PathVariable Long id, @RequestBody String subtitulo){
+        return cursoService.updateSubtitulo(subtitulo, id);
+    }
+
+    @PutMapping("/cursos/categoria/{id}")
+    public ResponseEntity<?> updateCategoria(@PathVariable Long id, @RequestBody String categoria){
+        return cursoService.updateCategoria(categoria, id);
+    }
+
+    @PutMapping("/cursos/descripcion/{id}")
+    public ResponseEntity<?> updateDescripcion(@PathVariable Long id, @RequestBody String descripcion){
+        return cursoService.updateDescripcion(descripcion, id);
+    }
+
+    @PutMapping("/cursos/precio/{id}")
+    public ResponseEntity<?> updatePrecio(@PathVariable Long id, @RequestBody float precio){
+        return cursoService.updatePrecio(precio, id);
+    }
+
+
     @PutMapping("/cursos/habilitar/{id}")
     public ResponseEntity<?> habilitadoOn(@PathVariable Long id){
         return cursoService.habilitarCurso(id);

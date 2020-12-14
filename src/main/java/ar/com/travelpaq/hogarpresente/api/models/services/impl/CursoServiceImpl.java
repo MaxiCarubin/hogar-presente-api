@@ -199,4 +199,54 @@ public class CursoServiceImpl implements ICursoService {
         cursoRepository.save(cursoEntity);
         return new ResponseEntity(new Mensaje("Se actualizo la imagen correctamente"), HttpStatus.OK);
     }
+
+    @Override
+    public ResponseEntity<?> updateTitulo(String titulo, Long id) {
+        if (!cursoRepository.existsById(id))
+            return new ResponseEntity(new Mensaje("No existe"), HttpStatus.NOT_FOUND);
+        CursoEntity cursoEntity = cursoRepository.getOne(id);
+        cursoEntity.setTitulo(titulo);
+        cursoRepository.save(cursoEntity);
+        return new ResponseEntity(new Mensaje("Curso Actualizado!"), HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<?> updateSubtitulo(String subtitulo, Long id) {
+        if (!cursoRepository.existsById(id))
+            return new ResponseEntity(new Mensaje("No existe"), HttpStatus.NOT_FOUND);
+        CursoEntity cursoEntity = cursoRepository.getOne(id);
+        cursoEntity.setSubtitulo(subtitulo);
+        cursoRepository.save(cursoEntity);
+        return new ResponseEntity(new Mensaje("Curso Actualizado!"), HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<?> updateCategoria(String categoria, Long id) {
+        if (!cursoRepository.existsById(id))
+            return new ResponseEntity(new Mensaje("No existe"), HttpStatus.NOT_FOUND);
+        CursoEntity cursoEntity = cursoRepository.getOne(id);
+        cursoEntity.setCategoria(categoria);
+        cursoRepository.save(cursoEntity);
+        return new ResponseEntity(new Mensaje("Curso Actualizado!"), HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<?> updateDescripcion(String descripcion, Long id) {
+        if (!cursoRepository.existsById(id))
+            return new ResponseEntity(new Mensaje("No existe"), HttpStatus.NOT_FOUND);
+        CursoEntity cursoEntity = cursoRepository.getOne(id);
+        cursoEntity.setDescripcion(descripcion);
+        cursoRepository.save(cursoEntity);
+        return new ResponseEntity(new Mensaje("Curso Actualizado!"), HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<?> updatePrecio(float precio, Long id) {
+        if (!cursoRepository.existsById(id))
+            return new ResponseEntity(new Mensaje("No existe"), HttpStatus.NOT_FOUND);
+        CursoEntity cursoEntity = cursoRepository.getOne(id);
+        cursoEntity.setPrecio(precio);
+        cursoRepository.save(cursoEntity);
+        return new ResponseEntity(new Mensaje("Curso Actualizado!"), HttpStatus.OK);
+    }
 }
