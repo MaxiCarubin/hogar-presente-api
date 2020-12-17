@@ -43,7 +43,7 @@ public class UnidadServiceImpl implements IUnidadService {
 
     @Override
     public ResponseEntity<List<UnidadDto>> findAll() {
-        List<UnidadEntity> unidadEntities = unidadRepository.findAll();
+        List<UnidadEntity> unidadEntities = unidadRepository.findByOrderById();
         return new ResponseEntity(unidadEntities, HttpStatus.OK);
     }
 
@@ -91,6 +91,57 @@ public class UnidadServiceImpl implements IUnidadService {
             return new ResponseEntity(new Mensaje("No existe"), HttpStatus.NOT_FOUND);
         unidadRepository.deleteById(id);
         return new ResponseEntity(new Mensaje("Unidad Eliminada!"), HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<?> createNull(long cursoId) {
+        UnidadEntity unidad = new UnidadEntity();
+        if(!cursoRepository.existsById(cursoId))
+            return new ResponseEntity(new Mensaje("No existe curso asociado a la unidad en la base de datos"), HttpStatus.NOT_FOUND);
+        CursoEntity cursoSave = cursoRepository.getOne(cursoId);
+        CursoEntity cursoGet = cursoRepository.findById(cursoId).get();
+        if(cursoGet.getUnidades().isEmpty()){
+            unidad.setNombre("Unidad 1");
+            unidad.setDescripcion(null);
+            unidad.setNumeroUnidad(1);
+            unidad.setContenidos(null);
+        }
+        if (!cursoGet.getUnidades().isEmpty())
+        {
+            int cont = 1;
+            for (int i = 0; i<cursoGet.getUnidades().size(); i++){
+                cont++;
+            }
+            unidad.setNombre("Unidad " + cont);
+            unidad.setDescripcion(null);
+            unidad.setNumeroUnidad(cont);
+            unidad.setContenidos(null);
+        }
+        unidad.setCurso(cursoGet);
+        cursoSave.getUnidades().add(unidad);
+        unidadRepository.save(unidad);
+        cursoRepository.save(cursoSave);
+        return new ResponseEntity(new Mensaje("Unidad creada!"), HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<?> updateDescripcion(String descripcion, Long id) {
+        if (!unidadRepository.existsById(id))
+            return new ResponseEntity(new Mensaje("No existe"), HttpStatus.NOT_FOUND);
+        UnidadEntity unidadEntity = unidadRepository.getOne(id);
+        unidadEntity.setDescripcion(descripcion);
+        unidadRepository.save(unidadEntity);
+        return new ResponseEntity(new Mensaje("Unidad Actualizada!"), HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<?> updateNombre(String nombre, Long id) {
+        if (!unidadRepository.existsById(id))
+            return new ResponseEntity(new Mensaje("No existe"), HttpStatus.NOT_FOUND);
+        UnidadEntity unidadEntity = unidadRepository.getOne(id);
+        unidadEntity.setDescripcion(nombre);
+        unidadRepository.save(unidadEntity);
+        return new ResponseEntity(new Mensaje("Unidad Actualizada!"), HttpStatus.OK);
     }
 
 //    @Override

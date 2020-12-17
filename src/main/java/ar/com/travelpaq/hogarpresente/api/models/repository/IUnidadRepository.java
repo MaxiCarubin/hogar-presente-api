@@ -10,4 +10,5 @@ import java.util.Optional;
 
 @Repository
 public interface IUnidadRepository extends JpaRepository<UnidadEntity, Long> {
+    List<UnidadEntity> findByOrderById();
 }

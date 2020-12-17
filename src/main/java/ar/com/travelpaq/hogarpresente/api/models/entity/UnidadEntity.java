@@ -21,9 +21,10 @@ public class UnidadEntity {
     @Column(nullable = false, length = 45)
     private String nombre;
 
-    @Column(nullable = false, length = 500)
+    @Column(length = 500)
     private String descripcion;
 
+    private int numeroUnidad;
 //    private Boolean terminada;
 //    @ManyToOne
 //    @JoinColumn(name = "curso_id")
@@ -37,4 +38,12 @@ public class UnidadEntity {
     @JoinColumn(name = "curso_id")
     private CursoEntity curso;
 
+    public UnidadEntity(long id, String nombre, String descripcion, List<ContenidoEntity> contenidos, CursoEntity curso) {
+        this.id = id;
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+        this.numeroUnidad = 0;
+        this.contenidos = contenidos;
+        this.curso = curso;
+    }
 }

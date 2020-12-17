@@ -18,7 +18,7 @@ public interface ICursoService {
 
     public ResponseEntity<?> delete(Long id);
 
-    public ResponseEntity<?> habilitarCurso(Long id);
+    public ResponseEntity<?> habilitarOnOffCurso(Long id);
 
     public ResponseEntity<?> updateImg(MultipartFile multipartFile, Long id) throws IOException;
 

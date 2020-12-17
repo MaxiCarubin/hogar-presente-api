@@ -10,4 +10,5 @@ import java.util.List;
 
 @Repository
 public interface IInscripcionRepository extends JpaRepository<InscripcionEntity, Long> {
+    List<InscripcionEntity> findByOrderById();
 }

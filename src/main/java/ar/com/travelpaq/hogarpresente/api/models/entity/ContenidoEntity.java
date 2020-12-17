@@ -18,17 +18,16 @@ public class ContenidoEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(nullable = false, length = 45)
-    private String titulo;
+    @Column(length = 45)
+    private String nombre;
 
-    @Column(nullable = false, length = 45)
-    private String subtitulo;
-
-    @Column(nullable = false, length = 500)
+    @Column(length = 500)
     private String descripcion;
 
-    @Column(nullable = false, length = 500)
+    @Column(length = 500)
     private String documento;
+
+    private boolean terminado;
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)

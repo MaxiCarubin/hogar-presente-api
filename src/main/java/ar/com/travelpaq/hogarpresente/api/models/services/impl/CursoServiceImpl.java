@@ -78,10 +78,10 @@ public class CursoServiceImpl implements ICursoService {
 
     @Override
     public ResponseEntity<?> findAll() {
-        List<CursoEntity> cursoEntities = cursoRepository.findAll();
+        List<CursoEntity> cursoEntities = cursoRepository.findByOrderById();
         List<MostrarCursoDto> cursoDtos = new ArrayList<>();
         for (CursoEntity cursoEntity : cursoEntities){
-            MostrarCursoDto cursoDto = cursoMapper.mapCursoDtoToCursoEntity(cursoEntity);
+            MostrarCursoDto cursoDto = cursoMapper.mapMostrarCursoDtoToCursoEntity(cursoEntity);
             cursoDtos.add(cursoDto);
         }
         return new ResponseEntity(cursoDtos, HttpStatus.OK);
@@ -92,7 +92,7 @@ public class CursoServiceImpl implements ICursoService {
         if (!cursoRepository.existsById(id))
             return new ResponseEntity(new Mensaje("No existe el curso en la base de datos"), HttpStatus.NOT_FOUND);
         CursoEntity cursoEntity = cursoRepository.findById(id).get();
-        MostrarCursoDto cursoDto = cursoMapper.mapCursoDtoToCursoEntity(cursoEntity);
+        MostrarCursoDto cursoDto = cursoMapper.mapMostrarCursoDtoToCursoEntity(cursoEntity);
         return new ResponseEntity(cursoDto, HttpStatus.OK);
     }
 
@@ -114,7 +114,7 @@ public class CursoServiceImpl implements ICursoService {
         if(usuarioEntity.getRoles().contains(roleAlumno))
             return new ResponseEntity(new Mensaje("El usuario debe ser un capacitador o admin para crear cursos"), HttpStatus.BAD_REQUEST);
         ImagenEntity imagenEntity = imagenRepository.findById(2).get();
-        CursoEntity cursoEntity = cursoMapper.mapCursoToCursoEntity(newCurso);
+        CursoEntity cursoEntity = cursoMapper.mapNuevoCursoDtoToCursoEntity(newCurso);
         cursoEntity.setHabilitado(false);
         cursoEntity.setUsuario(usuarioEntity);
         cursoEntity.setImagen(imagenEntity);
@@ -162,16 +162,21 @@ public class CursoServiceImpl implements ICursoService {
     }
 
     @Override
-    public ResponseEntity<?> habilitarCurso(Long id) {
+    public ResponseEntity<?> habilitarOnOffCurso(Long id) {
         if (!cursoRepository.existsById(id))
             return new ResponseEntity(new Mensaje("No existe"), HttpStatus.NOT_FOUND);
         CursoEntity cursoEntity = cursoRepository.getOne(id);
-        if(cursoEntity.isHabilitado())
+        Mensaje mensaje = new Mensaje();
+        if(cursoEntity.isHabilitado()) {
             cursoEntity.setHabilitado(false);
-        else
+            mensaje.setMensaje("Curso deshabilitado!");
+        }
+        else{
             cursoEntity.setHabilitado(true);
+            mensaje.setMensaje("Curso habilitado!");
+        }
         cursoRepository.save(cursoEntity);
-        return new ResponseEntity(new Mensaje("Curso Habilitado!"), HttpStatus.OK);
+        return new ResponseEntity(mensaje, HttpStatus.OK);
     }
 
     @Override

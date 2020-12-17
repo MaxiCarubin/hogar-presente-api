@@ -27,38 +27,6 @@ public class UsuarioMapper {
     @Autowired
     private ImagenMapper imagenMapper;
 
-//    public UsuarioDto mapUsuarioEntityToMuestraUsuarioDto(UsuarioEntity usuarioEntity) {
-//
-//        UsuarioDto usuarioDto = new UsuarioDto();
-//        usuarioDto.setId(usuarioEntity.getId());
-//        usuarioDto.setNombre(usuarioEntity.getNombre());
-//        usuarioDto.setApellido(usuarioEntity.getApellido());
-//        usuarioDto.setCorreo(usuarioEntity.getCorreo());
-//
-//        Set<RoleDto> rolesDominio = new HashSet<>();
-//        Set<RoleEntity> rolesEntity = usuarioEntity.getRoles();
-//        rolesEntity.forEach(roleEntity -> rolesDominio.add(roleEntity.convertToRole(roleEntity)));
-//        usuarioDto.setRoles(rolesDominio);
-//
-//        usuarioDto.setImagen(usuarioEntity.getImagen().getImagenUrl());
-//
-//        return usuarioDto;
-//    }
-//    public UsuarioEntity mapMuestraUsuarioDtoToAlumnoEntity(MuestraUsuarioDto muestraUsuarioDto){
-//        UsuarioEntity usuarioEntity = new UsuarioEntity();
-//        usuarioEntity.setId(muestraUsuarioDto.getId());
-//        usuarioEntity.setNombre(muestraUsuarioDto.getNombre());
-//        usuarioEntity.setApellido(muestraUsuarioDto.getApellido());
-//        usuarioEntity.setCorreo(muestraUsuarioDto.getCorreo());
-//
-//        Set<RoleEntity> rolesEntity = new HashSet<>();
-//        Set<RoleDto> rolesDominio = muestraUsuarioDto.getRoles();
-//        rolesDominio.forEach(role -> rolesEntity.add(role.convertToRoleEntity(role)));
-//        usuarioEntity.setRoles(rolesEntity);
-//
-//        return usuarioEntity;
-//    }
-
     public MuestraUsuarioDto mapUsuarioEntityToMuestraUsuarioDto(UsuarioEntity usuarioEntity){
         MuestraUsuarioDto usuarioDto = new MuestraUsuarioDto();
         usuarioDto.setId(usuarioEntity.getId());

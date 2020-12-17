@@ -70,8 +70,8 @@ public class CursoRestController {
 
 
     @PutMapping("/cursos/habilitar/{id}")
-    public ResponseEntity<?> habilitadoOn(@PathVariable Long id){
-        return cursoService.habilitarCurso(id);
+    public ResponseEntity<?> habilitadoOnOffCurso(@PathVariable Long id){
+        return cursoService.habilitarOnOffCurso(id);
     }
 
     @DeleteMapping("/cursos/{id}")

@@ -19,17 +19,7 @@ public class CursoMapper {
     @Autowired
     private ImagenMapper imagenMapper;
 
-    public NuevoCursoDto mapCursoEntityToCurso(CursoEntity cursoEntity){
-        NuevoCursoDto nuevoCursoDto = new NuevoCursoDto();
-        nuevoCursoDto.setId(cursoEntity.getId());
-        nuevoCursoDto.setTitulo(cursoEntity.getTitulo());
-        nuevoCursoDto.setSubtitulo(cursoEntity.getSubtitulo());
-        nuevoCursoDto.setDescripcion(cursoEntity.getDescripcion());
-        nuevoCursoDto.setPrecio(cursoEntity.getPrecio());
-        nuevoCursoDto.setCategoria(cursoEntity.getCategoria());
-        return nuevoCursoDto;
-    }
-    public CursoEntity mapCursoToCursoEntity(NuevoCursoDto nuevoCursoDto){
+    public CursoEntity mapNuevoCursoDtoToCursoEntity(NuevoCursoDto nuevoCursoDto){
         CursoEntity cursoEntity = new CursoEntity();
         cursoEntity.setId(nuevoCursoDto.getId());
         cursoEntity.setTitulo(nuevoCursoDto.getTitulo());
@@ -40,7 +30,7 @@ public class CursoMapper {
         return cursoEntity;
     }
 
-    public MostrarCursoDto mapCursoDtoToCursoEntity(CursoEntity cursoEntity){
+    public MostrarCursoDto mapMostrarCursoDtoToCursoEntity(CursoEntity cursoEntity){
         MostrarCursoDto cursoDto = new MostrarCursoDto();
         cursoDto.setId(cursoEntity.getId());
         cursoDto.setTitulo(cursoEntity.getTitulo());

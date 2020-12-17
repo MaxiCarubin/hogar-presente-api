@@ -2,7 +2,9 @@ package ar.com.travelpaq.hogarpresente.api.models.services.impl;
 
 import ar.com.travelpaq.hogarpresente.api.models.dto.Mensaje;
 import ar.com.travelpaq.hogarpresente.api.models.dto.ContenidoDto;
+import ar.com.travelpaq.hogarpresente.api.models.dto.NuevoContenidoDto;
 import ar.com.travelpaq.hogarpresente.api.models.entity.ContenidoEntity;
+import ar.com.travelpaq.hogarpresente.api.models.entity.CursoEntity;
 import ar.com.travelpaq.hogarpresente.api.models.entity.UnidadEntity;
 import ar.com.travelpaq.hogarpresente.api.models.mapper.ContenidoMapper;
 import ar.com.travelpaq.hogarpresente.api.models.mapper.UnidadMapper;
@@ -34,7 +36,7 @@ public class ContenidoServiceImpl implements IContenidoService {
 
     @Override
     public ResponseEntity<List<ContenidoDto>> findAll() {
-        List<ContenidoEntity> tareaEntities = contenidoRepository.findAll();
+        List<ContenidoEntity> tareaEntities = contenidoRepository.findByOrderById();
         return new ResponseEntity(tareaEntities, HttpStatus.OK);
     }
 
@@ -48,10 +50,8 @@ public class ContenidoServiceImpl implements IContenidoService {
 
     @Override
     public ResponseEntity<?> create(ContenidoDto contenidoDto) {
-        if(StringUtils.isBlank(contenidoDto.getTitulo()))
-            return new ResponseEntity(new Mensaje("El título es obligatorio!"), HttpStatus.BAD_REQUEST);
-        if(StringUtils.isBlank(contenidoDto.getSubtitulo()))
-            return new ResponseEntity(new Mensaje("El subtítulo es obligatorio!"), HttpStatus.BAD_REQUEST);
+        if(StringUtils.isBlank(contenidoDto.getNombre()))
+            return new ResponseEntity(new Mensaje("El Nombre es obligatorio!"), HttpStatus.BAD_REQUEST);
         if(StringUtils.isBlank(contenidoDto.getDescripcion()))
             return new ResponseEntity(new Mensaje("La descripción es obligatoria!"), HttpStatus.BAD_REQUEST);
         if(StringUtils.isBlank(contenidoDto.getDocumento()))
@@ -74,8 +74,7 @@ public class ContenidoServiceImpl implements IContenidoService {
         if(!unidadRepository.existsById(contenidoDto.getUnidadId()))
             return new ResponseEntity(new Mensaje("No existe unidad asociado al contenido en la base de datos"), HttpStatus.BAD_REQUEST);
         ContenidoEntity contenidoEntity = contenidoRepository.getOne(id);
-        contenidoEntity.setTitulo(contenidoDto.getTitulo());
-        contenidoEntity.setSubtitulo(contenidoDto.getSubtitulo());
+        contenidoEntity.setNombre(contenidoDto.getNombre());
         contenidoEntity.setDescripcion(contenidoDto.getDescripcion());
         contenidoEntity.setDocumento(contenidoDto.getDocumento());
         contenidoRepository.save(contenidoEntity);
@@ -90,12 +89,60 @@ public class ContenidoServiceImpl implements IContenidoService {
         return new ResponseEntity(new Mensaje("Contenido Eliminado!"), HttpStatus.OK);
     }
 
-//    @Override
-//    public ResponseEntity<?> findByUnidadId(Long id) {
-//        if (!unidadRepository.existsById(id))
-//            return new ResponseEntity(new Mensaje("La unidad debe existir en la base de datos"), HttpStatus.NOT_FOUND);
-//        UnidadEntity unidadEntity = unidadRepository.findById(id).orElse(null);
-//        List<TareaEntity> tareaEntities = tareaRepository.findAllByUnidad(unidadEntity);
-//        return new ResponseEntity(tareaEntities, HttpStatus.OK);
-//    }
+    @Override
+    public ResponseEntity<?> createNull(NuevoContenidoDto contenidoDto) {
+        ContenidoEntity contenido = new ContenidoEntity();
+        if(!unidadRepository.existsById(contenidoDto.getUnidadId()))
+            return new ResponseEntity(new Mensaje("No existe la unidad asociado al contenido en la base de datos"), HttpStatus.NOT_FOUND);
+        UnidadEntity unidadSave = unidadRepository.getOne(contenidoDto.getUnidadId());
+        UnidadEntity unidadGet = unidadRepository.findById(contenidoDto.getUnidadId()).get();
+        contenido.setNombre(contenidoDto.getNombre());
+        contenido.setDescripcion(null);
+        contenido.setDocumento(null);
+        contenido.setTerminado(false);
+        contenido.setUnidad(unidadGet);
+        unidadSave.getContenidos().add(contenido);
+        contenidoRepository.save(contenido);
+        unidadRepository.save(unidadSave);
+        return new ResponseEntity(new Mensaje("Contenido creado!"), HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<?> updateNombre(String nombre, Long id) {
+        if (!contenidoRepository.existsById(id))
+            return new ResponseEntity(new Mensaje("No existe"), HttpStatus.NOT_FOUND);
+        ContenidoEntity contenidoEntity = contenidoRepository.getOne(id);
+        contenidoEntity.setNombre(nombre);
+        contenidoRepository.save(contenidoEntity);
+        return new ResponseEntity(new Mensaje("Curso Actualizado!"), HttpStatus.OK);
+    }
+
+
+    @Override
+    public ResponseEntity<?> updateDescripcion(String descripcion, Long id) {
+        if (!contenidoRepository.existsById(id))
+            return new ResponseEntity(new Mensaje("No existe"), HttpStatus.NOT_FOUND);
+        ContenidoEntity contenidoEntity = contenidoRepository.getOne(id);
+        contenidoEntity.setDescripcion(descripcion);
+        contenidoRepository.save(contenidoEntity);
+        return new ResponseEntity(new Mensaje("Contenido Actualizado!"), HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<?> terminarOnOffCurso(Long id) {
+        if (!contenidoRepository.existsById(id))
+            return new ResponseEntity(new Mensaje("No existe"), HttpStatus.NOT_FOUND);
+        ContenidoEntity contenidoEntity = contenidoRepository.getOne(id);
+        Mensaje mensaje = new Mensaje();
+        if(contenidoEntity.isTerminado()) {
+            contenidoEntity.setTerminado(false);
+            mensaje.setMensaje("Contenid No Terminado!");
+        }
+        else{
+            contenidoEntity.setTerminado(true);
+            mensaje.setMensaje("Contenido Terminado!");
+        }
+        contenidoRepository.save(contenidoEntity);
+        return new ResponseEntity(mensaje, HttpStatus.OK);
+    }
 }

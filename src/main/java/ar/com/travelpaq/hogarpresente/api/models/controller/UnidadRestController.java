@@ -30,9 +30,24 @@ public class UnidadRestController {
         return unidadService.create(unidadDto);
     }
 
+    @PostMapping("/unidades/null")
+    public ResponseEntity<?> createNull(@RequestBody long cursoId){
+        return unidadService.createNull(cursoId);
+    }
+
     @PutMapping("/unidades/{id}")
     public ResponseEntity<?> update(@RequestBody UnidadDto unidadDto, @PathVariable Long id){
         return unidadService.update(unidadDto, id);
+    }
+
+    @PutMapping("/unidades/nombre/{id}")
+    public ResponseEntity<?> updateNombre(@PathVariable Long id, @RequestBody String nombre){
+        return unidadService.updateNombre(nombre, id);
+    }
+
+    @PutMapping("/unidades/descripcion/{id}")
+    public ResponseEntity<?> updateDescripcion(@PathVariable Long id, @RequestBody String descripcion){
+        return unidadService.updateDescripcion(descripcion, id);
     }
 
     @DeleteMapping("/unidades/{id}")

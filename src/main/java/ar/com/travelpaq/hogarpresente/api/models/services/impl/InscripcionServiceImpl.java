@@ -2,8 +2,6 @@ package ar.com.travelpaq.hogarpresente.api.models.services.impl;
 
 import ar.com.travelpaq.hogarpresente.api.models.dto.InscripcionDto;
 import ar.com.travelpaq.hogarpresente.api.models.dto.Mensaje;
-import ar.com.travelpaq.hogarpresente.api.security.entity.UsuarioEntity;
-import ar.com.travelpaq.hogarpresente.api.models.entity.CursoEntity;
 import ar.com.travelpaq.hogarpresente.api.models.entity.InscripcionEntity;
 import ar.com.travelpaq.hogarpresente.api.security.mapper.UsuarioMapper;
 import ar.com.travelpaq.hogarpresente.api.models.mapper.CursoMapper;
@@ -42,7 +40,7 @@ public class InscripcionServiceImpl implements IInscripcionService {
 
     @Override
     public ResponseEntity<List<InscripcionDto>> findAll() {
-        List<InscripcionEntity> inscripcionEntities = inscripcionRepository.findAll();
+        List<InscripcionEntity> inscripcionEntities = inscripcionRepository.findByOrderById();
         return new ResponseEntity(inscripcionEntities, HttpStatus.OK);
     }
 
@@ -62,7 +60,7 @@ public class InscripcionServiceImpl implements IInscripcionService {
             return new ResponseEntity(new Mensaje("El alumno debe existir en la base de datos"), HttpStatus.BAD_REQUEST);
         if(!cursoRepository.existsById(inscripcionDto.getCursoId()))
             return new ResponseEntity(new Mensaje("El curso debe existir en la base de datos"), HttpStatus.BAD_REQUEST);
-        InscripcionEntity inscripcionEntity = inscripcionMapper.mapInscripcionToInscripcionEntity(inscripcionDto);
+        InscripcionEntity inscripcionEntity = inscripcionMapper.mapInscripcionDtoToInscripcionEntity(inscripcionDto);
         inscripcionEntity.setUsuarioInscripcion(usuarioRepository.findById(inscripcionDto.getUsuarioId()).orElse(null));
         inscripcionEntity.setCursoInscripcion(cursoRepository.findById(inscripcionDto.getCursoId()).orElse(null));
         inscripcionRepository.save(inscripcionEntity);

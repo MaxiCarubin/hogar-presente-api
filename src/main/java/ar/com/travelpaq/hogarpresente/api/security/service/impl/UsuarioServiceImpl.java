@@ -62,7 +62,7 @@ public class UsuarioServiceImpl implements IUsuarioService {
 
     @Override
     public ResponseEntity<?> findAll() {
-        List<UsuarioEntity> usuarioEntities = usuarioRepository.findAll();
+        List<UsuarioEntity> usuarioEntities = usuarioRepository.findByOrderById();
         List<MuestraUsuarioDto> usuarioDtos = new ArrayList<>();
         for (UsuarioEntity usuarioEntity : usuarioEntities) {
             MuestraUsuarioDto usuarioDto = usuarioMapper.mapUsuarioEntityToMuestraUsuarioDto(usuarioEntity);

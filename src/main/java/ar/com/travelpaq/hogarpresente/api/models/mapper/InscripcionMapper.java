@@ -15,22 +15,11 @@ public class InscripcionMapper {
     @Autowired
     private CursoMapper cursoMapper;
 
-    public InscripcionDto mapInscripcionEntityToInscripcion(InscripcionEntity inscripcionEntity)
-    {
-        InscripcionDto inscripcionDto = new InscripcionDto();
-        inscripcionDto.setId(inscripcionEntity.getId());
-        inscripcionDto.setInscripcionAt(inscripcionEntity.getInscripcionAt());
-//        inscripcionDto.setAlumno(alumnoMapper.mapAlumnoEntityToAlumno(inscripcionEntity.getAlumno()));
-//        inscripcionDto.setCurso(cursoMapper.mapCursoEntityToCurso(inscripcionEntity.getCurso()));
-        return inscripcionDto;
-    }
-    public InscripcionEntity mapInscripcionToInscripcionEntity(InscripcionDto inscripcionDto)
+    public InscripcionEntity mapInscripcionDtoToInscripcionEntity(InscripcionDto inscripcionDto)
     {
         InscripcionEntity inscripcionEntity = new InscripcionEntity();
         inscripcionEntity.setId(inscripcionDto.getId());
         inscripcionEntity.setInscripcionAt(inscripcionEntity.getInscripcionAt());
-//        inscripcionEntity.setAlumno(alumnoMapper.mapAlumnoToAlumnoEntity(inscripcionDto.getAlumno()));
-//        inscripcionEntity.setCurso(cursoMapper.mapCursoToCursoEntity(inscripcionDto.getCurso()));
         return inscripcionEntity;
     }
 }

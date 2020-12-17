@@ -7,10 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ContenidoDto {
-    private long id;
-    private String Nombre;
-    private String descripcion;
-    private String documento;
+public class NuevoContenidoDto {
+    private String nombre;
     private long unidadId;
 }

@@ -16,5 +16,11 @@ public interface IUnidadService {
 
     public ResponseEntity<?> delete(Long id);
 
+    public ResponseEntity<?> createNull(long cursoId);
+
+    public ResponseEntity<?> updateDescripcion(String descripcion, Long id);
+
+    public ResponseEntity<?> updateNombre(String nombre, Long id);
+
 //    public ResponseEntity<?> findByCursoId(Long id);
 }
