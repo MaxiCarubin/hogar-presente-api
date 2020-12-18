@@ -58,22 +58,20 @@ public class MainSecurity extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable()
                 .authorizeRequests()
-//             .antMatchers("/auth/**").permitAll()
-////                .antMatchers("/roles/**").permitAll()
-////                .antMatchers("/api/**").permitAll()
-//                .antMatchers(HttpMethod.POST, "/auth/nuevo").permitAll()
-//                .antMatchers(HttpMethod.POST, "/auth/login").permitAll()
-//                .antMatchers(HttpMethod.GET, "/api/cursos").permitAll()
-//                .antMatchers(HttpMethod.GET, "/api/cursos/**").permitAll()
-//                .antMatchers(HttpMethod.POST, "/api/cursos").hasAnyRole("ROLE_ADMIN", "ROLE_CAPACITADOR")
+//              .antMatchers("/auth/**").permitAll()
+////            .antMatchers("/roles/**").permitAll()
+////            .antMatchers("/api/**").permitAll()
+//              .antMatchers(HttpMethod.POST, "/auth/nuevo").permitAll()
+//              .antMatchers(HttpMethod.POST, "/auth/login").permitAll()
+//              .antMatchers(HttpMethod.GET, "/api/cursos").permitAll()
+//              .antMatchers(HttpMethod.GET, "/api/cursos/**").permitAll()
+//              .antMatchers(HttpMethod.POST, "/api/cursos").hasAnyRole("ROLE_ADMIN", "ROLE_CAPACITADOR")
                 .antMatchers("/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .exceptionHandling().authenticationEntryPoint(jwtEntryPoint)
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-
         http.addFilterBefore(jwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
-
     }
 }

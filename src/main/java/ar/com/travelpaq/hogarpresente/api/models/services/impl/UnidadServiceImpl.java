@@ -3,7 +3,6 @@ package ar.com.travelpaq.hogarpresente.api.models.services.impl;
 import ar.com.travelpaq.hogarpresente.api.models.dto.Mensaje;
 import ar.com.travelpaq.hogarpresente.api.models.dto.UnidadDto;
 import ar.com.travelpaq.hogarpresente.api.models.entity.CursoEntity;
-import ar.com.travelpaq.hogarpresente.api.models.entity.ContenidoEntity;
 import ar.com.travelpaq.hogarpresente.api.models.entity.UnidadEntity;
 import ar.com.travelpaq.hogarpresente.api.models.mapper.CursoMapper;
 import ar.com.travelpaq.hogarpresente.api.models.mapper.ContenidoMapper;
@@ -17,7 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -139,17 +137,8 @@ public class UnidadServiceImpl implements IUnidadService {
         if (!unidadRepository.existsById(id))
             return new ResponseEntity(new Mensaje("No existe"), HttpStatus.NOT_FOUND);
         UnidadEntity unidadEntity = unidadRepository.getOne(id);
-        unidadEntity.setDescripcion(nombre);
+        unidadEntity.setNombre(nombre);
         unidadRepository.save(unidadEntity);
         return new ResponseEntity(new Mensaje("Unidad Actualizada!"), HttpStatus.OK);
     }
-
-//    @Override
-//    public ResponseEntity<?> findByCursoId(Long id) {
-//        if(!cursoRepository.existsById(id))
-//            return new ResponseEntity(new Mensaje("El curso debe existir en la base de datos"), HttpStatus.NOT_FOUND);
-//        CursoEntity cursoEntity = cursoRepository.findById(id).orElse(null);
-//        List<UnidadEntity> unidadEntities = unidadRepository.findAllByCurso(cursoEntity);
-//        return new ResponseEntity(unidadEntities, HttpStatus.OK);
-//    }
 }
