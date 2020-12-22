@@ -64,6 +64,7 @@ public class MainSecurity extends WebSecurityConfigurerAdapter {
 ////            .antMatchers("/api/**").permitAll()
               .antMatchers("/auth/nuevo").permitAll()
               .antMatchers("/auth/login").permitAll()
+                .antMatchers("/cloudinary/upload").permitAll()
 //              .antMatchers(HttpMethod.GET, "/api/cursos").permitAll()
 //              .antMatchers(HttpMethod.GET, "/api/cursos/**").permitAll()
 //              .antMatchers(HttpMethod.POST, "/api/cursos").hasAnyRole("ROLE_ADMIN", "ROLE_CAPACITADOR")
