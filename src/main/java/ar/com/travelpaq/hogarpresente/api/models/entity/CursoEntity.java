@@ -44,6 +44,10 @@ public class CursoEntity implements Serializable {
     @JoinColumn(name = "usuario_id", nullable = false)
     private UsuarioEntity usuario;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "capacitacion_id")
+    private CapacitacionEntity capacitacion;
+
     @OneToMany(mappedBy = "curso",cascade = CascadeType.ALL)
     private List<UnidadEntity> unidades;
 
