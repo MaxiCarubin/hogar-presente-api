@@ -1,7 +1,5 @@
 package ar.com.travelpaq.hogarpresente.api.models.controller;
 
-import ar.com.travelpaq.hogarpresente.api.models.dto.NuevoCursoDto;
-import ar.com.travelpaq.hogarpresente.api.models.dto.UpdateCursoDto;
 import ar.com.travelpaq.hogarpresente.api.models.services.ICapacitacionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -39,5 +37,4 @@ public class CapacitacionRestController {
     public ResponseEntity<?> delete(@PathVariable Long id) {
         return capacitacionService.delete(id);
     }
-
 }

@@ -62,6 +62,7 @@ public class ContenidoServiceImpl implements IContenidoService {
         UnidadEntity unidadEntity = unidadRepository.getOne(contenidoDto.getUnidadId());
         unidadEntity.getContenidos().add(contenidoEntity);
         contenidoEntity.setUnidad(unidadEntity);
+        contenidoEntity.setTerminado(false);
         contenidoRepository.save(contenidoEntity);
         unidadRepository.save(unidadEntity);
         return new ResponseEntity(new Mensaje("Contenido creado para la unidad ID: " + contenidoDto.getUnidadId() + " !"), HttpStatus.CREATED);
