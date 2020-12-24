@@ -6,6 +6,7 @@ import ar.com.travelpaq.hogarpresente.api.cloudinary.service.CloudinaryService;
 import ar.com.travelpaq.hogarpresente.api.security.dto.MuestraUsuarioDto;
 import ar.com.travelpaq.hogarpresente.api.security.dto.UpdateUsuarioDto;
 import ar.com.travelpaq.hogarpresente.api.models.dto.Mensaje;
+import ar.com.travelpaq.hogarpresente.api.security.entity.RoleEntity;
 import ar.com.travelpaq.hogarpresente.api.security.entity.UsuarioEntity;
 import ar.com.travelpaq.hogarpresente.api.security.mapper.UsuarioMapper;
 import ar.com.travelpaq.hogarpresente.api.models.mapper.InscripcionMapper;
@@ -131,5 +132,18 @@ public class UsuarioServiceImpl implements IUsuarioService {
         usuarioEntity.setImagen(imagen);
         usuarioRepository.save(usuarioEntity);
         return new ResponseEntity(new Mensaje("Se actualizo la imagen correctamente"), HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<?> findAllByRoles(RoleEntity role) {
+        List<UsuarioEntity> usuarioEntities = usuarioRepository.findByOrderById();
+        List<MuestraUsuarioDto> usuarioDtos = new ArrayList<>();
+        for (UsuarioEntity usuarioEntity : usuarioEntities) {
+            if (usuarioEntity.getRoles().contains(role)){
+                MuestraUsuarioDto usuarioDto = usuarioMapper.mapUsuarioEntityToMuestraUsuarioDto(usuarioEntity);
+                usuarioDtos.add(usuarioDto);
+            }
+        }
+        return new ResponseEntity(usuarioDtos, HttpStatus.OK);
     }
 }

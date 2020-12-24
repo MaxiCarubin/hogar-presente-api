@@ -103,6 +103,7 @@ public class UnidadServiceImpl implements IUnidadService {
             unidad.setDescripcion(null);
             unidad.setNumeroUnidad(1);
             unidad.setContenidos(null);
+            unidad.setEvaluacion(null);
         }
         if (!cursoGet.getUnidades().isEmpty())
         {
@@ -114,6 +115,7 @@ public class UnidadServiceImpl implements IUnidadService {
             unidad.setDescripcion(null);
             unidad.setNumeroUnidad(cont);
             unidad.setContenidos(null);
+            unidad.setEvaluacion(null);
         }
         unidad.setCurso(cursoGet);
         cursoSave.getUnidades().add(unidad);

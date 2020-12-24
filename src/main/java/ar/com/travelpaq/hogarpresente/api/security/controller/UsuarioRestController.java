@@ -1,5 +1,7 @@
 package ar.com.travelpaq.hogarpresente.api.security.controller;
 import ar.com.travelpaq.hogarpresente.api.security.dto.UpdateUsuarioDto;
+import ar.com.travelpaq.hogarpresente.api.security.entity.RoleEntity;
+import ar.com.travelpaq.hogarpresente.api.security.enums.RoleNombre;
 import ar.com.travelpaq.hogarpresente.api.security.service.IUsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +22,12 @@ public class UsuarioRestController {
     @GetMapping("/usuarios")
     public ResponseEntity<?> findAll(){
         return usuarioService.findAll();
+    }
+
+    @GetMapping("/usuarios/capacitadores")
+    public ResponseEntity<?> findAllByRoleCapacitador(){
+        RoleEntity role = new RoleEntity(2, RoleNombre.ROLE_CAPACITADOR);
+        return usuarioService.findAllByRoles(role);
     }
 
     @GetMapping("/usuarios/{id}")

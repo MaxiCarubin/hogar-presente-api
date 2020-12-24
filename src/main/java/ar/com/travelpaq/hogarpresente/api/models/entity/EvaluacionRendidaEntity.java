@@ -7,30 +7,35 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "evaluaciones")
-public class EvaluacionEntity {
+@Table(name = "evaluaciones_rendidas")
+public class EvaluacionRendidaEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private String nombre;
-
     @Column(length = 500)
-    private String urlCapacitador;
+    private String urlAlumno;
 
-    @OneToMany(mappedBy = "evaluacion", cascade = CascadeType.ALL)
-    private List<EvaluacionRendidaEntity> evaluacionesRendidas;
+    private boolean resultado;
+
+    private int nota;
+
+    private boolean terminado;
 
     @JsonIgnore
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "unidad_id")
-    private UnidadEntity unidad;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "alumno_id")
+    private UsuarioEntity alumno;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "evaluacion_id")
+    private EvaluacionEntity evaluacion;
+
 
 }

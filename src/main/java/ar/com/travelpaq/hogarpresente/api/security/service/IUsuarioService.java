@@ -1,6 +1,7 @@
 package ar.com.travelpaq.hogarpresente.api.security.service;
 
 import ar.com.travelpaq.hogarpresente.api.security.dto.UpdateUsuarioDto;
+import ar.com.travelpaq.hogarpresente.api.security.entity.RoleEntity;
 import ar.com.travelpaq.hogarpresente.api.security.entity.UsuarioEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
@@ -25,6 +26,8 @@ public interface IUsuarioService {
     public ResponseEntity<?> delete(Long id);
 
     public ResponseEntity<?> updateImg(MultipartFile multipartFile, Long id) throws IOException;
+
+    public ResponseEntity<?> findAllByRoles(RoleEntity role);
 
 //    public ResponseEntity<?> upload(MultipartFile archivo, Long id);
 //

@@ -2,7 +2,9 @@ package ar.com.travelpaq.hogarpresente.api.models.services.impl;
 
 import ar.com.travelpaq.hogarpresente.api.models.dto.InscripcionDto;
 import ar.com.travelpaq.hogarpresente.api.models.dto.Mensaje;
+import ar.com.travelpaq.hogarpresente.api.models.entity.CursoEntity;
 import ar.com.travelpaq.hogarpresente.api.models.entity.InscripcionEntity;
+import ar.com.travelpaq.hogarpresente.api.security.entity.UsuarioEntity;
 import ar.com.travelpaq.hogarpresente.api.security.mapper.UsuarioMapper;
 import ar.com.travelpaq.hogarpresente.api.models.mapper.CursoMapper;
 import ar.com.travelpaq.hogarpresente.api.models.mapper.InscripcionMapper;
@@ -60,11 +62,24 @@ public class InscripcionServiceImpl implements IInscripcionService {
             return new ResponseEntity(new Mensaje("El alumno debe existir en la base de datos"), HttpStatus.BAD_REQUEST);
         if(!cursoRepository.existsById(inscripcionDto.getCursoId()))
             return new ResponseEntity(new Mensaje("El curso debe existir en la base de datos"), HttpStatus.BAD_REQUEST);
-        InscripcionEntity inscripcionEntity = inscripcionMapper.mapInscripcionDtoToInscripcionEntity(inscripcionDto);
-        inscripcionEntity.setUsuarioInscripcion(usuarioRepository.findById(inscripcionDto.getUsuarioId()).orElse(null));
-        inscripcionEntity.setCursoInscripcion(cursoRepository.findById(inscripcionDto.getCursoId()).orElse(null));
-        inscripcionRepository.save(inscripcionEntity);
-        return new ResponseEntity(new Mensaje("Inscripción creada!"), HttpStatus.OK);
+        UsuarioEntity alumno = usuarioRepository.getOne(inscripcionDto.getUsuarioId());
+        CursoEntity curso = cursoRepository.getOne(inscripcionDto.getCursoId());
+        if(curso.getPrecio() == 0) {
+            InscripcionEntity inscripcionEntity = inscripcionMapper.mapInscripcionDtoToInscripcionEntity(inscripcionDto);
+            inscripcionEntity.setCursoInscripcion(curso);
+            inscripcionEntity.setUsuarioInscripcion(alumno);
+            alumno.getInscripciones().add(inscripcionEntity);
+            curso.getInscripciones().add(inscripcionEntity);
+            inscripcionRepository.save(inscripcionEntity);
+            usuarioRepository.save(alumno);
+            cursoRepository.save(curso);
+            return new ResponseEntity(new Mensaje("Inscripción creada!"), HttpStatus.OK);
+        }
+        else
+        {
+            return new ResponseEntity(new Mensaje("Pagos no implementados, el curso no es gratis! Inscripción Fallida..."), HttpStatus.OK);
+        }
+
     }
 
     @Override

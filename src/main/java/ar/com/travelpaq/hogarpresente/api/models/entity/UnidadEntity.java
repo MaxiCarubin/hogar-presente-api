@@ -38,6 +38,9 @@ public class UnidadEntity {
     @JoinColumn(name = "curso_id")
     private CursoEntity curso;
 
+    @OneToOne(mappedBy = "unidad", cascade = CascadeType.ALL)
+    private EvaluacionEntity evaluacion;
+
     public UnidadEntity(long id, String nombre, String descripcion, List<ContenidoEntity> contenidos, CursoEntity curso) {
         this.id = id;
         this.nombre = nombre;
