@@ -1,7 +1,9 @@
 package ar.com.travelpaq.hogarpresente.api.models.entity;
 
+import ar.com.travelpaq.hogarpresente.api.models.enums.Resultado;
 import ar.com.travelpaq.hogarpresente.api.security.entity.UsuarioEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,20 +24,21 @@ public class EvaluacionRendidaEntity {
     @Column(length = 500)
     private String urlAlumno;
 
-    private boolean resultado;
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private Resultado resultado;
 
-    private int nota;
-
-    private boolean terminado;
+    @Column(nullable = true)
+    private Integer nota;
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "alumno_id")
     private UsuarioEntity alumno;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "evaluacion_id")
     private EvaluacionEntity evaluacion;
-
 
 }

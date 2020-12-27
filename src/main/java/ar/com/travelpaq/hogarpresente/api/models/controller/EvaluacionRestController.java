@@ -41,7 +41,6 @@ public class EvaluacionRestController {
         return evaluacionService.updateUrlCapacitador(urlCapacitador, id);
     }
 
-
     @DeleteMapping("/evaluaciones/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
         return evaluacionService.delete(id);

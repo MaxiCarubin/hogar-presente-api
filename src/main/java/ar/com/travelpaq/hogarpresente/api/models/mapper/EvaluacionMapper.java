@@ -20,7 +20,7 @@ public class EvaluacionMapper {
     public EvaluacionEntity mapNuevaEvaluacionDtoToEvaluacionEntity(NuevaEvaluacionDto evaluacion) {
         EvaluacionEntity evaluacionEntity = new EvaluacionEntity();
         evaluacionEntity.setNombre(evaluacion.getNombre());
-        evaluacionEntity.setUrlCapacitador(evaluacionEntity.getUrlCapacitador());
+        evaluacionEntity.setUrlCapacitador(evaluacion.getUrlCapacitador());
         return evaluacionEntity;
     }
 }

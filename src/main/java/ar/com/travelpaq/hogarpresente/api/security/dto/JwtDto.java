@@ -17,7 +17,7 @@ public class JwtDto {
     private String correo;
     private String nombre;
     private String apellido;
-    private ImagenEntity foto;
+    private String foto;
     private long id;
     private Collection<? extends GrantedAuthority>authorities;
 
@@ -28,7 +28,7 @@ public class JwtDto {
         this.authorities = authorities;
         this.nombre = nombre;
         this.apellido = apellido;
-        this.foto = foto;
+        this.foto = foto.getImagenUrl();
         this.id = id;
     }
 }

@@ -97,5 +97,4 @@ public class EvaluacionServiceImpl implements IEvaluacionService {
         evaluacionReposiroty.save(evaluacionEntity);
         return new ResponseEntity(new Mensaje("Evaluacion Actualizado!"), HttpStatus.OK);
     }
-
 }
