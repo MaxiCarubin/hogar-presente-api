@@ -14,6 +14,7 @@ public class EvaluacionMapper {
         evaluacionDto.setNombre(evaluacionEntity.getNombre());
         evaluacionDto.setUrlCapacitador(evaluacionEntity.getUrlCapacitador());
         evaluacionDto.setUnidadId(evaluacionEntity.getUnidad().getId());
+        evaluacionDto.setEvaluacionesRendidas(evaluacionEntity.getEvaluacionesRendidas());
         return evaluacionDto;
     }
 
