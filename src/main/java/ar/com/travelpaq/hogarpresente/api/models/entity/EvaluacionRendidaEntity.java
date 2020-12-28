@@ -31,7 +31,6 @@ public class EvaluacionRendidaEntity {
     @Column(nullable = true)
     private Integer nota;
 
-    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "alumno_id")
     private UsuarioEntity alumno;
