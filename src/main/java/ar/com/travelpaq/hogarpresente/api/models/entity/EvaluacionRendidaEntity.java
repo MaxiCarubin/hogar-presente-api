@@ -31,7 +31,7 @@ public class EvaluacionRendidaEntity {
     @Column(nullable = true)
     private Integer nota;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "alumno_id")
     private UsuarioEntity alumno;
 

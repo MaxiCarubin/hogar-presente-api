@@ -1,6 +1,5 @@
 package ar.com.travelpaq.hogarpresente.api.models.dto;
 
-import ar.com.travelpaq.hogarpresente.api.cloudinary.dto.ImagenDto;
 import ar.com.travelpaq.hogarpresente.api.models.entity.UnidadEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
