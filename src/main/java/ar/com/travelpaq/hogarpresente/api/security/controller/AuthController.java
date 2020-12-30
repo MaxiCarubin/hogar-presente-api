@@ -100,13 +100,6 @@ public class AuthController {
             return new ResponseEntity(new Mensaje("Email y/o contraseña incorrecta!"), HttpStatus.BAD_REQUEST);
         if(!usuarioService.existsByCorreo(loginUsuario.getCorreo()))
             return new ResponseEntity(new Mensaje("No se encontro este usuario registrado!"), HttpStatus.BAD_REQUEST);
-        if(StringUtils.isBlank(loginUsuario.getCorreo()))
-            return new ResponseEntity(new Mensaje("El correo es obligatorio"), HttpStatus.BAD_REQUEST);
-        if(StringUtils.isBlank(loginUsuario.getPassword()))
-            return new ResponseEntity(new Mensaje("La contraseña es obligatoria"), HttpStatus.BAD_REQUEST);
-        UsuarioEntity usuarioGet = usuarioService.getByCorreo(loginUsuario.getCorreo()).get();
-        if(usuarioService.existsByCorreo(loginUsuario.getCorreo()) && usuarioGet.getClave()!=loginUsuario.getPassword())
-            return new ResponseEntity(new Mensaje("La contraseña es incorrecta para ese correo!"), HttpStatus.BAD_REQUEST);
         Authentication authentication =
                 authenticationManager.authenticate
                         (
