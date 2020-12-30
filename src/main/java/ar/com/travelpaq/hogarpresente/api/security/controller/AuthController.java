@@ -13,6 +13,7 @@ import ar.com.travelpaq.hogarpresente.api.security.entity.RoleEntity;
 import ar.com.travelpaq.hogarpresente.api.security.enums.RoleNombre;
 import ar.com.travelpaq.hogarpresente.api.security.jwt.JwtProvider;
 import ar.com.travelpaq.hogarpresente.api.security.service.impl.RoleServiceImpl;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -99,6 +100,13 @@ public class AuthController {
             return new ResponseEntity(new Mensaje("Email y/o contraseña incorrecta!"), HttpStatus.BAD_REQUEST);
         if(!usuarioService.existsByCorreo(loginUsuario.getCorreo()))
             return new ResponseEntity(new Mensaje("No se encontro este usuario registrado!"), HttpStatus.BAD_REQUEST);
+        if(StringUtils.isBlank(loginUsuario.getCorreo()))
+            return new ResponseEntity(new Mensaje("El correo es obligatorio"), HttpStatus.BAD_REQUEST);
+        if(StringUtils.isBlank(loginUsuario.getPassword()))
+            return new ResponseEntity(new Mensaje("La contraseña es obligatoria"), HttpStatus.BAD_REQUEST);
+        UsuarioEntity usuarioGet = usuarioService.getByCorreo(loginUsuario.getCorreo()).get();
+        if(usuarioService.existsByCorreo(loginUsuario.getCorreo()) && usuarioGet.getClave()!=loginUsuario.getPassword())
+            return new ResponseEntity(new Mensaje("La contraseña es incorrecta para ese correo!"), HttpStatus.BAD_REQUEST);
         Authentication authentication =
                 authenticationManager.authenticate
                         (

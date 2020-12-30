@@ -18,10 +18,10 @@ public class ContenidoEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(length = 45)
+    @Column(length = 150)
     private String nombre;
 
-    @Column(length = 500)
+    @Column(length = 700)
     private String descripcion;
 
     @Column(length = 500)

@@ -18,10 +18,10 @@ public class UnidadEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(nullable = false, length = 45)
+    @Column(nullable = false, length = 150)
     private String nombre;
 
-    @Column(length = 500)
+    @Column(length = 700)
     private String descripcion;
 
     private int numeroUnidad;

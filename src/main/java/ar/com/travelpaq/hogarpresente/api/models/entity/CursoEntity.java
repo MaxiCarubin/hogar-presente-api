@@ -20,18 +20,18 @@ public class CursoEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(nullable = false, length = 45)
+    @Column(nullable = false, length = 100)
     private String titulo;
 
-    @Column(nullable = false, length = 45)
+    @Column(nullable = false, length = 100)
     private String subtitulo;
 
-    @Column(nullable = false, length = 500)
+    @Column(nullable = false, length = 700)
     private String descripcion;
 
     private float precio;
 
-    @Column(nullable = false, length = 45)
+    @Column(nullable = false, length = 100)
     private String categoria;
 
     @ManyToOne(fetch = FetchType.EAGER)
