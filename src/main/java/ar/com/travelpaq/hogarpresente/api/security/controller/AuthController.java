@@ -65,9 +65,9 @@ public class AuthController {
     @PostMapping("/nuevo")
     public ResponseEntity<?> nuevo(@Valid @RequestBody NuevoUsuario nuevoUsuario, BindingResult bindingResult){
         if(bindingResult.hasErrors())
-            return new ResponseEntity(new Mensaje("campos mal puestos o email inválido"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(new Mensaje("Campos mal puestos o email inválido!"), HttpStatus.BAD_REQUEST);
         if(usuarioService.existsByCorreo(nuevoUsuario.getCorreo()))
-            return new ResponseEntity(new Mensaje("ese email ya existe"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(new Mensaje("Email ya existente, ingrese otro!"), HttpStatus.BAD_REQUEST);
         ImagenEntity imagenEntity = imagenRepository.findById(1).get();
 
         UsuarioEntity usuarioEntity =
@@ -96,7 +96,9 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<JwtDto> login(@Valid @RequestBody LoginUsuario loginUsuario, BindingResult bindingResult){
         if(bindingResult.hasErrors())
-            return new ResponseEntity(new Mensaje("Email y/o contraseña incorrecta"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(new Mensaje("Email y/o contraseña incorrecta!"), HttpStatus.BAD_REQUEST);
+        if(!usuarioService.existsByCorreo(loginUsuario.getCorreo()))
+            return new ResponseEntity(new Mensaje("No se encontro este usuario registrado!"), HttpStatus.BAD_REQUEST);
         Authentication authentication =
                 authenticationManager.authenticate
                         (

@@ -31,4 +31,7 @@ public interface ICursoService {
     public ResponseEntity<?> updateDescripcion(String descripcion, Long id);
 
     public ResponseEntity<?> updatePrecio(float precio, Long id);
+
+    public ResponseEntity<?> listCategorias();
+
 }

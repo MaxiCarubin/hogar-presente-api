@@ -254,4 +254,15 @@ public class CursoServiceImpl implements ICursoService {
         cursoRepository.save(cursoEntity);
         return new ResponseEntity(new Mensaje("Curso Actualizado!"), HttpStatus.OK);
     }
+
+    @Override
+    public ResponseEntity<?> listCategorias(){
+        List<CursoEntity> cursoEntities = cursoRepository.findByOrderById();
+        List<String> categorias = new ArrayList<>();
+        for (CursoEntity cursoEntity : cursoEntities){
+            if (!categorias.contains(cursoEntity.getCategoria()))
+                categorias.add(cursoEntity.getCategoria());
+        }
+        return new ResponseEntity(categorias, HttpStatus.OK);
+    }
 }

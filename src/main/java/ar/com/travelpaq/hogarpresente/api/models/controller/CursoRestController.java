@@ -79,4 +79,9 @@ public class CursoRestController {
         return cursoService.delete(id);
     }
 
+    @GetMapping("/cursos/categorias")
+    public ResponseEntity<?> listCategorias(){
+        return cursoService.listCategorias();
+    }
+
 }
